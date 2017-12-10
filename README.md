@@ -2,26 +2,66 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.5.
 
-## Development server
+Pull event data from a third party that provides a back-end connection to a MS SQL Server database (CSV data format), convert to JSON, reform the data to better serve the app's purpose, and upload to a newly created database (MongoDB). Develop an Angular app to view reports on productivity:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* overall initiated (non-AP events)
+* classic initiated w/ disposition (10-15, 10-50, FCCs)
+* non-initiated effort
 
-## Code scaffolding
+----
+## pull data using MS Access
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Select the following fields:
 
-## Build
+1. Event Number
+2. Name/ID
+3. Call Type
+4. Disposition
+5. Case Number
+6. Time Created
+7. Time Arrived
+8. Date?
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Where:
 
-## Running unit tests
+1. Start Date is equal to ???
+2. Stop Date is equal to ???
+3. Name is like [ ???, ???, ... , ??? ]
+4. Call was not cancelled
+5. Call is not a 10-13 (any other exclusions?)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+----
+## convert and reform data
 
-## Running end-to-end tests
+* Convert CSV to JSON and refactor to this form:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+`
+[{
+    "id": 531,
+    "type": "22N",
+    "disp": ["V"],
+    "case": undefined,
+    "created": "2012-04-23",
+    "initiated": false
+}, {
+    "id": 641,
+    "type": "VEH",
+    "disp": ["A1", "B"],
+    "case": ["OR", "CJ"],
+    "created": "2012-04-23",
+    "initiated": true
+}]
+`
 
-## Further help
+----
+## upload data
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+* mLab or Mongo Atlas?
+
+----
+## phosphorus app
+
+* Login
+* Assign id's to squads
+* Days worked - if unique dates are counted, nights will show more days worked
+* FTO and OIC??? How should this be accounted for?
