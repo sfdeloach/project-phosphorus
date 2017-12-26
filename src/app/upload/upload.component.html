@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col">
+  </div>
+  <div class="col">
+    <h2>Upload File</h2>
+    <p>The file must be a comma-seperate values file (CSV) with the following field names:</p>
+    <ol>
+      <li>TODO: fix this list!!!</li>
+      <li>date</li>
+      <li>call_type</li>
+      <li>dispo</li>
+      <li>primaryOfc</li>
+      <li>receive_type</li>
+    </ol>
+
+    <hr>
+
+    <h5><strong>Step 1:</strong> Select a local file to upload</h5>
+    <input type='file' (change)="fileChanged($event)">
+
+    <h5 [ngClass]="{'disabled': !file}"><strong>Step 2:</strong> Verify the file is in the proper format</h5>
+    <button class="btn btn-primary btn-block" [ngClass]="{'disabled': !file}" [disabled]="!file" (click)="verify()">
+      Verify
+    </button>
+    <div *ngIf="verifier">
+      <ol>
+        <li *ngFor="let message of verifier.messages">{{ message }}</li>
+      </ol>
+    </div>
+
+    <h5 [ngClass]="{'disabled': !verifier}"><strong>Step 3:</strong> Upload the file to the database</h5>
+    <button class="btn btn-primary btn-block" [ngClass]="{'disabled': !verifier}" [disabled]="!valid" (click)="upload()">
+      Upload
+    </button>
+  </div>
+  <div class="col">
+  </div>
+</div>
