@@ -1,3 +1,13 @@
 nav {
   margin-bottom: 1.5rem;
 }
+
+.btn-outline-primary {
+  background-color: white;
+}
+
+.btn-outline-primary:hover {
+  background-color: #E95420;
+  border-color: #d2400d;
+  cursor: pointer;
+}

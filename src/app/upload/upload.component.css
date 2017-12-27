@@ -3,6 +3,19 @@ h5 {
 }
 
 .disabled {
-    opacity: .33;
-    cursor: not-allowed;
+  opacity: .33;
+  cursor: not-allowed;
+}
+
+.verification-message {
+  margin-top: 0.5rem;
+}
+
+.dingbat {
+  font-size: 2.5rem;
+  vertical-align: middle;
+}
+
+.message {
+  vertical-align: middle;
 }

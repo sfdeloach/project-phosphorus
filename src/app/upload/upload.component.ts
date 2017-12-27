@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UploadService } from '../services/upload.service';
+import { Verifier } from '../models/verifier.model';
 
 @Component({
   selector: 'app-upload',
@@ -8,12 +9,10 @@ import { UploadService } from '../services/upload.service';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  showInstructions: boolean = false;
   file: File;
-  contents: string;
-  verifier: {
-    result: boolean,
-    messages: string[]
-  };
+  contents: string; // 'blob' a better type here?
+  verifier: Verifier;
 
   constructor(
     private uploadService: UploadService
@@ -22,9 +21,14 @@ export class UploadComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggleInstructions() {
+    this.showInstructions = !this.showInstructions;
+  }
+
   fileChanged(e: Event) {
     let target = <HTMLInputElement>e.target;
     this.file = target.files[0];
+    this.verifier = undefined;
   }
 
   verify() {
@@ -39,6 +43,7 @@ export class UploadComponent implements OnInit {
 
   upload() {
     // TODO: upload contents to a database
+    console.log(this.contents);
   }
 
 }

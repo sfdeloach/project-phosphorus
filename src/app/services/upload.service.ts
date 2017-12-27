@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
+import { Verifier } from '../models/verifier.model';
 
 @Injectable()
 export class UploadService {
-  public headers: string = "date,disposition,officer,call_type\n"; // TODO verify headers
+  public headers: string = '"EventNbr","Init_DateTime","SourceCall","EventType","UnitId","OfcrName","CaseNbr","ClrOfficerBadge"\n';
 
   constructor() { }
 
-  verify(contents: string): {result: boolean, messages: string[]} {
-    let verifier = { result: undefined, messages: []}
+  verify(contents: string): Verifier {
+    // Calculate file size
+    let fileSize = contents.length;
+    let sizeUnits = 'bytes';
+
+    if (fileSize > 1000000) {
+      fileSize = Math.trunc(fileSize / 1000000);
+      sizeUnits = 'MB';
+    } else if (fileSize > 1000) {
+      fileSize = Math.trunc(fileSize/1000);
+      sizeUnits = 'kB';
+    }
 
     // Check headers
     if (this.headers === contents.slice(0, this.headers.length)) {
-      verifier.result = true;
+      return new Verifier(true, `Valid headers. (${fileSize} ${sizeUnits})`);
     } else {
-      verifier.result = false;
-      verifier.messages.push("The headers do not match the supported design. Make sure the file you are attempting to upload matches the format provided above.");
+      return new Verifier(false, `Invalid headers. (${fileSize} ${sizeUnits})`)
     }
-
-    return verifier;
   }
 
 }
