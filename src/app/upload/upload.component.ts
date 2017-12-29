@@ -11,7 +11,7 @@ import { Verifier } from '../models/verifier.model';
 export class UploadComponent implements OnInit {
   showInstructions: boolean = false;
   file: File;
-  contents: string; // 'blob' a better type here?
+  contents: string;
   verifier: Verifier;
 
   constructor(
@@ -42,8 +42,7 @@ export class UploadComponent implements OnInit {
   }
 
   upload() {
-    // TODO: upload contents to a database
-    console.log(this.contents);
+    this.uploadService.uploader(this.contents);
   }
 
 }
