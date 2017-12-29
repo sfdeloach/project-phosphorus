@@ -6,7 +6,10 @@ export class CallEvent {
     public source: string,
     public eventType: string,
     public unitID: string,
-    public officer: { last: string, first: string },
+    public officer: { 
+      last: string, 
+      first: string
+    },
     public caseNumber: string,
     public clearingOfficer: string
   ) { }
