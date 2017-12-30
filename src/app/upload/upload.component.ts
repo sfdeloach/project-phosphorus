@@ -11,14 +11,27 @@ import { Verifier } from '../models/verifier.model';
 export class UploadComponent implements OnInit {
   showInstructions: boolean = false;
   file: File;
-  contents: string;
   verifier: Verifier;
+  contents: string;
+  eventsRead: number;
+  showProgress: boolean = false;
+  proPercent: number = 0;
+  proDirection: string = "up";
 
   constructor(
     private uploadService: UploadService
   ) { }
 
   ngOnInit() {
+    setInterval(() => {
+      if (this.proDirection === 'up') {
+        this.proPercent += 1;
+        if (this.proPercent >= 100) this.proDirection = "down";
+      } else {
+        this.proPercent -= 1;
+        if (this.proPercent <= 0) this.proDirection = "up";
+      }
+    }, 1);
   }
 
   toggleInstructions() {
@@ -28,21 +41,32 @@ export class UploadComponent implements OnInit {
   fileChanged(e: Event) {
     let target = <HTMLInputElement>e.target;
     this.file = target.files[0];
+
+    // clear contents and eventsRead to reset UI
     this.verifier = undefined;
+    this.contents = "";
+    this.eventsRead = undefined;
   }
 
   verify() {
     let fileReader = new FileReader();
     fileReader.readAsText(this.file);
     fileReader.onload = (e) => {
-      this.contents = ""; // make sure contents are clear
       this.verifier = this.uploadService.verify(fileReader.result);
       if (this.verifier.result) this.contents = fileReader.result;
     }
   }
 
   upload() {
-    this.uploadService.uploader(this.contents);
+    this.showProgress = true;
+    setTimeout(() => {
+      this.eventsRead = this.uploadService.uploader(this.contents);
+      this.showProgress = false;
+    }, 1976);
+  }
+
+  getProgress():string {
+    return this.proPercent + '%';
   }
 
 }

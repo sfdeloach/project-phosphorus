@@ -20,11 +20,13 @@ export class UploadService {
     }
   }
 
-  uploader(csvBlob: string) {
-    this.callEvents = this.csv.toObject(csvBlob);
+  uploader(csvContents: string): number {
+    this.callEvents = this.csv.toObject(csvContents);
 
     // left of here, need to upload to a dummy db next
     console.log(this.callEvents);
+
+    return this.callEvents.length;
   }
 
 }

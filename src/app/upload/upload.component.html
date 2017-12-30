@@ -3,17 +3,18 @@
     <h2>Upload File</h2>
 
     <div *ngIf="showInstructions">
-      <p>A dataset must first be uploaded before results can be produced. The file must be a comma-seperate values file (CSV) with the following field names:</p>
+      <p>A file must first be uploaded before a report can be made. The file must be in the format of a comma-seperate values file (CSV) and have the following column names (headers) in this order:</p>
       <ol>
-        <li>EventNbr</li>
-        <li>Init_DateTime</li>
-        <li>SourceCall</li>
-        <li>EventType</li>
-        <li>UnitId</li>
-        <li>OfcrName</li>
         <li>CaseNbr</li>
         <li>ClrOfficerBadge</li>
+        <li>EventNbr</li>
+        <li>EventType</li>
+        <li>Init_DateTime</li>
+        <li>OfcrName</li>
+        <li>SourceCall</li>
+        <li>UnitId</li>
       </ol>
+      <p>The headers are names set in the XCAD History database. If the names of the headers are changed, this would be a "breaking change" and this app will no longer work.</p>
     </div>
 
     <button class="btn btn-secondary btn-sm" (click)="toggleInstructions()">
@@ -24,13 +25,13 @@
     <hr>
 
     <h5><strong>Step 1:</strong> Select</h5>
-    <input type='file' (change)="fileChanged($event)"/>
+    <input type='file' (change)="fileChanged($event)" />
 
     <h5 [ngClass]="{'disabled': !file}"><strong>Step 2:</strong> Verify</h5>
     <button class="btn btn-primary btn-block" [ngClass]="{'disabled': !file}" [disabled]="!file" (click)="verify()">
       Verify
     </button>
-    <div class="verification-message" *ngIf="verifier">
+    <div class="message-block" *ngIf="verifier">
       <div class="alert" [ngClass]="{'alert-danger': !verifier.result, 'alert-success': verifier.result}">
         <span class="dingbat" *ngIf="verifier.result"> &#10003; </span>
         <span class="dingbat" *ngIf="!verifier.result"> &#10007; </span>
@@ -43,6 +44,18 @@
       <button class="btn btn-success btn-block" [ngClass]="{'disabled': !verifier.result}" [disabled]="!verifier.result" (click)="upload()">
         Upload
       </button>
+    </div>
+
+    <div *ngIf="showProgress" class="progress" style="height: 1rem">
+      <div class="progress-bar progress-bar-striped bg-success" [ngStyle]="{'width': getProgress()}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+      </div>
+    </div>
+
+    <div class="message-block" *ngIf="eventsRead">
+      <div class="alert alert-success">
+        <span class="dingbat"> &#10003; </span>
+        <span class="message"> {{ eventsRead }} events read. </span>
+      </div>
     </div>
 
   </div>

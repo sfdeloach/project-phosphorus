@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "../node_modules/bootswatch/dist/united/bootstrap.min.css",
+        "../node_modules/bootswatch/dist/sketchy/bootstrap.min.css",
         "styles.css"
       ],
       "scripts": [],

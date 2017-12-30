@@ -7,7 +7,7 @@ h5 {
   cursor: not-allowed;
 }
 
-.verification-message {
+.message-block {
   margin-top: 0.5rem;
 }
 
@@ -18,4 +18,12 @@ h5 {
 
 .message {
   vertical-align: middle;
+}
+
+.alert {
+  padding: 0rem 1.5rem;
+}
+
+.progress {
+  margin-top: 0.25rem;
 }

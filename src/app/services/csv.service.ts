@@ -3,7 +3,7 @@ import { CallEvent } from '../models/call-event.model';
 
 @Injectable()
 export class CsvService {
-  public headers: string = '"EventNbr","Init_DateTime","SourceCall","EventType","UnitId","OfcrName","CaseNbr","ClrOfficerBadge"\n';
+  public headers: string = '"CaseNbr","ClrOfficerBadge","EventNbr","EventType","Init_DateTime","OfcrName","SourceCall","UnitId"\n';
 
   constructor() { }
 
@@ -53,18 +53,18 @@ export class CsvService {
     });
 
     // Step 3: Create an array of objects
-    let objectArray: CallEvent[] = []
+    let objectArray: CallEvent[] = [];
 
     arrayArray.forEach(array => {
       let callEvent = new CallEvent(
-        Number.parseInt(array[0], 10),
-        new Date(Date.parse(array[1])),
-        array[2].trim(),
-        array[3].trim(),
-        array[4].trim(),
-        { last: array[5].trim(), first: array[6].trim() },
-        array[7].trim(),
-        array[8].trim()
+        array[0].trim(),                                   // CaseNbr         --> caseNumber
+        array[1].trim(),                                   // ClrOfficerBadge --> clearingOfficer
+        Number.parseInt(array[2], 10),                     // EventNbr        --> eventNumber
+        array[3].trim(),                                   // EventType       --> eventType
+        new Date(Date.parse(array[4])),                    // Init_DateTime   --> initDateTime
+        { last: array[5].trim(), first: array[6].trim() }, // OfcrName        --> officer
+        array[7].trim(),                                   // SourceCall      --> source
+        array[8].trim()                                    // UnitId          --> unitID
       );
       objectArray.push(callEvent);
     });
