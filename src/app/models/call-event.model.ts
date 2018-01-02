@@ -1,17 +1,17 @@
 export class CallEvent {
 
   constructor(
-    public caseNumber: string,
-    public clearingOfficer: string,
-    public eventNumber: number,
-    public eventType: string,
-    public initDateTime: Date,
-    public officer: {
+    public caseNbr:  string,
+    public clearOfc: string,
+    public evtNbr:   number,
+    public evtType:  string,
+    public date:     Date,
+    public ofc: {
       last: string,
       first: string
     },
-    public source: string,
-    public unitID: string
+    public src:      string,
+    public unit:     string
   ) { }
 
 }

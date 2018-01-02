@@ -3,8 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Subject } from 'rxjs/Subject';
 
-import { Verifier } from '../models/verifier.model';
 import { CallEvent } from '../models/call-event.model';
+import { ServerResponse } from '../models/server-response.model';
+import { Verifier } from '../models/verifier.model';
 
 import { CsvService } from './csv.service';
 
@@ -12,7 +13,7 @@ import { CsvService } from './csv.service';
 export class UploadService {
   eventsObject: CallEvent[];
   eventsUrl: string = 'http://localhost:3000/api/events';
-  linesRead: Subject<number> = new Subject();
+  serverResponse: Subject<ServerResponse> = new Subject();
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -33,21 +34,19 @@ export class UploadService {
   }
 
   uploader() {
-    this.http.post<CallEvent[]>(
+    this.http.post<ServerResponse>(
       this.eventsUrl,
       this.eventsObject,
       this.httpOptions
     ).subscribe(
-      (serverResponse: any) => {
-        console.log(serverResponse.message);
-        // update linesRead after server responds
-        this.linesRead.next(this.eventsObject.length);
+      (res: ServerResponse) => {
+        // emit the server's response message
+        this.serverResponse.next(res);
       },
       error => {
-        console.log("Something went wrong during the upload of the file!!!");
-        console.log(error);
-        // no lines were read
-        this.linesRead.next(0);
+        const errMessage: string = "Unable to connect to the API";
+        console.error(error);
+        this.serverResponse.next(new ServerResponse(true, errMessage, 0));
       }
     );
   }

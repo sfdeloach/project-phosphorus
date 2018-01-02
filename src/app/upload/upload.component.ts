@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UploadService } from '../services/upload.service';
+
 import { Verifier } from '../models/verifier.model';
+import { ServerResponse } from '../models/server-response.model';
 
 @Component({
   selector: 'app-upload',
@@ -13,7 +15,7 @@ export class UploadComponent implements OnInit {
   file: File;
   verifier: Verifier;
   contents: string;
-  eventsRead: number;
+  serverResponse: ServerResponse;
 
   constructor(
     private uploadService: UploadService
@@ -31,10 +33,10 @@ export class UploadComponent implements OnInit {
     let target = <HTMLInputElement>e.target;
     this.file = target.files[0];
 
-    // clear contents and eventsRead to reset UI
+    // reset some properties
     this.verifier = undefined;
     this.contents = "";
-    this.eventsRead = undefined;
+    this.serverResponse = undefined;
   }
 
   verify() {
@@ -47,9 +49,10 @@ export class UploadComponent implements OnInit {
   }
 
   upload() {
-    this.uploadService.linesRead.subscribe(
-      (linesRead: number) => {
-        this.eventsRead = linesRead;
+    // The lines read during the upload will be reported by the server
+    this.uploadService.serverResponse.subscribe(
+      (res: ServerResponse) => {
+        this.serverResponse = res;
       });
     this.uploadService.uploader();
   }

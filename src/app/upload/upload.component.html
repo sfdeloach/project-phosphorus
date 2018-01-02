@@ -4,16 +4,49 @@
 
     <div *ngIf="showInstructions">
       <p>A file must first be uploaded before a report can be made. The file must be in the format of a comma-seperate values file (CSV) and have the following column names (headers) in this order:</p>
-      <ol>
-        <li>CaseNbr</li>
-        <li>ClrOfficerBadge</li>
-        <li>EventNbr</li>
-        <li>EventType</li>
-        <li>Init_DateTime</li>
-        <li>OfcrName</li>
-        <li>SourceCall</li>
-        <li>UnitId</li>
-      </ol>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">CSV Name (SQL Server)</th>
+            <th scope="col">JSON Name (MongoDB)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CaseNbr</td>
+            <td><code>caseNbr: string</code></td>
+          </tr>
+          <tr>
+            <td>ClrOfficerBadge</td>
+            <td><code>clearOfc: string</code></td>
+          </tr>
+          <tr>
+            <td>EventNbr</td>
+            <td><code>evtNbr: Number</code></td>
+          </tr>
+          <tr>
+            <td>EventType</td>
+            <td><code>evtType: string</code></td>
+          </tr>
+          <tr>
+            <td>Init_DateTime</td>
+            <td><code>date: Date</code></td>
+          </tr>
+          <tr>
+            <td>OfcrName</td>
+            <td><code>ofc: &#123; last: string, first: string &#125; </code></td>
+          </tr>
+          <tr>
+            <td>SourceCall</td>
+            <td><code>src: string</code></td>
+          </tr>
+          <tr>
+            <td>UnitId</td>
+            <td><code>unit: string</code></td>
+          </tr>
+        </tbody>
+      </table>
       <p>The headers are names set in the XCAD History database. If the names of the headers are changed, this would be a "breaking change" and this app will no longer work.</p>
     </div>
 
@@ -33,8 +66,8 @@
     </button>
     <div class="message-block" *ngIf="verifier">
       <div class="alert" [ngClass]="{'alert-danger': !verifier.result, 'alert-success': verifier.result}">
-        <span class="dingbat" *ngIf="verifier.result"> &#10003; </span>
-        <span class="dingbat" *ngIf="!verifier.result"> &#10007; </span>
+        <span class="dingbat" *ngIf="verifier.result"> + </span>
+        <span class="dingbat" *ngIf="!verifier.result"> X </span>
         <span class="message"> {{ verifier.message }} </span>
       </div>
     </div>
@@ -45,16 +78,17 @@
         Upload
       </button>
     </div>
-    <div class="message-block" *ngIf="eventsRead">
-      <div class="alert alert-success">
-        <span class="dingbat"> &#10003; </span>
-        <span class="message"> {{ eventsRead }} events read. </span>
+    <div class="message-block" *ngIf="serverResponse">
+      <div class="alert alert-success" [ngClass]="{'alert-warning': serverResponse.lines === 0}">
+        <span class="dingbat" *ngIf="!serverResponse.error"> + </span>
+        <span class="dingbat" *ngIf="serverResponse.error"> ! </span>
+        <span class="message"> {{ serverResponse.lines }} events read. </span>
       </div>
     </div>
-    <div class="message-block" *ngIf="eventsRead === 0">
+    <div class="message-block" *ngIf="serverResponse && serverResponse.error">
       <div class="alert alert-danger">
-        <span class="dingbat"> &#10007; </span>
-        <span class="message"> An error occurred. Nothing was uploaded to the database. </span>
+        <span class="dingbat"> X </span>
+        <span class="message"> {{ serverResponse.message }} </span>
       </div>
     </div>
 

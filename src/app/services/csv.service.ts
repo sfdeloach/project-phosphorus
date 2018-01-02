@@ -58,14 +58,14 @@ export class CsvService {
 
     arrayArray.forEach(array => {
       let callEvent = new CallEvent(
-        array[0].trim(),                                   // CaseNbr         --> caseNumber
-        array[1].trim(),                                   // ClrOfficerBadge --> clearingOfficer
-        Number.parseInt(array[2], 10),                     // EventNbr        --> eventNumber
-        array[3].trim(),                                   // EventType       --> eventType
-        new Date(Date.parse(array[4])),                    // Init_DateTime   --> initDateTime
-        { last: array[5].trim(), first: array[6].trim() }, // OfcrName        --> officer
-        array[7].trim(),                                   // SourceCall      --> source
-        array[8].trim()                                    // UnitId          --> unitID
+        array[0].trim(),                                   // CaseNbr         --> caseNbr
+        array[1].trim(),                                   // ClrOfficerBadge --> clearOfc
+        Number.parseInt(array[2], 10),                     // EventNbr        --> evtNbr
+        array[3].trim(),                                   // EventType       --> evtType
+        new Date(Date.parse(array[4])),                    // Init_DateTime   --> date
+        { last: array[5].trim(), first: array[6].trim() }, // OfcrName        --> ofc
+        array[7].trim(),                                   // SourceCall      --> src
+        array[8].trim()                                    // UnitId          --> unit
       );
       objectArray.push(callEvent);
     });
