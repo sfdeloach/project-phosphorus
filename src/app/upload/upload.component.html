@@ -45,16 +45,16 @@
         Upload
       </button>
     </div>
-
-    <div *ngIf="showProgress" class="progress" style="height: 1rem">
-      <div class="progress-bar progress-bar-striped bg-success" [ngStyle]="{'width': getProgress()}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-      </div>
-    </div>
-
     <div class="message-block" *ngIf="eventsRead">
       <div class="alert alert-success">
         <span class="dingbat"> &#10003; </span>
         <span class="message"> {{ eventsRead }} events read. </span>
+      </div>
+    </div>
+    <div class="message-block" *ngIf="eventsRead === 0">
+      <div class="alert alert-danger">
+        <span class="dingbat"> &#10007; </span>
+        <span class="message"> An error occurred. Nothing was uploaded to the database. </span>
       </div>
     </div>
 

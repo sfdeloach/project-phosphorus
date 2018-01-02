@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 
@@ -6,8 +7,8 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UploadComponent } from './upload/upload.component';
 
-import { UploadService } from './services/upload.service';
 import { CsvService } from './services/csv.service';
+import { UploadService } from './services/upload.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CsvService } from './services/csv.service';
     UploadComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [
     CsvService,

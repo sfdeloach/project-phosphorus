@@ -3,12 +3,13 @@ import { CallEvent } from '../models/call-event.model';
 
 @Injectable()
 export class CsvService {
-  public headers: string = '"CaseNbr","ClrOfficerBadge","EventNbr","EventType","Init_DateTime","OfcrName","SourceCall","UnitId"\n';
+  public headers: string = '"CaseNbr","ClrOfficerBadge","EventNbr","EventType",'
+                         + '"Init_DateTime","OfcrName","SourceCall","UnitId"\n';
 
   constructor() { }
 
   toObject(csv: string): CallEvent[] {
-    // Note: this version of csv conversion is order dependent
+    // Note: this version of csv conversion is column-order dependent
 
     // Initialize some properties
     let csvCharArray: string[] = csv.split('');
@@ -71,4 +72,5 @@ export class CsvService {
 
     return objectArray;
   }
+
 }
