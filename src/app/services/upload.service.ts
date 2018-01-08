@@ -36,7 +36,10 @@ export class UploadService {
   uploader() {
     this.http.post<ServerResponse>(
       this.eventsUrl,
-      this.eventsObject,
+      {
+        passcode: '8uJ4eC1s^0iB5bR0', // '8uJ4eC1s^0iB5bR0'
+        payload: this.eventsObject
+      },
       this.httpOptions
     ).subscribe(
       (res: ServerResponse) => {

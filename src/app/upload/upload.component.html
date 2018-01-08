@@ -58,7 +58,7 @@
     <hr>
 
     <h5><strong>Step 1:</strong> Select</h5>
-    <input type='file' (change)="fileChanged($event)" />
+    <input type='file' #newFile (change)="fileChanged(newFile.files[0])" />
 
     <h5 [ngClass]="{'disabled': !file}"><strong>Step 2:</strong> Verify</h5>
     <button class="btn btn-primary btn-block" [ngClass]="{'disabled': !file}" [disabled]="!file" (click)="verify()">

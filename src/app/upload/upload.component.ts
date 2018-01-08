@@ -29,9 +29,8 @@ export class UploadComponent implements OnInit {
     this.showInstructions = !this.showInstructions;
   }
 
-  fileChanged(e: Event) {
-    let target = <HTMLInputElement>e.target;
-    this.file = target.files[0];
+  fileChanged(file: File) {
+    this.file = file;
 
     // reset some properties
     this.verifier = undefined;
