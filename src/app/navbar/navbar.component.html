@@ -13,14 +13,10 @@
         <a class="nav-link" routerLink="/upload">Upload</a>
       </li>
       <li class="nav-item dropdown" (click)="toggleSquads()" (mouseleave)="onExit()" (mouseenter)="onEnter()">
-        <a class="nav-link dropdown-toggle">
-          Squads
-        </a>
+        <a class="nav-link dropdown-toggle">Squads</a>
         <div class="dropdown-menu" [ngClass]="{'show': showSquads}">
-          <a class="dropdown-item">Overview</a>
-          <a class="dropdown-item">New Officer</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item">Edit Officer</a>
+          <a class="dropdown-item" routerLink="/squads">Overview</a>
+          <a class="dropdown-item" routerLink="/squads/new">New Officer</a>
         </div>
       </li>
       <li class="nav-item">

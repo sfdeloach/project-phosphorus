@@ -1,0 +1,24 @@
+<h3>Squad Overview</h3>
+<table class="table">
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>ID No.</th>
+    <th>Squad</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let officer of officers">
+    <td>
+      <a routerLink="/squads/{{officer.deptID}}">
+        {{ officer.name.last }}, {{ officer.name.first }}
+      </a>
+    </td>
+    <td>{{ officer.deptID }}</td>
+    <td>{{ officer.squad }}</td>
+  </tr>
+</tbody>
+</table>
+<a class="btn btn-primary" routerLink="/squads/new">
+  Add new officer
+</a>

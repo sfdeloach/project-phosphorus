@@ -3,7 +3,52 @@
     <h2>Upload File</h2>
 
     <div *ngIf="showInstructions">
+      <p>A single database is built from two sources: XCAD and Cafe. The XCAD events should first be uploaded followed by the Cafe file. This is done so that the Cafe reports may properly insert themselves into the `Event` data model:</p>
+      <pre><code>
+      Event &#123;
+        reports: Report[],
+        date: Date,
+        disps: string[],
+        eventNbr: number,
+        eventType: string,
+        src: string,
+        units: Officer[],
+        primary: Officer
+      &#125;
+      </code></pre>
+      <pre><code>
+      Report &#123;
+        caseNbr: string,
+        date: Date,
+        type: string,
+        offenses: Offense[],
+        clearance: string,
+        reportingOfc: Officer
+      &#125;
+      </code></pre>
+      <pre><code>
+      Offense &#123;
+        statute: string,
+        statuteDesc: string,
+        ucrCode: string,
+        ucrDesc: string,
+        ncicLevel: string
+      &#125;
+      </code></pre>
+      <pre><code>
+      Officer &#123;
+        deptID: number,
+        radioID: string,
+        name: &#123;
+          last: string,
+          first: string
+        &#125;,
+        squad: string
+      &#125;
+      </code></pre>
       <p>A file must first be uploaded before a report can be made. The file must be in the format of a comma-seperate values file (CSV) and have the following column names (headers) in this order:</p>
+
+EventNbr,Init_DateTime,FinalEventType,SourceCall,BadgeNbr,UnitId,PrimaryUnit,CaseNbr,DispCode
 
       <table class="table">
         <thead>
