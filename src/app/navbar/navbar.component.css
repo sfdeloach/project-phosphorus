@@ -2,6 +2,14 @@ nav {
   margin-bottom: 1.5rem;
 }
 
+a {
+  cursor: pointer;
+}
+
+a.disabled {
+  cursor: not-allowed;
+}
+
 .btn-outline-primary {
   background-color: white;
 }

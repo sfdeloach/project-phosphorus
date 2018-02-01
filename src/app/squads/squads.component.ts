@@ -15,7 +15,10 @@ export class SquadsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.officers = this.squadService.getOfficers();
+    this.squadService.getOfficers();
+    this.squadService.officers.subscribe(officers => {
+      this.officers = officers;
+    });
   }
 
 }
