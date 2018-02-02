@@ -46,11 +46,24 @@ export class SquadService {
         console.error(error);
         this.serverResponse.next(new ServerResponse(true, errMessage, 0));
       }
-      );
+    );
   }
 
-  getOfficer(id: number): Officer {
-    return this.officers[0];
+  deleteOfficer(ofc: Officer) {
+    this.http.delete<ServerResponse>(
+      this.officersUrl + `/${ofc._id}`,
+      this.httpOptions
+    ).subscribe(
+      (res: ServerResponse) => {
+        this.serverResponse.next(res);
+      },
+      error => {
+        const errMessage: string = "An error occurred during a DELETE request"
+        console.error(errMessage);
+        console.error(error);
+        this.serverResponse.next(new ServerResponse(true, errMessage, 0));
+      }
+    );
   }
 
 }

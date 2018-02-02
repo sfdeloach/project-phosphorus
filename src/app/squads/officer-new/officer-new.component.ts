@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { SquadService } from '../../services/squad.service';
-
 import { ServerResponse } from '../../models/server-response.model';
 
 @Component({
@@ -13,6 +11,7 @@ import { ServerResponse } from '../../models/server-response.model';
 export class OfficerNewComponent implements OnInit {
   newOfficerForm: FormGroup;
   serverResponse: ServerResponse;
+  @ViewChild('deptIDInput') deptID: ElementRef; // used to autofocus deptID field
 
   constructor(
     private fb: FormBuilder,
@@ -33,22 +32,23 @@ export class OfficerNewComponent implements OnInit {
     this.squadService.serverResponse.subscribe(
       (res: ServerResponse) => {
         this.serverResponse = res;
+        setTimeout(() => {
+          this.serverResponse = undefined;
+        }, 1500);
       }
     );
+
+    this.resetForm();
   }
 
   onSubmit() {
-    console.log(this.newOfficerForm.value);
     this.squadService.insertOfficer(this.newOfficerForm.value);
     this.resetForm();
   }
 
   resetForm() {
     this.newOfficerForm.reset();
-  }
-
-  closeAlert() {
-    this.serverResponse = null;
+    this.deptID.nativeElement.focus();
   }
 
 }
