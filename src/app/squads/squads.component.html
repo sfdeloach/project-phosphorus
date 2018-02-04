@@ -1,29 +1,33 @@
-<h3>Squad Overview</h3>
-<div class="alert alert-success" *ngIf="serverResponse">
-  {{ serverResponse.message }}
+<div class="row justify-content-center">
+  <div class="col-8">
+    <h3>Squad Overview</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Department ID</th>
+          <th>Radio ID</th>
+          <th>Squad</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let officer of officers">
+          <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
+          <td>{{ officer.deptID }}</td>
+          <td>{{ officer.radioID }}</td>
+          <td>{{ officer.squad }}</td>
+          <td><a class="btn btn-info btn-sm" routerLink="/squads/{{ officer._id }}">&#9998;</a></td>
+          <td><button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">&#10008;</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <a class="btn btn-primary" routerLink="/squads/new">
+      Add new officer
+    </a>
+    <div class="alert alert-success" *ngIf="serverResponse">
+      {{ serverResponse.message }}
+    </div>
+  </div>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Department ID</th>
-      <th>Radio ID</th>
-      <th>Squad</th>
-      <th>Edit</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let officer of officers">
-      <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
-      <td>{{ officer.deptID }}</td>
-      <td>{{ officer.radioID }}</td>
-      <td>{{ officer.squad }}</td>
-      <td><a class="btn btn-info btn-sm" routerLink="/squads/{{ officer._id }}">&#9998;</a></td>
-      <td><button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">&#10008;</button></td>
-    </tr>
-  </tbody>
-</table>
-<a class="btn btn-primary" routerLink="/squads/new">
-  Add new officer
-</a>

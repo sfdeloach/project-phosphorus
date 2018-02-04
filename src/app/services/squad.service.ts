@@ -9,6 +9,7 @@ import { ServerResponse } from '../models/server-response.model';
 @Injectable()
 export class SquadService {
   officers: Subject<Officer[]> = new Subject();
+  officer: Subject<Officer> = new Subject();
   serverResponse: Subject<ServerResponse> = new Subject();
   officersUrl: string = 'http://localhost:3000/api/officers';
   httpOptions = {
@@ -18,6 +19,19 @@ export class SquadService {
   constructor(
     private http: HttpClient
   ) { }
+
+  getOfficer(id: string) {
+    this.http.get<Officer>(
+      this.officersUrl + `/${id}`
+    ).subscribe(
+      (ofc: Officer) => {
+        this.officer.next(ofc);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 
   getOfficers() {
     this.http.get<Officer[]>(
@@ -29,12 +43,29 @@ export class SquadService {
       (error) => {
         console.error(error);
       }
-      );
+    );
   }
 
   insertOfficer(ofc: Officer) {
     this.http.post<ServerResponse>(
       this.officersUrl + `/new`,
+      { officer: ofc },
+      this.httpOptions
+    ).subscribe(
+      (res: ServerResponse) => {
+        this.serverResponse.next(res);
+      },
+      error => {
+        const errMessage: string = "Unable to connect to the API";
+        console.error(error);
+        this.serverResponse.next(new ServerResponse(true, errMessage, 0));
+      }
+    );
+  }
+
+  updateOfficer(ofc: Officer) {
+    this.http.put<ServerResponse>(
+      this.officersUrl + `/${ofc._id}`,
       { officer: ofc },
       this.httpOptions
     ).subscribe(

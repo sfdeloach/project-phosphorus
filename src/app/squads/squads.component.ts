@@ -39,8 +39,8 @@ export class SquadsComponent implements OnInit {
   deleteOfc(ofc: Officer) {
     this.squadService.deleteOfficer(ofc);
     this.officers.splice(this.officers.findIndex(
-      x => {
-        return x._id === ofc._id;
+      element => {
+        return element._id === ofc._id;
       }), 1);
   }
 

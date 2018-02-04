@@ -9,3 +9,7 @@
 .btn {
   border: 0.1px solid transparent;
 }
+
+.alert {
+  margin-top: 1rem;
+}
