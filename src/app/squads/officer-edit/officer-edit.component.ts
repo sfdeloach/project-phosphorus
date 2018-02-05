@@ -70,4 +70,10 @@ export class OfficerEditComponent implements OnInit {
     );
   }
 
+  onKeypress(evt: KeyboardEvent) {
+    if (evt.key === "Enter") {
+      this.onUpdate();
+    }
+  }
+
 }

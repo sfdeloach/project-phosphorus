@@ -4,10 +4,10 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Department ID</th>
-          <th>Radio ID</th>
-          <th>Squad</th>
+          <th class="sortable" (click)="onHeaderClick('name', 'last')">Name</th>
+          <th class="sortable" (click)="onHeaderClick('deptID')">Department ID</th>
+          <th class="sortable" (click)="onHeaderClick('radioID')">Radio ID</th>
+          <th class="sortable" (click)="onHeaderClick('squad')">Squad</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>

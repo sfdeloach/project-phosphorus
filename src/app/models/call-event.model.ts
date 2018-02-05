@@ -1,3 +1,5 @@
+// TODO - this model is deprecated?
+
 export class CallEvent {
 
   constructor(
