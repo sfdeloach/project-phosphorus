@@ -1,0 +1,57 @@
+'event' model
+
+eventNbr: number,
+created: Date,
+eventType: string,
+src: string,
+units: Officer[],
+primaryUnit: Officer,
+reports: Report[],
+disps: string[]
+
+'officer' model
+
+deptID: number,  // Badge or ID number, immutable
+radioID: string, // based on squad and zone assignment, mutable
+name: {
+  last: string,
+  first: string
+},
+squad: string
+
+Received from XCAD import:
+
+EventNbr,        20172740005          not empty
+Init_DateTime,   10-01-2017T00:02:53  not empty
+FinalEventType,  87HOR                not empty
+SourceCall,      ONV                  one of three 'TEL' or '911'
+BadgeNbr,        A0647                not empty
+UnitId,          AD17                 not empty
+PrimaryUnit,     1                    one of two '0'
+CaseNbr,                              may be empty
+DispCode         P                    not empty
+
+Is BadgeNbr in the officer db collection? (needs a pipe to ensure 3-digits?)
+  If YES:
+    Does 'EventNbr' exist?
+      If YES:
+        - TODO: everything!!!
+      If NO:
+        - create new record and populate the following fields:
+          - 'eventNbr' --> EventNbr
+          - 'created' --> Init_DateTime
+          - 'eventType' --> FinalEventType
+          - 'src' --> SourceCall
+        - create an 'officer' object where 'deptID' and 'radioID' are provided
+          from the CSV file, and 'name' and 'squad' are provided by db and
+          populate the following fields:*
+          - push new 'officer' onto 'units'
+          - if PrimaryUnit === 1, primaryUnit --> new 'officer'
+        - TODO: handle report
+        - TODO: handle disp (only push unique dispositions?)
+
+
+* this design decision will require the entire db to wiped out and rebuilt
+  for each report? No, not necessarily, if the officer squad assignment is
+  updated in the 'officer' collection, this will relocate all their stats to
+  their new squad?

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SquadService } from '../services/squad.service';
-import { Officer } from '../models/officer.model';
-import { ServerResponse } from '../models/server-response.model';
+
+import { SquadService } from '../../services/squad.service';
+
+import { Officer } from '../../models/officer.model';
+import { ServerResponse } from '../../models/server-response.model';
 
 @Component({
   selector: 'app-squads',

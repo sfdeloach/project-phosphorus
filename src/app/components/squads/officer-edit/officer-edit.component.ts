@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SquadService } from '../../services/squad.service';
-import { Officer } from '../../models/officer.model';
-import { ServerResponse } from '../../models/server-response.model';
+
+import { SquadService } from '../../../services/squad.service';
+
+import { Officer } from '../../../models/officer.model';
+import { ServerResponse } from '../../../models/server-response.model';
 
 @Component({
   selector: 'app-officer-edit',

@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SquadService } from '../../services/squad.service';
-import { ServerResponse } from '../../models/server-response.model';
+
+import { SquadService } from '../../../services/squad.service';
+
+import { ServerResponse } from '../../../models/server-response.model';
 
 @Component({
   selector: 'app-officer-new',

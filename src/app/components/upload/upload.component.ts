@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UploadService } from '../services/upload.service';
+import { UploadService } from '../../services/upload.service';
 
-import { Verifier } from '../models/verifier.model';
-import { ServerResponse } from '../models/server-response.model';
+import { Verifier } from '../../models/verifier.model';
+import { ServerResponse } from '../../models/server-response.model';
 
 @Component({
   selector: 'app-upload',
