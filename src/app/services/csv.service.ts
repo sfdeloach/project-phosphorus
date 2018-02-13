@@ -1,21 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CallEvent } from '../models/call-event.model';
+
+import { Episode } from '../models/episode.model';
+import { Call } from '../models/call.model';
 
 @Injectable()
 export class CsvService {
-  public headers: string = '"CaseNbr","ClrOfficerBadge","EventNbr","EventType",'
-                         + '"Init_DateTime","OfcrName","SourceCall","UnitId"\n';
+  public headers: string = 'EventNbr,Init_DateTime,FinalEventType,SourceCall,'
+                         + 'BadgeNbr,UnitId,PrimaryUnit,DispCode\n';
 
   constructor() { }
 
-  toObject(csv: string): CallEvent[] {
-    // Note: this version of csv conversion is column-order dependent
+  /*
+   *  Note: this conversion of csv to json is column-order dependent
+   *  TODO: generalize this function so that it receives a string and returns
+   *        an array of arrays...create other functions that take this function's
+   *        return value and create the actual JSON object
+   */
+  toObject(csv: string): Episode[] {
 
     // Initialize some properties
     let csvCharArray: string[] = csv.split('');
     let line: string = '';
 
-    // Step 1: Create an array of lines
+    // Create an array of lines
     let lineArray: string[] = [];
 
     // Create an array where each line is an element
@@ -31,7 +38,7 @@ export class CsvService {
     // Remove the headers from the array
     lineArray.splice(0, 1);
 
-    // Step 2: Create an array of arrays
+    // Create an array of arrays
     let arrayArray = [];
 
     // Process each element of the `lines` array
@@ -41,11 +48,14 @@ export class CsvService {
       let charArray: string[] = line.split('');
 
       charArray.forEach((character, index) => {
-        if (character === "," || index === (line.length - 1)) {
+        if (character === ",") {
           valueArray.push(value);
           value = '';
         } else if (character === '"') {
           // Do nothing, this removes the quote from the string literal
+        } else if (index === charArray.length - 1) {
+          value += character;
+          valueArray.push(value);
         } else {
           value += character;
         }
@@ -53,21 +63,22 @@ export class CsvService {
       arrayArray.push(valueArray);
     });
 
-    // Step 3: Create an array of objects
-    let objectArray: CallEvent[] = [];
+    // Create an array of objects
+    let objectArray: Episode[] = [];
 
-    arrayArray.forEach(array => {
-      let callEvent = new CallEvent(
-        array[0].trim(),                                   // CaseNbr         --> caseNbr
-        array[1].trim(),                                   // ClrOfficerBadge --> clearOfc
-        Number.parseInt(array[2], 10),                     // EventNbr        --> evtNbr
-        array[3].trim(),                                   // EventType       --> evtType
-        new Date(Date.parse(array[4])),                    // Init_DateTime   --> date
-        { last: array[5].trim(), first: array[6].trim() }, // OfcrName        --> ofc
-        array[7].trim(),                                   // SourceCall      --> src
-        array[8].trim()                                    // UnitId          --> unit
+    arrayArray.forEach(a => {
+      let call = new Call(
+        +a[0].trim(),   // eventNbr: number
+        new Date(a[1]), // created: Date
+        a[2].trim(),    // eventType: string
+        a[3].trim(),    // src: string
+        undefined,      // TODO: units: Officer[]
+        undefined,      // TODO: primaryUnit: Officer
+        [a[7]]          // disps: string[]
       );
-      objectArray.push(callEvent);
+
+      let episode = new Episode(call, []);
+      objectArray.push(episode);
     });
 
     return objectArray;

@@ -11,7 +11,7 @@ import { ServerResponse } from '../../models/server-response.model';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
-  showInstructions: boolean = false;
+  showInfo: boolean = false;
   file: File;
   verifier: Verifier;
   contents: string;
@@ -25,8 +25,8 @@ export class UploadComponent implements OnInit {
 
   }
 
-  toggleInstructions() {
-    this.showInstructions = !this.showInstructions;
+  toggleInfo() {
+    this.showInfo = !this.showInfo;
   }
 
   fileChanged(file: File) {
@@ -39,12 +39,16 @@ export class UploadComponent implements OnInit {
   }
 
   verify() {
-    let fileReader = new FileReader();
+    let fileReader: FileReader = new FileReader();
     fileReader.readAsText(this.file);
-    fileReader.onload = (e) => {
+
+    fileReader.onload = (evt: ProgressEvent) => {
       this.verifier = this.uploadService.verify(fileReader.result);
-      if (this.verifier.result) this.contents = fileReader.result;
-    }
+      if (this.verifier.result) {
+        this.contents = fileReader.result;
+      }
+      console.dir(this.uploadService.episodes); // TODO: remove after testing
+    };
   }
 
   upload() {

@@ -1,23 +1,42 @@
-'event' model
+'Episode' model
+{
+  event: Call,
+  reports: Report[]
+}
 
-eventNbr: number,
-created: Date,
-eventType: string,
-src: string,
-units: Officer[],
-primaryUnit: Officer,
-reports: Report[],
-disps: string[]
+'Call' model
+{
+  eventNbr: number,
+  created: Date,
+  eventType: string,
+  src: string,
+  units: Officer[],
+  primaryUnit: Officer,
+  disps: string[]
+}
 
-'officer' model
+'Report' model
 
-deptID: number,  // Badge or ID number, immutable
-radioID: string, // based on squad and zone assignment, mutable
-name: {
-  last: string,
-  first: string
-},
-squad: string
+{
+  caseNbr: string,
+  reportDate: Date,
+  type: string,
+  offenses: Offense[],
+  clearance: string,
+  reportingOfc: Officer
+}
+
+'Officer' model
+
+{
+  deptID: number,  // Badge or ID number, immutable
+  radioID: string, // based on squad and zone assignment, mutable
+  name: {
+    last: string,
+    first: string
+  },
+  squad: string
+}
 
 Received from XCAD import:
 
@@ -28,30 +47,68 @@ SourceCall,      ONV                  one of three 'TEL' or '911'
 BadgeNbr,        A0647                not empty
 UnitId,          AD17                 not empty
 PrimaryUnit,     1                    one of two '0'
-CaseNbr,                              may be empty
 DispCode         P                    not empty
 
-Is BadgeNbr in the officer db collection? (needs a pipe to ensure 3-digits?)
+Begin PSEUDO-CODE on XCAD import (only the 'events' property is affected during
+this operation):
+
+Trim 'A0' from the BadgeNbr and convert to a number
+Is there a 'deptID' that matches BadgeNbr in the officer collection? -- AND --
+Is FinalEventType NOT equal to 1013, 15, 75, 95, or 96? <-- create a component that allows control of this list?
   If YES:
-    Does 'EventNbr' exist?
+    Does an 'eventNbr' matching EventNbr exist?
       If YES:
-        - TODO: everything!!!
+        - is PrimaryUnit === 1 and 'primaryUnit' null?
+          - if YES:
+            - create an 'officer' object where 'deptID' and 'radioID' are provided
+              from the CSV file, and 'name' and 'squad' are provided by db and
+              populate the following fields:*
+        - update the following arrays, checking first to see if they are already there:
+          - units, disps
       If NO:
         - create new record and populate the following fields:
-          - 'eventNbr' --> EventNbr
-          - 'created' --> Init_DateTime
+          - 'eventNbr'  --> EventNbr
+          - 'created'   --> Init_DateTime
           - 'eventType' --> FinalEventType
-          - 'src' --> SourceCall
+          - 'src'       --> SourceCall
         - create an 'officer' object where 'deptID' and 'radioID' are provided
           from the CSV file, and 'name' and 'squad' are provided by db and
           populate the following fields:*
           - push new 'officer' onto 'units'
-          - if PrimaryUnit === 1, primaryUnit --> new 'officer'
-        - TODO: handle report
-        - TODO: handle disp (only push unique dispositions?)
+          - if PrimaryUnit === 1, primaryUnit --> new 'officer', else set primaryUnit to null
+        - push DispCode onto the 'disps' array
 
+* Will this design decision will require the entire db to wiped out and rebuilt?
+  No, not necessarily, if the officer squad assignment is updated in the 'officer'
+  collection, this will relocate all their stats to their new squad? Perhaps not
+  automatically, but an operation could be written so that the db is updated with
+  their new assignment.
 
-* this design decision will require the entire db to wiped out and rebuilt
-  for each report? No, not necessarily, if the officer squad assignment is
-  updated in the 'officer' collection, this will relocate all their stats to
-  their new squad?
+---
+
+Is it possible to combine the Event and Report models into an Episode?
+
+// remove the field 'reports' from the existing Event model
+Event {
+  eventNbr: number,
+  created: Date,
+  eventType: string,
+  src: string,
+  units: Officer[],
+  primaryUnit: Officer,
+  disps: string[],
+}
+
+Report {
+  caseNbr: string,
+  reportDate: Date,
+  type: string,
+  offenses: Offense[],
+  clearance: string,
+  reportingOfc: Officer
+}
+
+Episode {
+  event: Event,
+  reports: Report[]
+}

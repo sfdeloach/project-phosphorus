@@ -1,7 +1,7 @@
 import { Report } from './report.model';
 import { Officer } from './officer.model';
 
-export class Event {
+export class Call {
 
   constructor(
     public eventNbr: number,
@@ -10,7 +10,6 @@ export class Event {
     public src: string,
     public units: Officer[],
     public primaryUnit: Officer,
-    public reports: Report[],
     public disps: string[]
   ) { }
 

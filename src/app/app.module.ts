@@ -16,7 +16,6 @@ import { OfficerNewComponent } from './components/squads/officer-new/officer-new
 
 import { CsvService } from './services/csv.service';
 import { UploadService } from './services/upload.service';
-import { RetrieveService } from './services/retrieve.service';
 import { SquadService } from './services/squad.service';
 
 @NgModule({
@@ -38,7 +37,6 @@ import { SquadService } from './services/squad.service';
   ],
   providers: [
     CsvService,
-    RetrieveService,
     UploadService,
     SquadService
   ],

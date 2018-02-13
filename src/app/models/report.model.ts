@@ -7,7 +7,7 @@ export class Report {
     public caseNbr: string,
     public reportDate: Date,
     public type: string,
-    public offense: Offense[],
+    public offenses: Offense[],
     public clearance: string,
     public reportingOfc: Officer
   ) { }

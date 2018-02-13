@@ -1,25 +1,79 @@
 <div class="row justify-content-center">
   <div class="col-6">
     <h2>Upload File</h2>
-
-    <div *ngIf="showInstructions">
-      <p>A single database is built from two sources: XCAD and Cafe. The XCAD events should first be uploaded followed by the Cafe file. This is done so that the Cafe reports may properly insert themselves into the `Event` data model:</p>
+    <button class="btn btn-secondary btn-sm" (click)="toggleInfo()">
+      <div *ngIf="!showInfo">Click here for more information</div>
+      <div *ngIf="showInfo">Hide instructions</div>
+    </button>
+    <div class="info" *ngIf="showInfo">
+      <h4>Background</h4>
+      <hr>
+      <p>The database in use by this application has two collections:</p>
+      <ol>
+        <li> <code>episodes</code> </li>
+        <li> <code>officers</code> </li>
+      </ol>
+      <p>
+        The 'episodes' collection is built primarily from two sources: XCAD and
+        Cafe. The sources should come in the form of a CSV file. The order of the column
+        headers inside each CSV file is vitally important, however, the upload order
+        is less important. Best practice dictates the XCAD file should be loaded
+        first followed by the Cafe file.
+      </p>
+      <p>
+        There are some <code>Call</code> objects that do not have associated
+        <code>Report</code>  objects. And conversely, there are some <code>Report</code>
+        objects that do not have associated <code>Call</code> objects. This last
+        instance is typically observed in TC (traffic citation) report types. Nevertheless,
+        all of the data provided from XCAD and Cafe is aggregated into one
+        <code>episodes</code> collection
+      </p>
+      <h4>How it's made</h4>
+      <hr>
+      <ol>
+        <li>
+          An <code>officers</code> collection is created and maintained by the user.
+          This collection is independent of the <code>episodes</code> collection and
+          is used as a reference for current squad assignments.
+        </li>
+        <li>
+          The <code>episodes</code> collection is created via CSV files that have been
+          created from a query seperate from this application. The XCAD results area
+          agnostic of possible associated <code>Report</code> data and will only check
+          to see if an <code>&#123;eventNbr&#125;</code>  property exists before creating
+          a new record.
+        </li>
+        <li>
+          A Cafe CSV file is next uploaded, which will update/populate the
+          existing  <code>episodes</code> collection, creating new documents for the
+          collection when an event number is either not provided in the CSV file
+          or not found in the existing collection.
+        </li>
+      </ol>
+      <h4>Models</h4>
+      <hr>
       <pre><code>
-      Event &#123;
-        reports: Report[],
-        date: Date,
-        disps: string[],
+      Episode &#123;
+        _id: any,
+        call: Call,
+        reports: Report[]
+      &#125;
+      </code></pre>
+      <pre><code>
+      Call &#123;
         eventNbr: number,
+        created: Date,
         eventType: string,
         src: string,
         units: Officer[],
-        primary: Officer
+        primaryUnit: Officer
+        disps: string[],
       &#125;
       </code></pre>
       <pre><code>
       Report &#123;
         caseNbr: string,
-        date: Date,
+        reportDate: Date,
         type: string,
         offenses: Offense[],
         clearance: string,
@@ -46,59 +100,7 @@
         squad: string
       &#125;
       </code></pre>
-      <p>A file must first be uploaded before a report can be made. The file must be in the format of a comma-seperate values file (CSV) and have the following column names (headers) in this order:</p>
-
-EventNbr,Init_DateTime,FinalEventType,SourceCall,BadgeNbr,UnitId,PrimaryUnit,CaseNbr,DispCode
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">CSV Name (SQL Server)</th>
-            <th scope="col">JSON Name (MongoDB)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>CaseNbr</td>
-            <td><code>caseNbr: string</code></td>
-          </tr>
-          <tr>
-            <td>ClrOfficerBadge</td>
-            <td><code>clearOfc: string</code></td>
-          </tr>
-          <tr>
-            <td>EventNbr</td>
-            <td><code>evtNbr: Number</code></td>
-          </tr>
-          <tr>
-            <td>EventType</td>
-            <td><code>evtType: string</code></td>
-          </tr>
-          <tr>
-            <td>Init_DateTime</td>
-            <td><code>date: Date</code></td>
-          </tr>
-          <tr>
-            <td>OfcrName</td>
-            <td><code>ofc: &#123; last: string, first: string &#125; </code></td>
-          </tr>
-          <tr>
-            <td>SourceCall</td>
-            <td><code>src: string</code></td>
-          </tr>
-          <tr>
-            <td>UnitId</td>
-            <td><code>unit: string</code></td>
-          </tr>
-        </tbody>
-      </table>
-      <p>The headers are names set in the XCAD History database. If the names of the headers are changed, this would be a "breaking change" and this app will no longer work.</p>
     </div>
-
-    <button class="btn btn-secondary btn-sm" (click)="toggleInstructions()">
-      <div *ngIf="!showInstructions">Click here for instructions</div>
-      <div *ngIf="showInstructions">Hide instructions</div>
-    </button>
 
     <hr>
 
