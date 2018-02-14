@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { SquadService } from '../../../services/squad.service';
+import { OfficerService } from '../../../services/officer.service';
 
 import { ServerResponse } from '../../../models/server-response.model';
 
@@ -17,7 +17,7 @@ export class OfficerNewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private squadService: SquadService
+    private ofcService: OfficerService
   ) { }
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class OfficerNewComponent implements OnInit {
       'squad': ''
     });
 
-    this.squadService.serverResponse.subscribe(
+    this.ofcService.serverResponse.subscribe(
       (res: ServerResponse) => {
         this.serverResponse = res;
         setTimeout(() => {
@@ -44,7 +44,7 @@ export class OfficerNewComponent implements OnInit {
   }
 
   onSubmit() {
-    this.squadService.insertOfficer(this.newOfficerForm.value);
+    this.ofcService.insertOfficer(this.newOfficerForm.value);
     this.resetForm();
   }
 

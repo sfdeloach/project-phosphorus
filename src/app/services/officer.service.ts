@@ -7,7 +7,7 @@ import { Officer } from '../models/officer.model';
 import { ServerResponse } from '../models/server-response.model';
 
 @Injectable()
-export class SquadService {
+export class OfficerService {
   officers: Subject<Officer[]> = new Subject();
   officer: Subject<Officer> = new Subject();
   serverResponse: Subject<ServerResponse> = new Subject();

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { SquadService } from '../../../services/squad.service';
+import { OfficerService } from '../../../services/officer.service';
 
 import { Officer } from '../../../models/officer.model';
 import { ServerResponse } from '../../../models/server-response.model';
@@ -21,7 +21,7 @@ export class OfficerEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private squadService: SquadService
+    private ofcService: OfficerService
   ) { }
 
   ngOnInit() {
@@ -37,9 +37,9 @@ export class OfficerEditComponent implements OnInit {
 
     this.database_id = this.route.snapshot.params.id;
 
-    this.squadService.getOfficer(this.database_id);
+    this.ofcService.getOfficer(this.database_id);
 
-    this.squadService.officer.subscribe(
+    this.ofcService.officer.subscribe(
       (ofc: Officer) => {
         this.editOfficerForm = this.fb.group({
           'deptID': [ofc.deptID, Validators.required],
@@ -57,13 +57,13 @@ export class OfficerEditComponent implements OnInit {
   onUpdate() {
     // add the db ID back to the object before sending to the update service
     this.editOfficerForm.value._id = this.database_id;
-    this.squadService.updateOfficer(this.editOfficerForm.value);
+    this.ofcService.updateOfficer(this.editOfficerForm.value);
 
-    this.squadService.serverResponse.subscribe(
+    this.ofcService.serverResponse.subscribe(
       (res: ServerResponse) => {
         // navigate back to squad overview after successful response
         if (!res.error) {
-          this.router.navigate(['/squads']);
+          this.router.navigate(['/officers']);
         } else {
           console.error("An error occurred during the update");
           this.serverResponse = res;

@@ -1,27 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SquadService } from '../../services/squad.service';
+import { OfficerService } from '../../services/officer.service';
 
 import { Officer } from '../../models/officer.model';
 import { ServerResponse } from '../../models/server-response.model';
 
 @Component({
-  selector: 'app-squads',
-  templateUrl: './squads.component.html',
-  styleUrls: ['./squads.component.css']
+  selector: 'app-officer',
+  templateUrl: './officer.component.html',
+  styleUrls: ['./officer.component.css']
 })
-export class SquadsComponent implements OnInit {
+export class OfficerComponent implements OnInit {
   officers: Officer[];
   serverResponse: ServerResponse;
   toggle: number = 1; // used for ascending and descending sorting
 
   constructor(
-    private squadService: SquadService
+    private ofcService: OfficerService
   ) { }
 
   ngOnInit() {
     this.getOfficers();
-    this.squadService.serverResponse.subscribe(
+    this.ofcService.serverResponse.subscribe(
       res => {
         this.serverResponse = res;
         setTimeout(() => {
@@ -33,14 +33,14 @@ export class SquadsComponent implements OnInit {
 
   getOfficers() {
     this.officers = [];
-    this.squadService.getOfficers();
-    this.squadService.officers.subscribe(officers => {
+    this.ofcService.getOfficers();
+    this.ofcService.officers.subscribe(officers => {
       this.officers = officers.sort(this.sortOfficers);
     });
   }
 
   deleteOfc(ofc: Officer) {
-    this.squadService.deleteOfficer(ofc);
+    this.ofcService.deleteOfficer(ofc);
     this.officers.splice(this.officers.findIndex(
       element => {
         return element._id === ofc._id;

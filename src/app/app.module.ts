@@ -9,14 +9,16 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { UploadComponent } from './components/upload/upload.component';
-import { SquadsComponent } from './components/squads/squads.component';
+import { OfficerComponent } from './components/officer/officer.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { OfficerEditComponent } from './components/squads/officer-edit/officer-edit.component';
-import { OfficerNewComponent } from './components/squads/officer-new/officer-new.component';
+import { OfficerEditComponent } from './components/officer/officer-edit/officer-edit.component';
+import { OfficerNewComponent } from './components/officer/officer-new/officer-new.component';
 
 import { CsvService } from './services/csv.service';
+import { CafeService } from './services/cafe.service';
+import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
-import { SquadService } from './services/squad.service';
+import { OfficerService } from './services/officer.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { SquadService } from './services/squad.service';
     NavbarComponent,
     UploadComponent,
     HomeComponent,
-    SquadsComponent,
+    OfficerComponent,
     PageNotFoundComponent,
     OfficerEditComponent,
     OfficerNewComponent
@@ -37,8 +39,10 @@ import { SquadService } from './services/squad.service';
   ],
   providers: [
     CsvService,
+    CafeService,
+    XCADService,
     UploadService,
-    SquadService
+    OfficerService
   ],
   bootstrap: [AppComponent]
 })

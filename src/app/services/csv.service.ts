@@ -1,31 +1,41 @@
 import { Injectable } from '@angular/core';
 
+
 import { Episode } from '../models/episode.model';
 import { Call } from '../models/call.model';
 
 @Injectable()
 export class CsvService {
-  public headers: string = 'EventNbr,Init_DateTime,FinalEventType,SourceCall,'
-                         + 'BadgeNbr,UnitId,PrimaryUnit,DispCode\n';
+  public xcadHeaders: Array<string> = [
+    "EventNbr", "Init_DateTime", "FinalEventType", "SourceCall", "BadgeNbr",
+    "UnitId", "PrimaryUnit", "DispCode"
+  ];
+
+  public cafeHeaders: Array<string> = [
+    'IncidentNbr', 'EventNbr', 'ReportDate', 'ReportType', 'OffenseNbr',
+    'StatuteNbr', 'ChargeDescription', 'UcrCode', 'UcrDescription',
+    'FelonyMisdemeanor', 'Clearance', 'ReportingOfficerNbr'
+  ];
 
   constructor() { }
 
-  /*
-   *  Note: this conversion of csv to json is column-order dependent
-   *  TODO: generalize this function so that it receives a string and returns
-   *        an array of arrays...create other functions that take this function's
-   *        return value and create the actual JSON object
+  /*  Converts a CSV string to a table array of strings, for example:
+   *  [
+   *    ["col1","col2","col3","col4","col5",...]
+   *    ["col1","col2","col3","col4","col5",...]
+   *    ["col1","col2","col3","col4","col5",...]
+   *    ...
+   *  ]
    */
-  toObject(csv: string): Episode[] {
+  toTableArray(csv: string): Array<Array<string>> {
+    // Remove any Windows-encoded line returns and convert the string to an array
+    const csvCharArray: string[] = csv.replace(/[\r]/g, '').split('');
 
-    // Initialize some properties
-    let csvCharArray: string[] = csv.split('');
+    // Create an empty array where each element will hold a CSV record/line
+    let lineArray: string[] = [];
     let line: string = '';
 
-    // Create an array of lines
-    let lineArray: string[] = [];
-
-    // Create an array where each line is an element
+    // Populate the lineArray
     csvCharArray.forEach(character => {
       if (character !== '\n') {
         line += character;
@@ -35,11 +45,8 @@ export class CsvService {
       }
     });
 
-    // Remove the headers from the array
-    lineArray.splice(0, 1);
-
-    // Create an array of arrays
-    let arrayArray = [];
+    // The final result will be an array of array of strings
+    let result = [];
 
     // Process each element of the `lines` array
     lineArray.forEach(line => {
@@ -60,28 +67,9 @@ export class CsvService {
           value += character;
         }
       });
-      arrayArray.push(valueArray);
+      result.push(valueArray);
     });
 
-    // Create an array of objects
-    let objectArray: Episode[] = [];
-
-    arrayArray.forEach(a => {
-      let call = new Call(
-        +a[0].trim(),   // eventNbr: number
-        new Date(a[1]), // created: Date
-        a[2].trim(),    // eventType: string
-        a[3].trim(),    // src: string
-        undefined,      // TODO: units: Officer[]
-        undefined,      // TODO: primaryUnit: Officer
-        [a[7]]          // disps: string[]
-      );
-
-      let episode = new Episode(call, []);
-      objectArray.push(episode);
-    });
-
-    return objectArray;
+    return result;
   }
-
 }

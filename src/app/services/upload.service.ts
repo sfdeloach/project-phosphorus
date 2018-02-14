@@ -8,10 +8,12 @@ import { ServerResponse } from '../models/server-response.model';
 import { Verifier } from '../models/verifier.model';
 
 import { CsvService } from './csv.service';
+import { CafeService } from './cafe.service';
+import { XCADService } from './xcad.service';
 
 @Injectable()
 export class UploadService {
-  episodes: Episode[];
+  episodes: Episode[] = [];
   episodesUrl: string = 'http://localhost:3000/api/episodes';
   serverResponse: Subject<ServerResponse> = new Subject();
   httpOptions = {
@@ -20,20 +22,25 @@ export class UploadService {
 
   constructor(
     private csv: CsvService,
+    private cafe: CafeService,
+    private xcad: XCADService,
     private http: HttpClient
   ) { }
 
-  verify(contents: string): Verifier {
+  verify(fileContents: string): Verifier {
     // Convert line endings - Windows style ("\r\n") to Unix style ("\n")
-    let convertedContents = contents.replace(/[\r]/g, '');
+    const csvToTableArray = this.csv.toTableArray(fileContents);
 
-    // Check headers and convert CSV to a JavaScript object if valid
-    if (this.csv.headers === convertedContents.slice(0, this.csv.headers.length)) {
-      this.episodes = this.csv.toObject(convertedContents);
-      return new Verifier(true, `Valid headers.`);
-    } else {
-      return new Verifier(false, `Invalid headers.`)
+    // Convert CSV to a JavaScript object if the file is valid format
+    if (this.csv.xcadHeaders.length === csvToTableArray[0].length) { // TODO: terrible way to do this
+      this.episodes = this.xcad.xcadToEpisodes(csvToTableArray, this.episodes);
+      return new Verifier(true, 'XCAD file successfully converted!');
+    } else if (this.csv.cafeHeaders.length === csvToTableArray[0].length) { // TODO: terrible way to do this
+      this.episodes = this.cafe.cafeToEpisodes(csvToTableArray, this.episodes);
+      return new Verifier(true, 'Cafe file successfully converted!');
     }
+
+    return new Verifier(false, 'Invalid file format.');
   }
 
   uploader() {
@@ -54,7 +61,7 @@ export class UploadService {
         console.error(error);
         this.serverResponse.next(new ServerResponse(true, errMessage, 0));
       }
-    );
+      );
   }
 
 }
