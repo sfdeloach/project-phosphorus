@@ -21,7 +21,7 @@ export class XCADService {
     array.splice(0,1);
 
     // Pull the current list of deptIDs that are of interest
-    // TODO: use the officer service to get a list of deptIDs
+    // TODO: left off here, how do I pull the list synchronously? use a series of callbacks?
 
     array.forEach(a => {
       let call = new Call(
@@ -40,6 +40,5 @@ export class XCADService {
 
     return result;
   }
-
 
 }

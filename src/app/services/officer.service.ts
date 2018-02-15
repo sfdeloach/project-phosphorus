@@ -4,13 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 import { Officer } from '../models/officer.model';
-import { ServerResponse } from '../models/server-response.model';
+import { Result } from '../models/result.model';
 
 @Injectable()
 export class OfficerService {
   officers: Subject<Officer[]> = new Subject();
   officer: Subject<Officer> = new Subject();
-  serverResponse: Subject<ServerResponse> = new Subject();
+  serverResponse: Subject<Result> = new Subject();
   officersUrl: string = 'http://localhost:3000/api/officers';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -47,52 +47,52 @@ export class OfficerService {
   }
 
   insertOfficer(ofc: Officer) {
-    this.http.post<ServerResponse>(
+    this.http.post<Result>(
       this.officersUrl + `/new`,
       { officer: ofc },
       this.httpOptions
     ).subscribe(
-      (res: ServerResponse) => {
+      (res: Result) => {
         this.serverResponse.next(res);
       },
       error => {
         const errMessage: string = "Unable to connect to the API";
         console.error(error);
-        this.serverResponse.next(new ServerResponse(true, errMessage, 0));
+        this.serverResponse.next(new Result(true, errMessage, 0));
       }
     );
   }
 
   updateOfficer(ofc: Officer) {
-    this.http.put<ServerResponse>(
+    this.http.put<Result>(
       this.officersUrl + `/${ofc._id}`,
       { officer: ofc },
       this.httpOptions
     ).subscribe(
-      (res: ServerResponse) => {
+      (res: Result) => {
         this.serverResponse.next(res);
       },
       error => {
         const errMessage: string = "Unable to connect to the API";
         console.error(error);
-        this.serverResponse.next(new ServerResponse(true, errMessage, 0));
+        this.serverResponse.next(new Result(true, errMessage, 0));
       }
     );
   }
 
   deleteOfficer(ofc: Officer) {
-    this.http.delete<ServerResponse>(
+    this.http.delete<Result>(
       this.officersUrl + `/${ofc._id}`,
       this.httpOptions
     ).subscribe(
-      (res: ServerResponse) => {
+      (res: Result) => {
         this.serverResponse.next(res);
       },
       error => {
         const errMessage: string = "An error occurred during a DELETE request"
         console.error(errMessage);
         console.error(error);
-        this.serverResponse.next(new ServerResponse(true, errMessage, 0));
+        this.serverResponse.next(new Result(true, errMessage, 0));
       }
     );
   }

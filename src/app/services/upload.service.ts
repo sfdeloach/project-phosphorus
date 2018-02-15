@@ -4,8 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 import { Episode } from '../models/episode.model';
-import { ServerResponse } from '../models/server-response.model';
-import { Verifier } from '../models/verifier.model';
+import { Result } from '../models/result.model';
 
 import { CsvService } from './csv.service';
 import { CafeService } from './cafe.service';
@@ -15,7 +14,7 @@ import { XCADService } from './xcad.service';
 export class UploadService {
   episodes: Episode[] = [];
   episodesUrl: string = 'http://localhost:3000/api/episodes';
-  serverResponse: Subject<ServerResponse> = new Subject();
+  serverResponse: Subject<Result> = new Subject();
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -27,24 +26,24 @@ export class UploadService {
     private http: HttpClient
   ) { }
 
-  verify(fileContents: string): Verifier {
+  verify(fileContents: string): Result {
     // Convert line endings - Windows style ("\r\n") to Unix style ("\n")
     const csvToTableArray = this.csv.toTableArray(fileContents);
 
     // Convert CSV to a JavaScript object if the file is valid format
-    if (this.csv.xcadHeaders.length === csvToTableArray[0].length) { // TODO: terrible way to do this
+    if (this.csv.isValidFile("XCAD", csvToTableArray[0])) {
       this.episodes = this.xcad.xcadToEpisodes(csvToTableArray, this.episodes);
-      return new Verifier(true, 'XCAD file successfully converted!');
-    } else if (this.csv.cafeHeaders.length === csvToTableArray[0].length) { // TODO: terrible way to do this
+      return new Result(true, 'XCAD file successfully converted!');
+    } else if (this.csv.isValidFile("Cafe", csvToTableArray[0])) {
       this.episodes = this.cafe.cafeToEpisodes(csvToTableArray, this.episodes);
-      return new Verifier(true, 'Cafe file successfully converted!');
+      return new Result(true, 'Cafe file successfully converted!');
     }
 
-    return new Verifier(false, 'Invalid file format.');
+    return new Result(false, 'Invalid file format.');
   }
 
   uploader() {
-    this.http.post<ServerResponse>(
+    this.http.post<Result>(
       this.episodesUrl,
       {
         passcode: '8uJ4eC1s^0iB5bR0', // '8uJ4eC1s^0iB5bR0'
@@ -52,14 +51,15 @@ export class UploadService {
       },
       this.httpOptions
     ).subscribe(
-      (res: ServerResponse) => {
+      (res: Result) => {
         // emit the server's response message
         this.serverResponse.next(res);
       },
       error => {
-        const errMessage: string = "Unable to connect to the API";
         console.error(error);
-        this.serverResponse.next(new ServerResponse(true, errMessage, 0));
+        this.serverResponse.next(
+          new Result(false, "Unable to connect to the API", 0)
+        );
       }
       );
   }

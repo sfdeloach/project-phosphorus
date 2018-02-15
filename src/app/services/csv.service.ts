@@ -6,15 +6,15 @@ import { Call } from '../models/call.model';
 
 @Injectable()
 export class CsvService {
-  public xcadHeaders: Array<string> = [
-    "EventNbr", "Init_DateTime", "FinalEventType", "SourceCall", "BadgeNbr",
-    "UnitId", "PrimaryUnit", "DispCode"
-  ];
-
   public cafeHeaders: Array<string> = [
     'IncidentNbr', 'EventNbr', 'ReportDate', 'ReportType', 'OffenseNbr',
     'StatuteNbr', 'ChargeDescription', 'UcrCode', 'UcrDescription',
     'FelonyMisdemeanor', 'Clearance', 'ReportingOfficerNbr'
+  ];
+
+  public xcadHeaders: Array<string> = [
+    "EventNbr", "Init_DateTime", "FinalEventType", "SourceCall", "BadgeNbr",
+    "UnitId", "PrimaryUnit", "DispCode"
   ];
 
   constructor() { }
@@ -72,4 +72,22 @@ export class CsvService {
 
     return result;
   }
+
+  isValidFile(fileType: string, headers: Array<string>): boolean {
+    let i: number = 0;
+    let result = true;
+    let fileHeaders = undefined;
+
+    if (fileType === "XCAD") fileHeaders = this.xcadHeaders;
+    else if (fileType === "Cafe") fileHeaders = this.cafeHeaders;
+    else return false;
+
+    headers.forEach(header => {
+      if (header !== fileHeaders[i++]) {
+        result = false;
+      };
+    });
+    return result
+  }
+
 }

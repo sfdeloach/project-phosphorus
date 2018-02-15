@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { OfficerService } from '../../services/officer.service';
 
 import { Officer } from '../../models/officer.model';
-import { ServerResponse } from '../../models/server-response.model';
+import { Result } from '../../models/result.model';
 
 @Component({
   selector: 'app-officer',
@@ -12,7 +12,7 @@ import { ServerResponse } from '../../models/server-response.model';
 })
 export class OfficerComponent implements OnInit {
   officers: Officer[];
-  serverResponse: ServerResponse;
+  result: Result;
   toggle: number = 1; // used for ascending and descending sorting
 
   constructor(
@@ -23,9 +23,9 @@ export class OfficerComponent implements OnInit {
     this.getOfficers();
     this.ofcService.serverResponse.subscribe(
       res => {
-        this.serverResponse = res;
+        this.result = res;
         setTimeout(() => {
-          this.serverResponse = undefined;
+          this.result = undefined;
         }, 1500);
       }
     );

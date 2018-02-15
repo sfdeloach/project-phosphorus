@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OfficerService } from '../../../services/officer.service';
 
 import { Officer } from '../../../models/officer.model';
-import { ServerResponse } from '../../../models/server-response.model';
+import { Result } from '../../../models/result.model';
 
 @Component({
   selector: 'app-officer-edit',
@@ -15,7 +15,7 @@ import { ServerResponse } from '../../../models/server-response.model';
 export class OfficerEditComponent implements OnInit {
   database_id: string; // this will hold the MongoDB assigned _id field
   editOfficerForm: FormGroup;
-  serverResponse: ServerResponse;
+  result: Result;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,13 +60,13 @@ export class OfficerEditComponent implements OnInit {
     this.ofcService.updateOfficer(this.editOfficerForm.value);
 
     this.ofcService.serverResponse.subscribe(
-      (res: ServerResponse) => {
+      (res: Result) => {
         // navigate back to squad overview after successful response
-        if (!res.error) {
+        if (!res.isOkay) {
           this.router.navigate(['/officers']);
         } else {
           console.error("An error occurred during the update");
-          this.serverResponse = res;
+          this.result = res;
         }
       }
     );

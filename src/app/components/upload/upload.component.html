@@ -112,27 +112,27 @@
       Verify
     </button>
     <div class="message-block" *ngIf="verifier">
-      <div class="alert" [ngClass]="{'alert-danger': !verifier.result, 'alert-success': verifier.result}">
-        <span class="dingbat" *ngIf="verifier.result"> + </span>
-        <span class="dingbat" *ngIf="!verifier.result"> X </span>
+      <div class="alert" [ngClass]="{'alert-danger': !verifier.isOkay, 'alert-success': verifier.isOkay}">
+        <span class="dingbat" *ngIf="verifier.isOkay"> + </span>
+        <span class="dingbat" *ngIf="!verifier.isOkay"> X </span>
         <span class="message"> {{ verifier.message }} </span>
       </div>
     </div>
 
     <div *ngIf="verifier">
-      <h5 [ngClass]="{'disabled': !verifier.result}"><strong>Step 3:</strong> Upload</h5>
-      <button class="btn btn-success btn-block" [ngClass]="{'disabled': !verifier.result}" [disabled]="!verifier.result" (click)="upload()">
+      <h5 [ngClass]="{'disabled': !verifier.isOkay}"><strong>Step 3:</strong> Upload</h5>
+      <button class="btn btn-success btn-block" [ngClass]="{'disabled': !verifier.isOkay}" [disabled]="!verifier.isOkay" (click)="upload()">
         Upload
       </button>
     </div>
     <div class="message-block" *ngIf="serverResponse">
       <div class="alert alert-success" [ngClass]="{'alert-warning': serverResponse.lines === 0}">
-        <span class="dingbat" *ngIf="!serverResponse.error"> + </span>
-        <span class="dingbat" *ngIf="serverResponse.error"> ! </span>
-        <span class="message"> {{ serverResponse.lines }} events read. </span>
+        <span class="dingbat" *ngIf="serverResponse.isOkay"> + </span>
+        <span class="dingbat" *ngIf="!serverResponse.isOkay"> ! </span>
+        <span class="message"> {{ serverResponse.num }} events read. </span>
       </div>
     </div>
-    <div class="message-block" *ngIf="serverResponse && serverResponse.error">
+    <div class="message-block" *ngIf="serverResponse && serverResponse.isOkay">
       <div class="alert alert-danger">
         <span class="dingbat"> X </span>
         <span class="message"> {{ serverResponse.message }} </span>

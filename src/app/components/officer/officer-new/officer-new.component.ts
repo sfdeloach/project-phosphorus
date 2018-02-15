@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 
 import { OfficerService } from '../../../services/officer.service';
 
-import { ServerResponse } from '../../../models/server-response.model';
+import { Result } from '../../../models/result.model';
 
 @Component({
   selector: 'app-officer-new',
@@ -12,7 +12,7 @@ import { ServerResponse } from '../../../models/server-response.model';
 })
 export class OfficerNewComponent implements OnInit {
   newOfficerForm: FormGroup;
-  serverResponse: ServerResponse;
+  result: Result;
   @ViewChild('deptIDInput') deptID: ElementRef; // used to autofocus deptID field
 
   constructor(
@@ -32,10 +32,10 @@ export class OfficerNewComponent implements OnInit {
     });
 
     this.ofcService.serverResponse.subscribe(
-      (res: ServerResponse) => {
-        this.serverResponse = res;
+      (res: Result) => {
+        this.result = res;
         setTimeout(() => {
-          this.serverResponse = undefined;
+          this.result = undefined;
         }, 1500);
       }
     );
