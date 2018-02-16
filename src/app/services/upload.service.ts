@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 import { Episode } from '../models/episode.model';
+import { Officer } from '../models/officer.model';
 import { Result } from '../models/result.model';
 
 import { CsvService } from './csv.service';
@@ -26,20 +27,33 @@ export class UploadService {
     private http: HttpClient
   ) { }
 
-  verify(fileContents: string): Result {
+  verify(fileContents: string, officers: Officer[]): Result {
     // Convert line endings - Windows style ("\r\n") to Unix style ("\n")
     const csvToTableArray = this.csv.toTableArray(fileContents);
 
     // Convert CSV to a JavaScript object if the file is valid format
     if (this.csv.isValidFile("XCAD", csvToTableArray[0])) {
-      this.episodes = this.xcad.xcadToEpisodes(csvToTableArray, this.episodes);
+      this.episodes = this.xcad.xcadToEpisodes(
+        csvToTableArray,
+        this.episodes,
+        officers
+      );
+
       return new Result(true, 'XCAD file successfully converted!');
+
     } else if (this.csv.isValidFile("Cafe", csvToTableArray[0])) {
-      this.episodes = this.cafe.cafeToEpisodes(csvToTableArray, this.episodes);
+      this.episodes = this.cafe.cafeToEpisodes(
+        csvToTableArray,
+        this.episodes,
+        officers
+      );
+
       return new Result(true, 'Cafe file successfully converted!');
+      
     }
 
     return new Result(false, 'Invalid file format.');
+
   }
 
   uploader() {
