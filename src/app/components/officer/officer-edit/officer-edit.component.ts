@@ -27,7 +27,6 @@ export class OfficerEditComponent implements OnInit {
   ngOnInit() {
     this.editOfficerForm = this.fb.group({
       'deptID': ['loading...please wait...', Validators.required],
-      'radioID': 'loading...please wait...',
       'name': this.fb.group({
         'last': ['loading...please wait...', Validators.required],
         'first': ['loading...please wait...', Validators.required]
@@ -43,7 +42,6 @@ export class OfficerEditComponent implements OnInit {
       (ofc: Officer) => {
         this.editOfficerForm = this.fb.group({
           'deptID': [ofc.deptID, Validators.required],
-          'radioID': ofc.radioID,
           'name': this.fb.group({
             'last': [ofc.name.last, Validators.required],
             'first': [ofc.name.first, Validators.required]

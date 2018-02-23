@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core'
 
 import { OfficerService } from '../../services/officer.service';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Officer } from '../../models/officer.model';
 import { Result } from '../../models/result.model';
@@ -10,18 +11,19 @@ import { Result } from '../../models/result.model';
   templateUrl: './officer.component.html',
   styleUrls: ['./officer.component.css']
 })
-export class OfficerComponent implements OnInit {
+export class OfficerComponent implements OnInit, OnDestroy {
   officers: Officer[];
+  officerSubscription: Subscription;
   result: Result;
   toggle: number = 1; // used for ascending and descending sorting
 
   constructor(
-    private ofcService: OfficerService
+    private officerService: OfficerService
   ) { }
 
   ngOnInit() {
     this.getOfficers();
-    this.ofcService.serverResponse.subscribe(
+    this.officerSubscription = this.officerService.serverResponse.subscribe(
       res => {
         this.result = res;
         setTimeout(() => {
@@ -31,16 +33,20 @@ export class OfficerComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.officerSubscription.unsubscribe();
+  }
+
   getOfficers() {
     this.officers = [];
-    this.ofcService.getOfficers();
-    this.ofcService.officers.subscribe(officers => {
+    this.officerService.getOfficers();
+    this.officerService.officers.subscribe(officers => {
       this.officers = officers.sort(this.sortOfficers);
     });
   }
 
   deleteOfc(ofc: Officer) {
-    this.ofcService.deleteOfficer(ofc);
+    this.officerService.deleteOfficer(ofc);
     this.officers.splice(this.officers.findIndex(
       element => {
         return element._id === ofc._id;

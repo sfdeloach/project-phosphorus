@@ -23,7 +23,6 @@ export class OfficerNewComponent implements OnInit {
   ngOnInit() {
     this.newOfficerForm = this.fb.group({
       'deptID': ['', Validators.required],
-      'radioID': '',
       'name': this.fb.group({
         'last': ['', Validators.required],
         'first': ['', Validators.required]

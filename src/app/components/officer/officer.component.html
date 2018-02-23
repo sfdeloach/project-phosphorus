@@ -6,7 +6,6 @@
         <tr>
           <th class="sortable" (click)="onHeaderClick('name', 'last')">Name</th>
           <th class="sortable" (click)="onHeaderClick('deptID')">Department ID</th>
-          <th class="sortable" (click)="onHeaderClick('radioID')">Radio ID</th>
           <th class="sortable" (click)="onHeaderClick('squad')">Squad</th>
           <th>Edit</th>
           <th>Delete</th>
@@ -16,7 +15,6 @@
         <tr *ngFor="let officer of officers">
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
-          <td>{{ officer.radioID }}</td>
           <td>{{ officer.squad }}</td>
           <td><a class="btn btn-info btn-sm" routerLink="/officers/{{ officer._id }}">&#9998;</a></td>
           <td><button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">&#10008;</button></td>

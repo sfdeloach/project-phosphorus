@@ -8,8 +8,8 @@ import { Result } from '../models/result.model';
 
 @Injectable()
 export class OfficerService {
-  officers: Subject<Officer[]> = new Subject();
   officer: Subject<Officer> = new Subject();
+  officers: Subject<Officer[]> = new Subject();
   serverResponse: Subject<Result> = new Subject();
   officersUrl: string = 'http://localhost:3000/api/officers';
   httpOptions = {

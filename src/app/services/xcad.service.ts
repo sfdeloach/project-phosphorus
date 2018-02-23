@@ -52,7 +52,7 @@ export class XCADService {
           new Date(record[1]), // created: Date
           record[2].trim(),    // eventType: string
           record[3].trim(),    // src: string
-          undefined,           // TODO: units: Officer[]
+          [new Officer("", 100, {last: "Smith",first: "Todd"}, "SCU")],           // TODO: units: Officer[]
           undefined,           // TODO: primaryUnit: Officer
           [record[7]]          // disps: string[]
         );

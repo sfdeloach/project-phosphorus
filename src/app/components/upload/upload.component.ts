@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerService } from '../../services/officer.service';
 import { UploadService } from '../../services/upload.service';
 
-import { Result } from '../../models/result.model';
 import { Officer } from '../../models/officer.model';
+import { Result } from '../../models/result.model';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css']
 })
-export class UploadComponent implements OnInit {
-  showInfo: boolean = false;
+export class UploadComponent implements OnInit, OnDestroy {
   file: File;
   officers: Officer[];
-  verifier: Result;
+  officerSubscription: Subscription;
   serverResponse: Result;
+  showInfo: boolean = false;
+  verifier: Result;
 
   constructor(
     private officerService: OfficerService,
@@ -24,11 +26,15 @@ export class UploadComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.officerService.officers.subscribe(
+    this.officerSubscription = this.officerService.officers.subscribe(
       (ofcs: Officer[]) => {
         this.officers = ofcs;
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.officerSubscription.unsubscribe();
   }
 
   toggleInfo() {
