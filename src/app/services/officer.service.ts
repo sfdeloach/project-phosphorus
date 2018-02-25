@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Subject } from 'rxjs/Subject';
@@ -40,8 +40,8 @@ export class OfficerService {
       (ofcs: Officer[]) => {
         this.officers.next(ofcs);
       },
-      (error) => {
-        console.error(error);
+      err => {
+        console.error(err);
       }
     );
   }

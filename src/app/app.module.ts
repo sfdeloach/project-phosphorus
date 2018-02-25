@@ -19,6 +19,7 @@ import { CafeService } from './services/cafe.service';
 import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
 import { OfficerService } from './services/officer.service';
+import { EpisodeService } from './services/episode.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { OfficerService } from './services/officer.service';
     CafeService,
     XCADService,
     UploadService,
-    OfficerService
+    OfficerService,
+    EpisodeService
   ],
   bootstrap: [AppComponent]
 })

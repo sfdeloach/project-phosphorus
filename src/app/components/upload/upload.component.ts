@@ -2,9 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerService } from '../../services/officer.service';
+import { EpisodeService } from '../../services/episode.service';
 import { UploadService } from '../../services/upload.service';
 
 import { Officer } from '../../models/officer.model';
+import { Episode } from '../../models/episode.model';
 import { Result } from '../../models/result.model';
 
 @Component({
@@ -15,13 +17,17 @@ import { Result } from '../../models/result.model';
 export class UploadComponent implements OnInit, OnDestroy {
   file: File;
   officers: Officer[];
+  episodes: Episode[];
   officerSubscription: Subscription;
+  episodeSubscription: Subscription;
+  uploadSubscription: Subscription;
   serverResponse: Result;
   showInfo: boolean = false;
   verifier: Result;
 
   constructor(
     private officerService: OfficerService,
+    private episodeService: EpisodeService,
     private uploadService: UploadService
   ) { }
 
@@ -31,10 +37,23 @@ export class UploadComponent implements OnInit, OnDestroy {
         this.officers = ofcs;
       }
     );
+
+    this.episodeSubscription = this.episodeService.episodes.subscribe(
+      (episodes: Episode[]) => {
+        this.episodes = episodes;
+      }
+    );
+
+    this.uploadSubscription = this.uploadService.serverResponse.subscribe(
+      (res: Result) => {
+        this.serverResponse = res;
+      });
   }
 
   ngOnDestroy() {
     this.officerSubscription.unsubscribe();
+    this.episodeSubscription.unsubscribe();
+    this.uploadSubscription.unsubscribe();
   }
 
   toggleInfo() {
@@ -46,23 +65,22 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.verifier = undefined;
     this.serverResponse = undefined;
     this.officerService.getOfficers();
+    this.episodeService.getEpisodes();
   }
 
   verify() {
     let fileReader: FileReader = new FileReader();
     fileReader.readAsText(this.file);
     fileReader.onload = (evt: ProgressEvent) => {
-      this.verifier = this.uploadService.verify(fileReader.result, this.officers);
+      this.verifier = this.uploadService.verify(
+        fileReader.result,
+        this.officers,
+        this.episodes);
       console.dir(this.uploadService.episodes); // TODO: remove after testing
     };
   }
 
   upload() {
-    // The lines read during the upload will be reported by the server
-    this.uploadService.serverResponse.subscribe(
-      (res: Result) => {
-        this.serverResponse = res;
-      });
     this.uploadService.uploader();
   }
 
