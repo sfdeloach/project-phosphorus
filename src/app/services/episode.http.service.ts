@@ -28,16 +28,28 @@ export class EpisodeService {
       err => {
         console.error(err);
       }
-    );
+      );
   }
 
-  uploadEpisodes(episodes: Episode[]) {
-    // TODO: Compare episodes on the db, upsert any docs that are not the same
-    console.log("TODO: implement upload/upsert functions");
-    this.updateEpisode(episodes[0]);
+  insertEpisode(episode: Episode) {
+    this.http.post<Result>(
+      this.episodesUrl + `/new`,
+      { episode: episode },
+      this.httpOptions
+    ).subscribe(
+      (res: Result) => {
+        this.serverResponse.next(res);
+      },
+      error => {
+        const errMessage: string = "Unable to connect to the API";
+        console.error(error);
+        this.serverResponse.next(new Result(true, errMessage, 0));
+      }
+      );
   }
 
   updateEpisode(episode: Episode) {
+    console.log("updateEpisode() called"); // TODO: RAT
     this.http.put<Result>(
       this.episodesUrl + `/${episode._id}`,
       { episode: episode },
@@ -51,7 +63,7 @@ export class EpisodeService {
         console.error(error);
         this.serverResponse.next(new Result(true, errMessage, 0));
       }
-    );
+      );
   }
 
 }

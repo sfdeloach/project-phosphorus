@@ -18,8 +18,8 @@ import { CsvService } from './services/csv.service';
 import { CafeService } from './services/cafe.service';
 import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
-import { OfficerService } from './services/officer.service';
-import { EpisodeService } from './services/episode.service';
+import { OfficerService } from './services/officer.http.service';
+import { EpisodeService } from './services/episode.http.service';
 
 @NgModule({
   declarations: [

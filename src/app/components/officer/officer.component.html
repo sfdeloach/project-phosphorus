@@ -4,20 +4,22 @@
     <table class="table">
       <thead>
         <tr>
+          <th>+/-</th>
           <th class="sortable" (click)="onHeaderClick('name', 'last')">Name</th>
           <th class="sortable" (click)="onHeaderClick('deptID')">ID No.</th>
           <th class="sortable" (click)="onHeaderClick('squad')">Squad</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let officer of officers">
+          <td>+</td>
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>
-          <td><a class="btn btn-info btn-sm" routerLink="/officers/{{ officer._id }}">&#9998;</a></td>
-          <td><button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">&#10008;</button></td>
+          <td><a class="btn btn-info btn-sm" routerLink="/officers/{{ officer._id }}">&#9998; edit</a></td>
+          <td><button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">&#10008; remove</button></td>
         </tr>
       </tbody>
     </table>

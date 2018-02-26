@@ -18,13 +18,15 @@
       </div>
       <div class="form-group">
         <label class="center-block">Squad:</label>
+        <!-- TODO: Allow the user to customize this list? -->
         <select class="form-control" formControlName="squad">
           <option value="Alpha">Alpha</option>
           <option value="Bravo">Bravo</option>
           <option value="Charlie">Charlie</option>
           <option value="Delta">Delta</option>
-          <option value="Traffic">Traffic</option>
           <option value="Street Crimes">Street Crimes</option>
+          <option value="Traffic">Traffic</option>
+          <option value="Uptown/Gateway">Uptown/Gateway</option>
         </select>
       </div>
       <button class="btn btn-success" type="button" (click)="onUpdate()">

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { OfficerService } from '../../../services/officer.service';
+import { OfficerService } from '../../../services/officer.http.service';
 
 import { Result } from '../../../models/result.model';
 

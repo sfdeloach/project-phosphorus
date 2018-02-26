@@ -125,17 +125,19 @@
         Upload
       </button>
     </div>
-    <div class="message-block" *ngIf="serverResponse">
-      <div class="alert alert-success" [ngClass]="{'alert-warning': serverResponse.lines === 0}">
-        <span class="dingbat" *ngIf="serverResponse.isOkay"> + </span>
-        <span class="dingbat" *ngIf="!serverResponse.isOkay"> ! </span>
-        <span class="message"> {{ serverResponse.num }} events read. </span>
+
+    <div *ngFor="let response of serverResponses">
+      <div class="message-block" *ngIf="response.isOkay">
+        <div class="alert alert-success" [ngClass]="{'alert-warning': response.num === 0}">
+          <span class="dingbat"> + </span>
+          <span class="message"> {{ response.message }} </span>
+        </div>
       </div>
-    </div>
-    <div class="message-block" *ngIf="serverResponse && serverResponse.isOkay">
-      <div class="alert alert-danger">
-        <span class="dingbat"> X </span>
-        <span class="message"> {{ serverResponse.message }} </span>
+      <div class="message-block" *ngIf="!response.isOkay">
+        <div class="alert alert-danger">
+          <span class="dingbat"> X </span>
+          <span class="message"> {{ response.message }} </span>
+        </div>
       </div>
     </div>
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { OfficerService } from '../../../services/officer.service';
+import { OfficerService } from '../../../services/officer.http.service';
 
 import { Officer } from '../../../models/officer.model';
 import { Result } from '../../../models/result.model';

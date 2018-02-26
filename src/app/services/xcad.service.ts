@@ -35,7 +35,13 @@ export class XCADService {
       const officer: Officer = this.isIncludedOfficer(deptID) ?
         this.getOfficer(deptID) : undefined;
 
-      if (officer) {
+      if (officer) { // TODO: analyze if this is the intended design, maybe all records should be processed?
+        // Keep it the way it is...will it build a db similar to the old system where all stats are disregarded
+        // unless you are in patrol..
+        // If this conditional is removed, all records are brought into the assembled db, and all episodes for an
+        // officer will be counted prior to their arrival in patrol
+        // ...maybe each officer will need a new Date property of when the squad assignment is effective? no this
+        // might be a problem for officers who transfer within patrol, unless the default is October 1st????
         const eventNbr: number = +record[0].trim();
         const created: Date = new Date(record[1]);
         const eventType: string = record[2].trim();
