@@ -31,10 +31,27 @@ export class EpisodeService {
       );
   }
 
-  insertEpisode(episode: Episode) {
+  // insertEpisode(episode: Episode) {
+  //   this.http.post<Result>(
+  //     this.episodesUrl + `/new-one`,
+  //     { episode: episode },
+  //     this.httpOptions
+  //   ).subscribe(
+  //     (res: Result) => {
+  //       this.serverResponse.next(res);
+  //     },
+  //     error => {
+  //       const errMessage: string = "Unable to connect to the API";
+  //       console.error(error);
+  //       this.serverResponse.next(new Result(true, errMessage, 0));
+  //     }
+  //     );
+  // }
+
+  insertEpisodes(episodes: Episode[]) {
     this.http.post<Result>(
-      this.episodesUrl + `/new`,
-      { episode: episode },
+      this.episodesUrl + `/new-many`,
+      { episodes: episodes },
       this.httpOptions
     ).subscribe(
       (res: Result) => {
@@ -49,7 +66,6 @@ export class EpisodeService {
   }
 
   updateEpisode(episode: Episode) {
-    console.log("updateEpisode() called"); // TODO: RAT
     this.http.put<Result>(
       this.episodesUrl + `/${episode._id}`,
       { episode: episode },
@@ -65,5 +81,4 @@ export class EpisodeService {
       }
       );
   }
-
 }

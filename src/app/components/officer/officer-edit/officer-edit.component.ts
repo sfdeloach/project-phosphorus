@@ -15,7 +15,7 @@ import { Result } from '../../../models/result.model';
 export class OfficerEditComponent implements OnInit {
   database_id: string; // this will hold the MongoDB assigned _id field
   editOfficerForm: FormGroup;
-  result: Result;
+  result: Result = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,7 +60,7 @@ export class OfficerEditComponent implements OnInit {
     this.ofcService.serverResponse.subscribe(
       (res: Result) => {
         // navigate back to squad overview after successful response
-        if (!res.isOkay) {
+        if (res.isOkay) {
           this.router.navigate(['/officers']);
         } else {
           console.error("An error occurred during the update");

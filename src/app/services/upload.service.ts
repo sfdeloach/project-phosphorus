@@ -53,28 +53,24 @@ export class UploadService {
 
   uploader(originalEpisodes: Episode[]) {
     this.originalEpisodes = originalEpisodes;
+    let episodeInsertGroup: Episode[] = [];
 
-    this.updatedEpisodes.forEach(updatedEp => {
+    this.updatedEpisodes.forEach((updatedEp, index) => {
       if (this.alreadyExists(updatedEp)) {
         const oldEpisode: string = JSON.stringify(this.getExisting(updatedEp));
-
-        console.dir(`${updatedEp.call.eventNbr} already exists`);  // TODO: RAT
-        // console.dir(`old:`);  // TODO: RAT
-        // console.dir(this.getExisting(updatedEp));  // TODO: RAT
-        // console.dir(`new:`);  // TODO: RAT
-        // console.dir(updatedEp);  // TODO: RAT
 
         // update existing episode IF there is any change!
         if (oldEpisode !== JSON.stringify(updatedEp)) {
           console.dir(`need to UPDATE`);  // TODO: RAT
           this.episodeService.updateEpisode(updatedEp);
-        } else { // TODO: RAT this else statement
-          console.dir(`no need to update, episode unchanged`);  // TODO: RAT
         }
-
       } else { // insert new episode
-        console.dir(`${updatedEp.call.eventNbr} does NOT exist`);  // TODO: RAT
-        this.episodeService.insertEpisode(updatedEp);
+        episodeInsertGroup.push(updatedEp);
+        if (episodeInsertGroup.length === 500 || this.isLastEpisode(index)) {
+          console.dir(`uploading to database...`);  // TODO: RAT
+          this.episodeService.insertEpisodes(episodeInsertGroup);
+          episodeInsertGroup = [];
+        }
       }
     });
   }
@@ -91,6 +87,10 @@ export class UploadService {
     return this.originalEpisodes.find(originalEp => {
       return originalEp.call.eventNbr === updatedEp.call.eventNbr;
     });
+  }
+
+  isLastEpisode(index: number): boolean {
+    return this.updatedEpisodes.length === (index + 1);
   }
 
 }
