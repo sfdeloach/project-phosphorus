@@ -1,10 +1,7 @@
 export class Result {
-
   constructor(
-    public isOkay: boolean,
+    public error: Error,
     public message?: string,
-    public num?: number,
-    public timestamp?: Date
+    public num?: number
   ) { }
-
 }

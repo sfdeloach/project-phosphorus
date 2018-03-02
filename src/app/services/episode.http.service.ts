@@ -58,9 +58,8 @@ export class EpisodeService {
         this.serverResponse.next(res);
       },
       error => {
-        const errMessage: string = "Unable to connect to the API";
         console.error(error);
-        this.serverResponse.next(new Result(true, errMessage, 0));
+        this.serverResponse.next(new Result(error));
       }
       );
   }
@@ -75,9 +74,8 @@ export class EpisodeService {
         this.serverResponse.next(res);
       },
       error => {
-        const errMessage: string = "Unable to connect to the API";
         console.error(error);
-        this.serverResponse.next(new Result(true, errMessage, 0));
+        this.serverResponse.next(new Result(error));
       }
       );
   }

@@ -56,9 +56,10 @@ export class OfficerService {
         this.serverResponse.next(res);
       },
       error => {
-        const errMessage: string = "Unable to connect to the API";
         console.error(error);
-        this.serverResponse.next(new Result(true, errMessage, 0));
+        this.serverResponse.next(new Result(
+          new Error('Unable to connect to the API')
+        ));
       }
     );
   }
@@ -73,9 +74,10 @@ export class OfficerService {
         this.serverResponse.next(res);
       },
       error => {
-        const errMessage: string = "Unable to connect to the API";
         console.error(error);
-        this.serverResponse.next(new Result(true, errMessage, 0));
+        this.serverResponse.next(new Result(
+          new Error('Unable to connect to the API')
+        ));
       }
     );
   }
@@ -89,10 +91,10 @@ export class OfficerService {
         this.serverResponse.next(res);
       },
       error => {
-        const errMessage: string = "An error occurred during a DELETE request"
-        console.error(errMessage);
         console.error(error);
-        this.serverResponse.next(new Result(true, errMessage, 0));
+        this.serverResponse.next(new Result(
+          new Error('Unable to connect to the API')
+        ));
       }
     );
   }

@@ -60,11 +60,11 @@ export class OfficerEditComponent implements OnInit {
     this.ofcService.serverResponse.subscribe(
       (res: Result) => {
         // navigate back to squad overview after successful response
-        if (res.isOkay) {
-          this.router.navigate(['/officers']);
-        } else {
+        if (res.error) {
           console.error("An error occurred during the update");
           this.result = res;
+        } else {
+          this.router.navigate(['/officers']);
         }
       }
     );

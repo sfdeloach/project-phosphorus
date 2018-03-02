@@ -112,31 +112,36 @@
       Verify
     </button>
     <div class="message-block" *ngIf="verifier">
-      <div class="alert" [ngClass]="{'alert-danger': !verifier.isOkay, 'alert-success': verifier.isOkay}">
-        <span class="dingbat" *ngIf="verifier.isOkay"> + </span>
-        <span class="dingbat" *ngIf="!verifier.isOkay"> X </span>
-        <span class="message"> {{ verifier.message }} </span>
+      <div class="alert" [ngClass]="{'alert-danger': verifier.error, 'alert-success': !verifier.error}">
+        <span *ngIf="!verifier.error">
+          <span class="dingbat"> + </span>
+          <span class="message"> {{ verifier.message }} </span>
+        </span>
+        <span *ngIf="verifier.error">
+          <span class="dingbat"> X </span>
+          <span class="message"> {{ verifier.error.message }} </span>
+        </span>
       </div>
     </div>
 
     <div *ngIf="verifier">
-      <h5 [ngClass]="{'disabled': !verifier.isOkay}"><strong>Step 3:</strong> Upload</h5>
-      <button class="btn btn-success btn-block" [ngClass]="{'disabled': !verifier.isOkay}" [disabled]="!verifier.isOkay" (click)="upload()">
+      <h5 [ngClass]="{'disabled': verifier.error}"><strong>Step 3:</strong> Upload</h5>
+      <button class="btn btn-success btn-block" [ngClass]="{'disabled': verifier.error}" [disabled]="verifier.error" (click)="upload()">
         Upload
       </button>
     </div>
 
     <div *ngFor="let response of serverResponses">
-      <div class="message-block" *ngIf="response.isOkay">
+      <div class="message-block" *ngIf="!response.error">
         <div class="alert alert-success" [ngClass]="{'alert-warning': response.num === 0}">
           <span class="dingbat"> + </span>
           <span class="message"> {{ response.message }} </span>
         </div>
       </div>
-      <div class="message-block" *ngIf="!response.isOkay">
+      <div class="message-block" *ngIf="response.error">
         <div class="alert alert-danger">
           <span class="dingbat"> X </span>
-          <span class="message"> {{ response.message }} </span>
+          <span class="message"> {{ response.error.message }} </span>
         </div>
       </div>
     </div>

@@ -13,28 +13,23 @@ import { Result } from '../../models/result.model';
 })
 export class OfficerComponent implements OnInit, OnDestroy {
   officers: Officer[];
-  officerSubscription: Subscription;
-  result: Result;
-  toggle: number = 1; // used for ascending and descending sorting
+  officersSubX: Subscription;
+  sortToggle: number = 1;
 
   constructor(
     private officerService: OfficerService
   ) { }
 
   ngOnInit() {
+    this.officersSubX = this.officerService.officers.subscribe(officers => {
+      this.officers = officers.sort(this.sortOfficers);
+    });
+
     this.getOfficers();
-    this.officerSubscription = this.officerService.serverResponse.subscribe(
-      res => {
-        this.result = res;
-        setTimeout(() => {
-          this.result = undefined;
-        }, 1500);
-      }
-    );
   }
 
   ngOnDestroy() {
-    this.officerSubscription.unsubscribe();
+    this.officersSubX.unsubscribe();
   }
 
   getOfficers() {
@@ -54,10 +49,10 @@ export class OfficerComponent implements OnInit, OnDestroy {
   }
 
   onHeaderClick(parentProperty: string, childProperty?: string) {
-    this.toggle = this.toggle * -1;
+    this.sortToggle = this.sortToggle * -1;
     this.officers.sort(
       this.sortByProperty(
-        this.toggle, parentProperty, childProperty
+        this.sortToggle, parentProperty, childProperty
       )
     );
   }
