@@ -135,7 +135,7 @@
       <div class="message-block" *ngIf="!response.error">
         <div class="alert alert-success" [ngClass]="{'alert-warning': response.num === 0}">
           <span class="dingbat"> + </span>
-          <span class="message"> {{ response.message }} </span>
+          <span class="message"> {{ response.num }} {{ response.message }} </span>
         </div>
       </div>
       <div class="message-block" *ngIf="response.error">

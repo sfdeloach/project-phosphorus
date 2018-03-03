@@ -50,7 +50,7 @@ export class EpisodeService {
 
   insertEpisodes(episodes: Episode[]) {
     this.http.post<Result>(
-      this.episodesUrl + `/new-many`,
+      this.episodesUrl + `/insert-many`,
       { episodes: episodes },
       this.httpOptions
     ).subscribe(
