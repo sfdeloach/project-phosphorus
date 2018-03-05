@@ -23,11 +23,8 @@ export class OfficerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.officersSubX = this.officerService.officers.subscribe(officers => {
       this.officers = officers.sort(this.sortOfficers);
-      console.log('here are the officers:');
-      console.dir(this.officers);
     });
 
-    console.log('getting officers...');
     this.getOfficers();
   }
 
