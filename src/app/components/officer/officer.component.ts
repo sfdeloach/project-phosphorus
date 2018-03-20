@@ -4,7 +4,6 @@ import { OfficerService } from '../../services/officer.http.service';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Officer } from '../../models/officer.model';
-import { Result } from '../../models/result.model';
 
 @Component({
   selector: 'app-officer',
@@ -35,9 +34,6 @@ export class OfficerComponent implements OnInit, OnDestroy {
   getOfficers() {
     this.officers = [];
     this.officerService.getOfficers();
-    this.officerService.officers.subscribe(officers => {
-      this.officers = officers.sort(this.sortOfficers);
-    });
   }
 
   deleteOfc(ofc: Officer) {

@@ -4,13 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 import { Officer } from '../models/officer.model';
-import { Result } from '../models/result.model';
+import { ReplaceOneResponse } from '../models/responses/replace.one.model';
 
 @Injectable()
 export class OfficerService {
   officer: Subject<Officer> = new Subject();
   officers: Subject<Officer[]> = new Subject();
-  serverResponse: Subject<Result> = new Subject();
+  response: Subject<any> = new Subject(); // TODO: type?
   officersUrl: string = 'http://localhost:3000/api/officers';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,11 +21,11 @@ export class OfficerService {
   ) { }
 
   getOfficer(id: string) {
-    this.http.get<Officer>(
+    this.http.get<Officer[]>(
       this.officersUrl + `/${id}`
     ).subscribe(
-      (ofc: Officer) => {
-        this.officer.next(ofc);
+      (ofc: Officer[]) => {
+        this.officer.next(ofc[0]);
       },
       (error) => {
         console.error(error);
@@ -47,54 +47,48 @@ export class OfficerService {
   }
 
   insertOfficer(ofc: Officer) {
-    this.http.post<Result>(
-      this.officersUrl + `/new`,
-      { officer: ofc },
+    this.http.post<any>( // TODO: type?
+      this.officersUrl,
+      { officers: [ ofc ] },
       this.httpOptions
     ).subscribe(
-      (res: Result) => {
-        this.serverResponse.next(res);
+      (res: any) => { // TODO: type?
+        this.response.next(res);
       },
       error => {
         console.error(error);
-        this.serverResponse.next(new Result(
-          new Error('Unable to connect to the API')
-        ));
+        this.response.next(error);
       }
     );
   }
 
-  updateOfficer(ofc: Officer) {
-    this.http.put<Result>(
-      this.officersUrl + `/${ofc._id}`,
+  updateOfficer(_id: string, ofc: Officer) {
+    this.http.put<ReplaceOneResponse>(
+      this.officersUrl + `/${_id}`,
       { officer: ofc },
       this.httpOptions
     ).subscribe(
-      (res: Result) => {
-        this.serverResponse.next(res);
+      (res: ReplaceOneResponse) => {
+        this.response.next(res);
       },
       error => {
         console.error(error);
-        this.serverResponse.next(new Result(
-          new Error('Unable to connect to the API')
-        ));
+        this.response.next(error);
       }
     );
   }
 
   deleteOfficer(ofc: Officer) {
-    this.http.delete<Result>(
+    this.http.delete<any>(
       this.officersUrl + `/${ofc._id}`,
       this.httpOptions
     ).subscribe(
-      (res: Result) => {
-        this.serverResponse.next(res);
+      (res: any) => {
+        this.response.next(res);
       },
       error => {
         console.error(error);
-        this.serverResponse.next(new Result(
-          new Error('Unable to connect to the API')
-        ));
+        this.response.next(error);
       }
     );
   }

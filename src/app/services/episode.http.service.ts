@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { Episode } from '../models/episode.model';
-import { Result } from '../models/result.model';
 
 @Injectable()
 export class EpisodeService {
   episodes: Subject<Episode[]> = new Subject();
-  serverResponse: Subject<Result> = new Subject();
+  serverResponse: Subject<any> = new Subject(); // TODO: Come back and type this?
   episodesUrl: string = 'http://localhost:3000/api/episodes';
   connectionError: string = "Unable to connect to the API";
   httpOptions = {
@@ -31,51 +30,34 @@ export class EpisodeService {
       );
   }
 
-  // insertEpisode(episode: Episode) {
-  //   this.http.post<Result>(
-  //     this.episodesUrl + `/new-one`,
-  //     { episode: episode },
-  //     this.httpOptions
-  //   ).subscribe(
-  //     (res: Result) => {
-  //       this.serverResponse.next(res);
-  //     },
-  //     error => {
-  //       const errMessage: string = "Unable to connect to the API";
-  //       console.error(error);
-  //       this.serverResponse.next(new Result(true, errMessage, 0));
-  //     }
-  //     );
-  // }
-
   insertEpisodes(episodes: Episode[]) {
-    this.http.post<Result>(
+    this.http.post<any>( // TODO: type?
       this.episodesUrl + `/new-many`,
       { episodes: episodes },
       this.httpOptions
     ).subscribe(
-      (res: Result) => {
+      (res: any) => { // TODO: type?
         this.serverResponse.next(res);
       },
       error => {
         console.error(error);
-        this.serverResponse.next(new Result(error));
+        this.serverResponse.next(error);
       }
       );
   }
 
   updateEpisode(episode: Episode) {
-    this.http.put<Result>(
+    this.http.put<any>( // TODO: type?
       this.episodesUrl + `/${episode._id}`,
       { episode: episode },
       this.httpOptions
     ).subscribe(
-      (res: Result) => {
+      (res: any) => { // TODO: type?
         this.serverResponse.next(res);
       },
       error => {
         console.error(error);
-        this.serverResponse.next(new Result(error));
+        this.serverResponse.next(error);
       }
       );
   }

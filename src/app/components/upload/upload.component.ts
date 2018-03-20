@@ -7,7 +7,6 @@ import { UploadService } from '../../services/upload.service';
 
 import { Officer } from '../../models/officer.model';
 import { Episode } from '../../models/episode.model';
-import { Result } from '../../models/result.model';
 
 @Component({
   selector: 'app-upload',
@@ -21,9 +20,9 @@ export class UploadComponent implements OnInit, OnDestroy {
   officerSubscription: Subscription;
   episodeSubscription: Subscription;
   uploadSubscription: Subscription;
-  serverResponses: Result[];
+  serverResponses; // TODO determine the type
   showInfo: boolean = false;
-  verifier: Result;
+  verifier; // TODO determine the type
 
   constructor(
     private officerService: OfficerService,
@@ -45,7 +44,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     );
 
     this.uploadSubscription = this.episodeService.serverResponse.subscribe(
-      (res: Result) => {
+      (res) => { // TODO: determine the type
         this.serverResponses.push(res);
       });
   }

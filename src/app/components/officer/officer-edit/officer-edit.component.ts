@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerService } from '../../../services/officer.http.service';
 
 import { Officer } from '../../../models/officer.model';
-import { Result } from '../../../models/result.model';
+import { Message } from '../../../models/message.model';
+import { ReplaceOneResponse } from '../../../models/responses/replace.one.model';
 
 @Component({
   selector: 'app-officer-edit',
   templateUrl: './officer-edit.component.html',
   styleUrls: ['./officer-edit.component.css']
 })
-export class OfficerEditComponent implements OnInit {
-  database_id: string; // this will hold the MongoDB assigned _id field
+export class OfficerEditComponent implements OnInit, OnDestroy {
+  _id: string; // Mongo Object ID
   editOfficerForm: FormGroup;
-  result: Result = undefined;
+  responseX: Subscription;
+  officerX: Subscription;
+  message: Message;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,20 +29,31 @@ export class OfficerEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this._id = this.route.snapshot.params.id;
+    this.ofcService.getOfficer(this._id);
+    this.message = new Message();
+
     this.editOfficerForm = this.fb.group({
-      'deptID': ['loading...please wait...', Validators.required],
+      'deptID': ['loading...', Validators.required],
       'name': this.fb.group({
-        'last': ['loading...please wait...', Validators.required],
-        'first': ['loading...please wait...', Validators.required]
+        'last': ['loading...', Validators.required],
+        'first': ['loading...', Validators.required]
       }),
-      'squad': 'loading...please wait...'
+      'squad': 'loading...'
     });
 
-    this.database_id = this.route.snapshot.params.id;
+    this.responseX = this.ofcService.response.subscribe(
+      (res: ReplaceOneResponse) => {
+        if (res.nModified === 1) {
+          this.router.navigate(['/officers']);
+        } else {
+          this.message.info = undefined;
+          this.message.danger = 'Update failed';
+        }
+      }
+    );
 
-    this.ofcService.getOfficer(this.database_id);
-
-    this.ofcService.officer.subscribe(
+    this.officerX = this.ofcService.officer.subscribe(
       (ofc: Officer) => {
         this.editOfficerForm = this.fb.group({
           'deptID': [ofc.deptID, Validators.required],
@@ -52,22 +67,14 @@ export class OfficerEditComponent implements OnInit {
     );
   }
 
-  onUpdate() {
-    // add the db ID back to the object before sending to the update service
-    this.editOfficerForm.value._id = this.database_id;
-    this.ofcService.updateOfficer(this.editOfficerForm.value);
+  ngOnDestroy() {
+    this.responseX.unsubscribe();
+    this.officerX.unsubscribe();
+  }
 
-    this.ofcService.serverResponse.subscribe(
-      (res: Result) => {
-        // navigate back to squad overview after successful response
-        if (res.error) {
-          console.error("An error occurred during the update");
-          this.result = res;
-        } else {
-          this.router.navigate(['/officers']);
-        }
-      }
-    );
+  onUpdate() {
+    this.message.info = "Saving changes..."
+    this.ofcService.updateOfficer(this._id, this.editOfficerForm.value);
   }
 
   onKeypress(evt: KeyboardEvent) {

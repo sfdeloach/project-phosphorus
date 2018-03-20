@@ -5,7 +5,6 @@ import { Subject } from 'rxjs/Subject';
 
 import { Episode } from '../models/episode.model';
 import { Officer } from '../models/officer.model';
-import { Result } from '../models/result.model';
 
 import { CsvService } from './csv.service';
 import { XCADService } from './xcad.service';
@@ -28,7 +27,7 @@ export class UploadService {
     private episodeService: EpisodeService
   ) { }
 
-  verify(fileContents: string, officers: Officer[], episodes: Episode[]): Result {
+  verify(fileContents: string, officers: Officer[], episodes: Episode[]): string {
     // Convert line endings - Windows style ("\r\n") to Unix style ("\n")
     const tableArray = this.csvService.toTableArray(fileContents);
 
@@ -39,16 +38,16 @@ export class UploadService {
         episodes,
         officers
       );
-      return new Result(null, 'XCAD file successfully converted');
+      return 'XCAD file successfully converted';
     } else if (this.csvService.isValidFile("Cafe", tableArray[0])) {
       this.updatedEpisodes = this.cafeService.cafeToEpisodes(
         tableArray,
         episodes,
         officers
       );
-      return new Result(null, 'Cafe file successfully converted');
+      return 'Cafe file successfully converted';
     }
-    return new Result(new Error('Invalid file format.'));
+    return 'Invalid file format';
   }
 
   uploader(originalEpisodes: Episode[]) {

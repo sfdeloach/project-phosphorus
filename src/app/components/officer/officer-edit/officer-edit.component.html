@@ -18,7 +18,6 @@
       </div>
       <div class="form-group">
         <label class="center-block">Squad:</label>
-        <!-- TODO: Allow the user to customize this list? -->
         <select class="form-control" formControlName="squad">
           <option value="Alpha">Alpha</option>
           <option value="Bravo">Bravo</option>
@@ -34,8 +33,11 @@
       </button>
       <a class="btn btn-secondary float-right" routerLink="/officers">Cancel</a>
     </form>
-    <div class="alert alert-danger" *ngIf="result && !result.isOkay">
-      {{ result.message }}
+    <div class="alert alert-danger" *ngIf="message.danger">
+      {{ message.danger }}
+    </div>
+    <div class="alert alert-info" *ngIf="message.info">
+      {{ message.info }}
     </div>
   </div>
 </div>
