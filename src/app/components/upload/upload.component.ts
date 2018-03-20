@@ -79,7 +79,6 @@ export class UploadComponent implements OnInit, OnDestroy {
         fileReader.result,
         this.officers,
         episodesDeepCopy);
-      console.dir(this.uploadService.updatedEpisodes); // TODO: remove after testing
     };
   }
 
