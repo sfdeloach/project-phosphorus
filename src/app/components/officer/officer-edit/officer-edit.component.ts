@@ -17,22 +17,18 @@ import { ReplaceOneResponse } from '../../../models/responses/replace.one.model'
 export class OfficerEditComponent implements OnInit, OnDestroy {
   _id: string; // Mongo Object ID
   editOfficerForm: FormGroup;
+  message: Message;
   responseX: Subscription;
   officerX: Subscription;
-  message: Message;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder,
     private ofcService: OfficerService
   ) { }
 
   ngOnInit() {
-    this._id = this.route.snapshot.params.id;
-    this.ofcService.getOfficer(this._id);
-    this.message = new Message();
-
     this.editOfficerForm = this.fb.group({
       'deptID': ['loading...', Validators.required],
       'name': this.fb.group({
@@ -48,7 +44,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
           this.router.navigate(['/officers']);
         } else {
           this.message.info = undefined;
-          this.message.danger = 'Update failed';
+          this.message.danger = 'Unable to update officer';
         }
       }
     );
@@ -65,6 +61,10 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
         });
       }
     );
+
+    this._id = this.route.snapshot.params.id;
+    this.ofcService.getOfficer(this._id);
+    this.message = new Message();
   }
 
   ngOnDestroy() {
@@ -73,7 +73,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
   }
 
   onUpdate() {
-    this.message.info = "Saving changes..."
+    this.message.info = "Saving changes, please wait..."
     this.ofcService.updateOfficer(this._id, this.editOfficerForm.value);
   }
 

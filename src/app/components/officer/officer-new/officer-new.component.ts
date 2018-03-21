@@ -1,15 +1,22 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerService } from '../../../services/officer.http.service';
+
+import { Officer } from '../../../models/officer.model';
+import { Message } from '../../../models/message.model';
+import { InsertManyResponse } from '../../../models/responses/insert.many.model';
 
 @Component({
   selector: 'app-officer-new',
   templateUrl: './officer-new.component.html',
   styleUrls: ['./officer-new.component.css']
 })
-export class OfficerNewComponent implements OnInit {
+export class OfficerNewComponent implements OnInit, OnDestroy {
   newOfficerForm: FormGroup;
+  message: Message;
+  responseX: Subscription;
   @ViewChild('deptIDInput') deptID: ElementRef; // used to autofocus deptID field
 
   constructor(
@@ -27,12 +34,29 @@ export class OfficerNewComponent implements OnInit {
       'squad': ''
     });
 
+    this.responseX = this.ofcService.response.subscribe(
+      (res: InsertManyResponse<Officer>) => {
+        this.message.info = undefined;
+        if (res.result.ok) {
+          this.message.success = "Officer added"
+        } else {
+          this.message.danger = "Unable to add officer"
+        }
+      }
+    );
+
+    this.message = new Message();
     this.resetForm();
   }
 
+  ngOnDestroy() {
+    this.responseX.unsubscribe();
+  }
+
   onSubmit() {
-    this.ofcService.insertOfficer(this.newOfficerForm.value);
+    this.message = new Message('Saving officer, please wait...');
     this.resetForm();
+    this.ofcService.insertOfficer(this.newOfficerForm.value);
   }
 
   resetForm() {

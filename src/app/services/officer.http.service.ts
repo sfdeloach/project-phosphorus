@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { Officer } from '../models/officer.model';
 import { ReplaceOneResponse } from '../models/responses/replace.one.model';
+import { InsertManyResponse } from '../models/responses/insert.many.model';
 
 @Injectable()
 export class OfficerService {
@@ -47,12 +48,12 @@ export class OfficerService {
   }
 
   insertOfficer(ofc: Officer) {
-    this.http.post<any>( // TODO: type?
+    this.http.post<InsertManyResponse<Officer>>(
       this.officersUrl,
       { officers: [ ofc ] },
       this.httpOptions
     ).subscribe(
-      (res: any) => { // TODO: type?
+      (res: InsertManyResponse<Officer>) => {
         this.response.next(res);
       },
       error => {
