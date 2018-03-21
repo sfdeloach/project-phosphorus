@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerService } from '../../services/officer.http.service';
-import { EpisodeService } from '../../services/episode.http.service';
+import { OfficerHTTPService } from '../../services/officer.http.service';
+import { EpisodeHTTPService } from '../../services/episode.http.service';
 import { UploadService } from '../../services/upload.service';
 
 import { Officer } from '../../models/officer.model';
@@ -25,8 +25,8 @@ export class UploadComponent implements OnInit, OnDestroy {
   verifier; // TODO determine the type
 
   constructor(
-    private officerService: OfficerService,
-    private episodeService: EpisodeService,
+    private officerService: OfficerHTTPService,
+    private episodeService: EpisodeHTTPService,
     private uploadService: UploadService
   ) { }
 

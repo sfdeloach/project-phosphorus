@@ -26,5 +26,8 @@
     <a class="btn btn-primary" routerLink="/officers/new">
       Add new officer
     </a>
+    <div class="alert alert-danger" *ngIf="message.danger">
+      {{ message.danger }}
+    </div>
   </div>
 </div>

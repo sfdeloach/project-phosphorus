@@ -7,7 +7,8 @@ export class Officer {
       last: string,
       first: string
     },
-    public squad: string
+    public squad: string,
+    public error?: string
   ) { }
 
 }

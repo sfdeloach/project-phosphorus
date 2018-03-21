@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 
-import { OfficerService } from '../../services/officer.http.service';
+import { OfficerHTTPService } from '../../services/officer.http.service';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Officer } from '../../models/officer.model';
+import { Message } from '../../models/message.model';
 
 @Component({
   selector: 'app-officer',
@@ -13,17 +14,24 @@ import { Officer } from '../../models/officer.model';
 export class OfficerComponent implements OnInit, OnDestroy {
   officers: Officer[];
   officersSubX: Subscription;
+  message: Message;
   sortToggle: number = 1;
 
   constructor(
-    private officerService: OfficerService
+    private officerService: OfficerHTTPService
   ) { }
 
   ngOnInit() {
     this.officersSubX = this.officerService.officers.subscribe(officers => {
-      this.officers = officers.sort(this.sortOfficers);
+      if (!officers[0].error) {
+        this.officers = officers.sort(this.sortOfficers);
+      } else {
+        this.message.danger = officers[0].error;
+        console.error(officers[0].error);
+      }
     });
 
+    this.message = new Message();
     this.getOfficers();
   }
 

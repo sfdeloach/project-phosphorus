@@ -9,7 +9,7 @@ import { Officer } from '../models/officer.model';
 import { CsvService } from './csv.service';
 import { XCADService } from './xcad.service';
 import { CafeService } from './cafe.service';
-import { EpisodeService } from './episode.http.service';
+import { EpisodeHTTPService } from './episode.http.service';
 
 @Injectable()
 export class UploadService {
@@ -24,7 +24,7 @@ export class UploadService {
     private csvService: CsvService,
     private xcadService: XCADService,
     private cafeService: CafeService,
-    private episodeService: EpisodeService
+    private episodeService: EpisodeHTTPService
   ) { }
 
   verify(fileContents: string, officers: Officer[], episodes: Episode[]): string {

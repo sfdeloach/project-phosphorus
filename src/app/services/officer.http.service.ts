@@ -8,7 +8,7 @@ import { ReplaceOneResponse } from '../models/responses/replace.one.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 
 @Injectable()
-export class OfficerService {
+export class OfficerHTTPService {
   officer: Subject<Officer> = new Subject();
   officers: Subject<Officer[]> = new Subject();
   response: Subject<any> = new Subject(); // TODO: type?
@@ -39,7 +39,12 @@ export class OfficerService {
       this.officersUrl
     ).subscribe(
       (ofcs: Officer[]) => {
-        this.officers.next(ofcs);
+        if (Array.isArray(ofcs)) {
+          this.officers.next(ofcs);
+        } else {
+          // most likely an error from the server
+          this.officers.next([ofcs]);
+        }
       },
       err => {
         console.error(err);

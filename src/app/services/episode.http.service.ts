@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { Episode } from '../models/episode.model';
 
 @Injectable()
-export class EpisodeService {
+export class EpisodeHTTPService {
   episodes: Subject<Episode[]> = new Subject();
   serverResponse: Subject<any> = new Subject(); // TODO: Come back and type this?
   episodesUrl: string = 'http://localhost:3000/api/episodes';

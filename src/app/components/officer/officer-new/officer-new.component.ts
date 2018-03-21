@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerService } from '../../../services/officer.http.service';
+import { OfficerHTTPService } from '../../../services/officer.http.service';
 
 import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';
@@ -16,12 +16,12 @@ import { InsertManyResponse } from '../../../models/responses/insert.many.model'
 export class OfficerNewComponent implements OnInit, OnDestroy {
   newOfficerForm: FormGroup;
   message: Message;
-  responseX: Subscription;
+  response: Subscription;
   @ViewChild('deptIDInput') deptID: ElementRef; // used to autofocus deptID field
 
   constructor(
     private fb: FormBuilder,
-    private ofcService: OfficerService
+    private ofcService: OfficerHTTPService
   ) { }
 
   ngOnInit() {
@@ -34,32 +34,35 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
       'squad': ''
     });
 
-    this.responseX = this.ofcService.response.subscribe(
+    this.response = this.ofcService.response.subscribe(
       (res: InsertManyResponse<Officer>) => {
         this.message.info = undefined;
-        if (res.result.ok) {
-          this.message.success = "Officer added"
+        if (res.error) {
+          this.message.danger = res.error;
+          console.error(res);
+        } else if (res.result.ok) {
+          this.message.success = "Officer saved"
         } else {
-          this.message.danger = "Unable to add officer"
+          this.message.warning = 'Unsure what happened'
         }
       }
     );
 
-    this.message = new Message();
     this.resetForm();
   }
 
   ngOnDestroy() {
-    this.responseX.unsubscribe();
+    this.response.unsubscribe();
   }
 
   onSubmit() {
     this.message = new Message('Saving officer, please wait...');
-    this.resetForm();
     this.ofcService.insertOfficer(this.newOfficerForm.value);
+    this.resetForm();
   }
 
   resetForm() {
+    this.message = new Message();
     this.newOfficerForm.reset();
     this.deptID.nativeElement.focus();
   }

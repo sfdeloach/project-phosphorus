@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerService } from '../../../services/officer.http.service';
+import { OfficerHTTPService } from '../../../services/officer.http.service';
 
 import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';
@@ -18,14 +18,14 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
   _id: string; // Mongo Object ID
   editOfficerForm: FormGroup;
   message: Message;
-  responseX: Subscription;
-  officerX: Subscription;
+  response: Subscription;
+  officer: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private ofcService: OfficerService
+    private ofcService: OfficerHTTPService
   ) { }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
       'squad': 'loading...'
     });
 
-    this.responseX = this.ofcService.response.subscribe(
+    this.response = this.ofcService.response.subscribe(
       (res: ReplaceOneResponse) => {
         if (res.nModified === 1) {
           this.router.navigate(['/officers']);
@@ -49,7 +49,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.officerX = this.ofcService.officer.subscribe(
+    this.officer = this.ofcService.officer.subscribe(
       (ofc: Officer) => {
         this.editOfficerForm = this.fb.group({
           'deptID': [ofc.deptID, Validators.required],
@@ -68,8 +68,8 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.responseX.unsubscribe();
-    this.officerX.unsubscribe();
+    this.response.unsubscribe();
+    this.officer.unsubscribe();
   }
 
   onUpdate() {
