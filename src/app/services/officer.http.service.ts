@@ -48,6 +48,7 @@ export class OfficerHTTPService {
       },
       err => {
         console.error(err);
+        this.officers.next([err]);
       }
     );
   }

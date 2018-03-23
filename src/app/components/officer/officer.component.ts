@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Officer } from '../../models/officer.model';
 import { Message } from '../../models/message.model';
+import { HttpErrorResponse } from '../../models/responses/http.error.response.model';
 
 @Component({
   selector: 'app-officer',
@@ -13,7 +14,7 @@ import { Message } from '../../models/message.model';
 })
 export class OfficerComponent implements OnInit, OnDestroy {
   officers: Officer[];
-  officersSubX: Subscription;
+  ofcSubscription: Subscription;
   message: Message;
   sortToggle: number = 1;
 
@@ -22,12 +23,15 @@ export class OfficerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.officersSubX = this.officerService.officers.subscribe(officers => {
+    this.ofcSubscription = this.officerService.officers.subscribe(officers => {
       if (!officers[0].error) {
         this.officers = officers.sort(this.sortOfficers);
+      } else if (<HttpErrorResponse>officers[0].name === 'HttpErrorResponse') {
+        this.message.danger = 'Unable to connect to API';
+        console.error(officers[0]);
       } else {
-        this.message.danger = officers[0].error;
-        console.error(officers[0].error);
+        this.message.danger = 'Unable to connect to database';
+        console.error(officers[0]);
       }
     });
 
@@ -36,7 +40,7 @@ export class OfficerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.officersSubX.unsubscribe();
+    this.ofcSubscription.unsubscribe();
   }
 
   getOfficers() {
