@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { Subject } from 'rxjs/Subject';
 
 import { Episode } from '../models/episode.model';
 import { Officer } from '../models/officer.model';
@@ -15,10 +12,6 @@ import { EpisodeHTTPService } from './episode.http.service';
 export class UploadService {
   originalEpisodes: Episode[] = [];
   updatedEpisodes: Episode[] = [];
-  //serverResponse: Subject<Result> = new Subject();
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
 
   constructor(
     private csvService: CsvService,

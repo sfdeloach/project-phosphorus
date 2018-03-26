@@ -1,24 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Subject } from 'rxjs/Subject';
+
+import { ApiUrlsList } from './lists/api.urls.list';
 
 import { Officer } from '../models/officer.model';
 import { ReplaceOneResponse } from '../models/responses/replace.one.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
+import { RemoveResponse } from '../models/responses/remove.model';
 
 @Injectable()
 export class OfficerHTTPService {
   officer: Subject<Officer> = new Subject();
   officers: Subject<Officer[]> = new Subject();
   response: Subject<any> = new Subject(); // TODO: type?
-  officersUrl: string = 'http://localhost:3000/api/officers';
+  officersUrl: string = this.url.officerAPI;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private url: ApiUrlsList
   ) { }
 
   getOfficer(id: string) {
@@ -86,11 +89,11 @@ export class OfficerHTTPService {
   }
 
   deleteOfficer(ofc: Officer) {
-    this.http.delete<any>(
+    this.http.delete<RemoveResponse>(
       this.officersUrl + `/${ofc._id}`,
       this.httpOptions
     ).subscribe(
-      (res: any) => {
+      (res: RemoveResponse) => {
         this.response.next(res);
       },
       error => {

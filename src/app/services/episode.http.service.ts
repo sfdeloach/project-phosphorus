@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
+
+import { ApiUrlsList } from './lists/api.urls.list';
+
 import { Episode } from '../models/episode.model';
 
 @Injectable()
 export class EpisodeHTTPService {
   episodes: Subject<Episode[]> = new Subject();
   serverResponse: Subject<any> = new Subject(); // TODO: Come back and type this?
-  episodesUrl: string = 'http://localhost:3000/api/episodes';
+  episodesUrl: string = this.url.episodeAPI;
   connectionError: string = "Unable to connect to the API";
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private url: ApiUrlsList
   ) { }
 
   getEpisodes() {

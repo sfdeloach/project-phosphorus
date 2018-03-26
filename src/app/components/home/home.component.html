@@ -1,9 +1,40 @@
-<h1>Altamonte Springs Police Department</h1>
-<h2>Productivity Reports</h2>
-<hr>
-<h3>TODO! Show the API status here:</h3>
-<ol>
-  <li>Number of episodes:</li>
-  <li>Number of officers:</li>
-  <li>Episode date range:</li>
-</ol>
+<div class="row justify-content-center">
+  <div class="col-6">
+    <h3>Summary</h3>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>Number of episodes</td>
+          <td>{{ episodeCount }}</td>
+        </tr>
+        <tr>
+          <td>Starting date</td>
+          <td>???</td>
+        </tr>
+        <tr>
+          <td>Ending date</td>
+          <td>???</td>
+        </tr>
+        <tr>
+          <td>First event number</td>
+          <td>???</td>
+        </tr>
+        <tr>
+          <td>Last event number</td>
+          <td>???</td>
+        </tr>
+        <tr>
+          <td>Number of reports</td>
+          <td>???</td>
+        </tr>
+        <tr>
+          <td>Number of officers</td>
+          <td>{{ officerCount }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary" type="button" (click)="getJSON()">
+      View Raw Data
+    </button>
+  </div>
+</div>

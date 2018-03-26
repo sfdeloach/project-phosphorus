@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerHTTPService } from '../../../services/officer.http.service';
+import { SquadList } from '../../../services/lists/squad.list';
 
 import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';
@@ -20,22 +21,28 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
   message: Message;
   response: Subscription;
   officer: Subscription;
+  squads: string[];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private ofcService: OfficerHTTPService
+    private ofcService: OfficerHTTPService,
+    private squadList: SquadList
   ) { }
 
   ngOnInit() {
     this.editOfficerForm = this.fb.group({
-      'deptID': ['loading...', Validators.required],
+      'deptID': ['loading...',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]{3}$|^[0-9]{2}|^[0-9]$')
+        ]],
       'name': this.fb.group({
         'last': ['loading...', Validators.required],
         'first': ['loading...', Validators.required]
       }),
-      'squad': 'loading...'
+      'squad': ['loading...', Validators.required]
     });
 
     this.response = this.ofcService.response.subscribe(
@@ -45,6 +52,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
         } else {
           this.message.info = undefined;
           this.message.danger = 'Unable to update officer';
+          console.error(res);
         }
       }
     );
@@ -65,6 +73,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
     this._id = this.route.snapshot.params.id;
     this.ofcService.getOfficer(this._id);
     this.message = new Message();
+    this.squads = this.squadList.squads;
   }
 
   ngOnDestroy() {

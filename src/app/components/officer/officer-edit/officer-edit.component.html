@@ -1,10 +1,14 @@
 <div class="row justify-content-center" (keypress)="onKeypress($event)">
   <div class="col-4">
-    <h2>Edit Officer</h2>
+    <h3>Edit Officer</h3>
     <form [formGroup]="editOfficerForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
         <label class="center-block">Department ID:</label>
-        <input #deptIDInput type="number" class="form-control" formControlName="deptID" placeholder="three digit ID number, for example 555">
+        <input #deptIDInput type="number" class="form-control" formControlName="deptID">
+      </div>
+      <div class="alert alert-danger"
+        *ngIf="editOfficerForm.controls.deptID.touched && editOfficerForm.controls.deptID.invalid">
+        ID numbers must be three digits or less
       </div>
       <div formGroupName="name">
         <div class="form-group">
@@ -19,16 +23,10 @@
       <div class="form-group">
         <label class="center-block">Squad:</label>
         <select class="form-control" formControlName="squad">
-          <option value="Alpha">Alpha</option>
-          <option value="Bravo">Bravo</option>
-          <option value="Charlie">Charlie</option>
-          <option value="Delta">Delta</option>
-          <option value="Street Crimes">Street Crimes</option>
-          <option value="Traffic">Traffic</option>
-          <option value="Uptown/Gateway">Uptown/Gateway</option>
+          <option *ngFor="let squad of squads" [value]="squad">{{ squad }}</option>
         </select>
       </div>
-      <button class="btn btn-success" type="button" (click)="onUpdate()">
+      <button class="btn btn-success" type="button" (click)="onUpdate()" [disabled]="editOfficerForm.invalid">
         Update
       </button>
       <a class="btn btn-secondary float-right" routerLink="/officers">Cancel</a>

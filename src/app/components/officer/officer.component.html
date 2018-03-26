@@ -4,7 +4,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>+/-</th>
+          <th>Included?</th>
           <th class="sortable" (click)="onHeaderClick('name', 'last')">Name</th>
           <th class="sortable" (click)="onHeaderClick('deptID')">ID No.</th>
           <th class="sortable" (click)="onHeaderClick('squad')">Squad</th>
@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let officer of officers">
-          <td>+</td>
+          <td><input type="checkbox"></td>
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>
@@ -23,9 +23,18 @@
         </tr>
       </tbody>
     </table>
+    <div class="alert alert-info" *ngIf="!officers">
+      Loading...
+    </div>
     <a class="btn btn-primary" routerLink="/officers/new">
       Add new officer
     </a>
+    <div class="alert alert-success" *ngIf="message.success">
+      {{ message.success }}
+    </div>
+    <div class="alert alert-warning" *ngIf="message.warning">
+      {{ message.warning }}
+    </div>
     <div class="alert alert-danger" *ngIf="message.danger">
       {{ message.danger }}
     </div>

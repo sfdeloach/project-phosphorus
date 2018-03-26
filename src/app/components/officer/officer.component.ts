@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Officer } from '../../models/officer.model';
 import { Message } from '../../models/message.model';
-import { HttpErrorResponse } from '../../models/responses/http.error.response.model';
+import { HttpErrorResponse } from '../../models/responses/http.error.model';
+import { RemoveResponse } from '../../models/responses/remove.model';
 
 @Component({
   selector: 'app-officer',
@@ -14,7 +15,9 @@ import { HttpErrorResponse } from '../../models/responses/http.error.response.mo
 })
 export class OfficerComponent implements OnInit, OnDestroy {
   officers: Officer[];
+  officer: Officer;
   ofcSubscription: Subscription;
+  response: Subscription;
   message: Message;
   sortToggle: number = 1;
 
@@ -35,20 +38,30 @@ export class OfficerComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.response = this.officerService.response.subscribe((res: RemoveResponse) => {
+      if (res.n === 1 && res.ok === 1) {
+        this.message.success = this.officer.name.last + ', '
+          + this.officer.name.first + ' removed';
+      } else if (res.n === 0 && res.ok === 1) {
+        this.message.warning = 'Unable to remove officer';
+        console.warn(res);
+      } else if (res.n === 0 && res.ok === 0) {
+        this.message.danger = 'Response from database not ok';
+        console.error(res);
+      }
+    });
+
     this.message = new Message();
-    this.getOfficers();
+    this.officerService.getOfficers();
   }
 
   ngOnDestroy() {
     this.ofcSubscription.unsubscribe();
-  }
-
-  getOfficers() {
-    this.officers = [];
-    this.officerService.getOfficers();
+    this.response.unsubscribe();
   }
 
   deleteOfc(ofc: Officer) {
+    this.officer = ofc;
     this.officerService.deleteOfficer(ofc);
     this.officers.splice(this.officers.findIndex(
       element => {

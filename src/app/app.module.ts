@@ -20,6 +20,8 @@ import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
 import { OfficerHTTPService } from './services/officer.http.service';
 import { EpisodeHTTPService } from './services/episode.http.service';
+import { SquadList } from './services/lists/squad.list';
+import { ApiUrlsList } from './services/lists/api.urls.list';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { EpisodeHTTPService } from './services/episode.http.service';
     XCADService,
     UploadService,
     OfficerHTTPService,
-    EpisodeHTTPService
+    EpisodeHTTPService,
+    SquadList,
+    ApiUrlsList
   ],
   bootstrap: [AppComponent]
 })
