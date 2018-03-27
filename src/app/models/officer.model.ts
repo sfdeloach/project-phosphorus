@@ -8,6 +8,8 @@ export class Officer {
       first: string
     },
     public squad: string,
+    public effDate: Date,
+    public include: boolean,
     public error?: string
   ) { }
 

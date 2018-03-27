@@ -12,7 +12,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'officers', component: OfficerComponent },
   { path: 'officers/new', component: OfficerNewComponent },
-  { path: 'officers/:id', component: OfficerEditComponent},
+  { path: 'officers/squad', component: PageNotFoundComponent },
+  { path: 'officers/effective-date', component: PageNotFoundComponent },
+  { path: 'officers/edit/:id', component: OfficerEditComponent},
   { path: 'upload', component: UploadComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

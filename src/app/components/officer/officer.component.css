@@ -29,3 +29,11 @@ th {
   font-size: 2em;
   color: #dd3b45;
 }
+
+.included-true {
+  color: green;
+}
+
+.included-false {
+  color: red;
+}

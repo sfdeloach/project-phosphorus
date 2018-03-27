@@ -22,23 +22,25 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
   squads: string[];
 
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private ofcService: OfficerHTTPService,
     private squadList: SquadList
   ) { }
 
   ngOnInit() {
-    this.newOfficerForm = this.fb.group({
+    this.newOfficerForm = this.formBuilder.group({
       'deptID': ['',
         [
           Validators.required,
           Validators.pattern('^[0-9]{3}$|^[0-9]{2}|^[0-9]$')
         ]],
-      'name': this.fb.group({
+      'name': this.formBuilder.group({
         'last': ['', Validators.required],
         'first': ['', Validators.required]
       }),
-      'squad': ['', Validators.required]
+      'squad': ['', Validators.required],
+      'effDate': ['', Validators.required],
+      'include': ['true', Validators.required]
     });
 
     this.response = this.ofcService.response.subscribe(
@@ -57,7 +59,7 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
     );
 
     this.squads = this.squadList.squads;
-    this.resetForm();
+    this.message = new Message();
   }
 
   ngOnDestroy() {

@@ -4,7 +4,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Included?</th>
+          <th class="sortable" (click)="onHeaderClick('include')">Include</th>
           <th class="sortable" (click)="onHeaderClick('name', 'last')">Name</th>
           <th class="sortable" (click)="onHeaderClick('deptID')">ID No.</th>
           <th class="sortable" (click)="onHeaderClick('squad')">Squad</th>
@@ -14,11 +14,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let officer of officers">
-          <td><input type="checkbox"></td>
+          <td *ngIf="officer.include === 'true'" class="included-true">&#10004;</td>
+          <td *ngIf="officer.include === 'false'" class="included-false">&#10008;</td>
+          <td *ngIf="!officer.include">???</td>
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>
-          <td><a class="btn btn-info btn-sm" routerLink="/officers/{{ officer._id }}">&#9998; edit</a></td>
+          <td><a class="btn btn-info btn-sm" routerLink="/officers/edit/{{ officer._id }}">&#9998; edit</a></td>
           <td><button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">&#10008; remove</button></td>
         </tr>
       </tbody>
@@ -28,6 +30,12 @@
     </div>
     <a class="btn btn-primary" routerLink="/officers/new">
       Add new officer
+    </a>
+    <a class="btn btn-primary" routerLink="/officers/squad">
+      Include by squad
+    </a>
+    <a class="btn btn-primary" routerLink="/officers/effective-date">
+      Set effective date
     </a>
     <div class="alert alert-success" *ngIf="message.success">
       {{ message.success }}

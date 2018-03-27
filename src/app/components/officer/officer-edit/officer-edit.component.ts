@@ -42,7 +42,9 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
         'last': ['loading...', Validators.required],
         'first': ['loading...', Validators.required]
       }),
-      'squad': ['loading...', Validators.required]
+      'squad': ['loading...', Validators.required],
+      'effDate': ['', Validators.required],
+      'include': ['', Validators.required]
     });
 
     this.response = this.ofcService.response.subscribe(
@@ -65,7 +67,9 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
             'last': [ofc.name.last, Validators.required],
             'first': [ofc.name.first, Validators.required]
           }),
-          'squad': ofc.squad
+          'squad': ofc.squad,
+          'effDate': ofc.effDate,
+          'include': ofc.include
         });
       }
     );
