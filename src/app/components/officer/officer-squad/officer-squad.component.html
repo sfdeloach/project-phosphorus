@@ -5,7 +5,7 @@
       <div class="form-group">
         <div class="form-check" *ngFor="let squad of squads">
           <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" [value]="squad" formControlName="selectedSquads">
+            <input type="checkbox" class="form-check-input" [formControlName]="squad">
             {{ squad }}
           </label>
         </div>

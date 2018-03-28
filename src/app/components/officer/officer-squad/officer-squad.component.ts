@@ -19,23 +19,29 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private squadList: SquadList
+    private squadList: SquadList,
+    private ofcService: OfficerHTTPService
   ) { }
 
   ngOnInit() {
-    this.squadForm = this.formBuilder.group({
-      'selectedSquads': ''
+    this.squads = this.squadList.squads;
+    let form = {};
+    this.squads.forEach(squad => {
+      form[squad] = false;
     });
 
-    this.squads = this.squadList.squads;
+    this.squadForm = this.formBuilder.group(form);
   }
 
   ngOnDestroy() {
 
   }
 
+  // TODO: In progress
   onSubmit() {
-    console.log(this.squadForm.value);
+    // send please wait message to screen
+    this.ofcService.updateSquadAssignments();
+    // wait for response from server and redirect to /officers
   }
 
 }

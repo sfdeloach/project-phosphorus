@@ -40,7 +40,7 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
       }),
       'squad': ['', Validators.required],
       'effDate': ['', Validators.required],
-      'include': ['true', Validators.required]
+      'include': [true, Validators.required]
     });
 
     this.response = this.ofcService.response.subscribe(

@@ -14,9 +14,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let officer of officers">
-          <td *ngIf="officer.include === 'true'" class="included-true">&#10004;</td>
-          <td *ngIf="officer.include === 'false'" class="included-false">&#10008;</td>
-          <td *ngIf="!officer.include">???</td>
+          <td *ngIf="officer.include" class="included-true">&#10004;</td>
+          <td *ngIf="!officer.include" class="included-false">&#10008;</td>
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>

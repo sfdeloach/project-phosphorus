@@ -34,7 +34,7 @@ export class OfficerHTTPService {
       (error) => {
         console.error(error);
       }
-    );
+      );
   }
 
   getOfficers() {
@@ -53,13 +53,13 @@ export class OfficerHTTPService {
         console.error(err);
         this.officers.next([err]);
       }
-    );
+      );
   }
 
   insertOfficer(ofc: Officer) {
     this.http.post<InsertManyResponse<Officer>>(
       this.officersUrl,
-      { officers: [ ofc ] },
+      { officers: [ofc] },
       this.httpOptions
     ).subscribe(
       (res: InsertManyResponse<Officer>) => {
@@ -69,7 +69,7 @@ export class OfficerHTTPService {
         console.error(error);
         this.response.next(error);
       }
-    );
+      );
   }
 
   updateOfficer(_id: string, ofc: Officer) {
@@ -85,7 +85,30 @@ export class OfficerHTTPService {
         console.error(error);
         this.response.next(error);
       }
-    );
+      );
+  }
+
+  // TODO In progress
+  updateSquadAssignments() {
+    this.http.put<any>( // UpdateResponse
+      this.officersUrl + `/include`,
+      {
+        query: {},
+        update: {'$set': {
+          include: true
+        }}
+      },
+      this.httpOptions
+    ).subscribe(
+      (res: any) => { // UpdateResponse
+        this.response.next(res);
+        console.log(res); // TODO: RAT
+      },
+      error => {
+        console.error(error);
+        this.response.next(error);
+      }
+      );
   }
 
   deleteOfficer(ofc: Officer) {
@@ -100,7 +123,7 @@ export class OfficerHTTPService {
         console.error(error);
         this.response.next(error);
       }
-    );
+      );
   }
 
 }
