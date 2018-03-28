@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -53,7 +53,8 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
           this.message.success = this.officer.name.last + ', '
             + this.officer.name.first + ' successfully added';
         } else {
-          this.message.warning = 'Unsure what happened'
+          this.message.warning = 'Something happened, and it should not have';
+          console.error(res);
         }
       }
     );

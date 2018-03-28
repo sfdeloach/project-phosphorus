@@ -4,7 +4,7 @@
     <form [formGroup]="newOfficerForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
         <label class="center-block">Department ID:</label>
-        <input #deptIDInput type="number" class="form-control" formControlName="deptID">
+        <input type="number" class="form-control" formControlName="deptID">
       </div>
       <div class="alert alert-danger"
         *ngIf="newOfficerForm.controls.deptID.touched && newOfficerForm.controls.deptID.invalid">
@@ -26,7 +26,6 @@
           <option *ngFor="let squad of squads" [value]="squad">{{ squad }}</option>
         </select>
       </div>
-      <!-- BEGIN NEW -->
       <div class="form-group">
         <label class="center-block">Effective Date:</label>
         <input type="date" class="form-control" formControlName="effDate">
@@ -45,7 +44,6 @@
           </label>
         </div>
       </div>
-      <!-- END NEW -->
       <button class="btn btn-success" type="submit" [disabled]="newOfficerForm.invalid">Save</button>
       <button class="btn btn-info" type="reset" [disabled]="newOfficerForm.pristine" (click)="resetForm()">Reset</button>
       <a class="btn btn-secondary float-right" routerLink="/officers">Return to Overview</a>
@@ -59,5 +57,6 @@
     <div class="alert alert-success" *ngIf="message.success">
       {{ message.success }}
     </div>
+    <hr>
   </div>
 </div>

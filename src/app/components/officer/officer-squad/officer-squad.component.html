@@ -1,0 +1,18 @@
+<div class="row justify-content-center">
+  <div class="col-6">
+    <h3>Include By Squad</h3>
+    <form [formGroup]="squadForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <div class="form-check" *ngFor="let squad of squads">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" [value]="squad" formControlName="selectedSquads">
+            {{ squad }}
+          </label>
+        </div>
+      </div>
+      <button class="btn btn-success" type="submit" [disabled]="squadForm.invalid">Save Changes</button>
+      <a class="btn btn-secondary float-right" routerLink="/officers">Return to Overview</a>
+    </form>
+    <hr>
+  </div>
+</div>
