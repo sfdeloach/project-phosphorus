@@ -1,9 +1,10 @@
 export class ReplaceOneResponse {
 
   constructor(
-    public n,
-    public nModified,
-    public ok
+    public n: number,
+    public nModified: number,
+    public ok: number,
+    public error?: ProgressEvent
   ) { }
 
 }

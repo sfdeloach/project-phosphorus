@@ -13,6 +13,12 @@
       <button class="btn btn-success" type="submit" [disabled]="squadForm.invalid">Save Changes</button>
       <a class="btn btn-secondary float-right" routerLink="/officers">Return to Overview</a>
     </form>
+    <div class="alert alert-danger" *ngIf="message.danger">
+      {{ message.danger }}
+    </div>
+    <div class="alert alert-info" *ngIf="message.info">
+      {{ message.info }}
+    </div>
     <hr>
   </div>
 </div>

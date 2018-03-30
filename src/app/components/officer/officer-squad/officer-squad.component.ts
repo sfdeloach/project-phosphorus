@@ -7,6 +7,7 @@ import { SquadList } from '../../../services/lists/squad.list';
 
 import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';
+import { UpdateResponse } from '../../../models/responses/update.model';
 
 @Component({
   selector: 'app-officer-squad',
@@ -16,6 +17,8 @@ import { Message } from '../../../models/message.model';
 export class OfficerSquadComponent implements OnInit, OnDestroy {
   squadForm: FormGroup;
   squads: string[];
+  message: Message;
+  response: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +34,27 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
     });
 
     this.squadForm = this.formBuilder.group(form);
+
+    this.response = this.ofcService.response.subscribe(
+      (res: UpdateResponse) => {
+        this.message.info = undefined;
+        // TODO: this is not working!!!
+        if (res.keg) {
+          this.message.danger = "Unable to connect to API";
+          console.error(res);
+        } else if (res.message) {
+          this.message.danger = "Unable to connect to database";
+          console.error(res);
+        } else if (res.ok) {
+          // TODO: route to overview
+        } else {
+          this.message.warning = 'Something happened, and it should not have';
+          console.error(res);
+        }
+      }
+    );
+
+    this.message = new Message();
   }
 
   ngOnDestroy() {
@@ -39,6 +63,7 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
 
   // TODO: In progress
   onSubmit() {
+    this.message = new Message("Updating squad assignments");
     // send please wait message to screen
     this.ofcService.updateSquadAssignments();
     // wait for response from server and redirect to /officers

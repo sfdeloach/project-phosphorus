@@ -5,3 +5,11 @@
   font-size: 2.5rem;
   color: rgba(40, 167, 69, 0.8);
 }
+
+input:focus {
+  outline: none;
+}
+
+div.alert {
+  margin-top: 1rem;
+}

@@ -1,8 +1,9 @@
 export class RemoveResponse {
 
   constructor(
-    public n,
-    public ok
+    public n: number,
+    public ok: number,
+    public error?: ProgressEvent
   ) { }
 
 }

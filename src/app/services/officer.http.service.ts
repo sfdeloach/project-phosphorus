@@ -8,6 +8,7 @@ import { Officer } from '../models/officer.model';
 import { ReplaceOneResponse } from '../models/responses/replace.one.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { RemoveResponse } from '../models/responses/remove.model';
+import { UpdateResponse } from '../models/responses/update.model';
 
 @Injectable()
 export class OfficerHTTPService {
@@ -90,7 +91,7 @@ export class OfficerHTTPService {
 
   // TODO In progress
   updateSquadAssignments() {
-    this.http.put<any>( // UpdateResponse
+    this.http.put<UpdateResponse>(
       this.officersUrl + `/include`,
       {
         query: {},
@@ -100,13 +101,12 @@ export class OfficerHTTPService {
       },
       this.httpOptions
     ).subscribe(
-      (res: any) => { // UpdateResponse
+      (res: UpdateResponse) => {
         this.response.next(res);
-        console.log(res); // TODO: RAT
       },
       error => {
-        console.error(error);
         this.response.next(error);
+        console.error(error);
       }
       );
   }
