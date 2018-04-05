@@ -11,7 +11,7 @@ export class SquadList {
     'Traffic',
     'Uptown/Gateway'
   ]
-  
+
   constructor() { }
 
 }

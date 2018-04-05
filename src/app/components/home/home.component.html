@@ -9,27 +9,32 @@
         </tr>
         <tr>
           <td>Starting date</td>
-          <td>???</td>
+          <td>{{ startingDate | date }}</td>
         </tr>
         <tr>
           <td>Ending date</td>
-          <td>???</td>
+          <td>{{ endingDate | date }}</td>
         </tr>
         <tr>
           <td>First event number</td>
-          <td>???</td>
+          <td>{{ firstEvent }}</td>
         </tr>
         <tr>
           <td>Last event number</td>
-          <td>???</td>
+          <td>{{ lastEvent }}</td>
         </tr>
         <tr>
           <td>Number of reports</td>
-          <td>???</td>
+          <td>{{ reportCount }}</td>
         </tr>
         <tr>
-          <td>Number of officers</td>
+          <td>Number of total officers</td>
           <td>{{ officerCount }}</td>
+        </tr>
+        <tr>
+          <td>Number of included officers</td>
+          <td>{{ officerIncludedCount }}
+            ( {{ officerIncludedCount/officerCount | percent}} )</td>
         </tr>
       </tbody>
     </table>

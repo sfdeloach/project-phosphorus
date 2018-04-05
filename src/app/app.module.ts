@@ -12,6 +12,7 @@ import { OfficerComponent } from './components/officer/officer.component';
 import { OfficerEditComponent } from './components/officer/officer-edit/officer-edit.component';
 import { OfficerNewComponent } from './components/officer/officer-new/officer-new.component';
 import { OfficerSquadComponent } from './components/officer/officer-squad/officer-squad.component';
+import { OfficerEffectiveDateComponent } from './components/officer/officer-effective-date/officer-effective-date.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 import { CsvService } from './services/csv.service';
@@ -33,6 +34,7 @@ import { ApiUrlsList } from './services/lists/api.urls.list';
     OfficerEditComponent,
     OfficerNewComponent,
     OfficerSquadComponent,
+    OfficerEffectiveDateComponent,
     PageNotFoundComponent
   ],
   imports: [

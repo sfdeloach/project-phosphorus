@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 import { ApiUrlsList } from './lists/api.urls.list';
 
@@ -54,7 +55,7 @@ export class OfficerHTTPService {
         console.error(err);
         this.officers.next([err]);
       }
-      );
+    );
   }
 
   insertOfficer(ofc: Officer) {
@@ -70,7 +71,7 @@ export class OfficerHTTPService {
         console.error(error);
         this.response.next(error);
       }
-      );
+    );
   }
 
   updateOfficer(_id: string, ofc: Officer) {
@@ -86,29 +87,7 @@ export class OfficerHTTPService {
         console.error(error);
         this.response.next(error);
       }
-      );
-  }
-
-  // TODO In progress
-  updateSquadAssignments() {
-    this.http.put<UpdateResponse>(
-      this.officersUrl + `/include`,
-      {
-        query: {},
-        update: {'$set': {
-          include: true
-        }}
-      },
-      this.httpOptions
-    ).subscribe(
-      (res: UpdateResponse) => {
-        this.response.next(res);
-      },
-      error => {
-        this.response.next(error);
-        console.error(error);
-      }
-      );
+    );
   }
 
   deleteOfficer(ofc: Officer) {
@@ -123,7 +102,70 @@ export class OfficerHTTPService {
         console.error(error);
         this.response.next(error);
       }
-      );
+    );
+  }
+
+  updateSquadAssignments(query) {
+    this.resetSquadAssignments()
+      .subscribe(
+        (res: UpdateResponse) => {
+          if (query.$or) this.setSquadAssignments(query);
+          else this.response.next(res);
+        },
+        err => {
+          console.error(err);
+          this.response.next(err);
+        }
+      )
+  }
+
+  resetSquadAssignments(): Observable<UpdateResponse> {
+    return this.http.put<UpdateResponse>(
+      this.officersUrl + '/include',
+      {
+        'query': {},
+        'update': { '$set': { 'include': false }}
+      },
+      this.httpOptions
+    );
+  }
+
+  setSquadAssignments(query) {
+    this.http.put<UpdateResponse>(
+      this.officersUrl + '/include',
+      {
+        'query': query,
+        'update': { '$set': { 'include': true }}
+      },
+      this.httpOptions
+    ).subscribe(
+      (res: UpdateResponse) => {
+        this.response.next(res);
+      },
+      error => {
+        console.error(error);
+        this.response.next(error);
+      }
+    );
+  }
+
+  updateEffectiveDates(update) {
+    this.http.put<UpdateResponse>(
+      this.officersUrl + '/include',
+      {
+        'query': {},
+        'update': { '$set': { 'effDate': update }}
+      },
+      this.httpOptions
+    ).subscribe(
+      (res: UpdateResponse) => {
+        this.response.next(res);
+      },
+      error => {
+        console.error(error);
+        this.response.next(error);
+      }
+    );
   }
 
 }

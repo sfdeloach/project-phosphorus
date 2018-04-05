@@ -13,3 +13,11 @@ input:focus {
 div.alert {
   margin-top: 1rem;
 }
+
+.btn {
+  cursor: pointer;
+}
+
+.btn-sm {
+  margin-bottom: 1rem;
+}

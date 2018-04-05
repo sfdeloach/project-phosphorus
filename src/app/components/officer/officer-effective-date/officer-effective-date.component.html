@@ -1,18 +1,19 @@
 <div class="row justify-content-center">
   <div class="col-6">
-    <h3>Include By Squad</h3>
-    <button class="btn btn-secondary btn-sm" (click)="setAll(true)">Select all</button>
-    <button class="btn btn-secondary btn-sm" (click)="setAll(false)">Clear all</button>
+    <h3>Set Effective Date</h3>
     <form [formGroup]="squadForm" (ngSubmit)="onSubmit()" novalidate>
-      <div class="form-group">
-        <div class="form-check" *ngFor="let squad of squads">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" [formControlName]="squad">
-            {{ squad }}
-          </label>
-        </div>
+      <div class="alert alert-warning">
+        &#9888; WARNING &#9888;
+        <br>
+        This will override the effective date for all officers.
+        <br>
+        Use with caution.
       </div>
-      <button class="btn btn-success" type="submit" [disabled]="squadForm.invalid">Save Changes</button>
+      <div class="form-group">
+        <label class="center-block">Effective Date:</label>
+        <input type="date" class="form-control" formControlName="effDate">
+      </div>
+      <button class="btn btn-warning" type="submit" [disabled]="squadForm.invalid">Override All Officers</button>
       <a class="btn btn-secondary float-right" routerLink="/officers">Return to Overview</a>
     </form>
     <div class="alert alert-danger" *ngIf="message.danger">
