@@ -9,7 +9,7 @@ import { Episode } from '../models/episode.model';
 @Injectable()
 export class EpisodeHTTPService {
   episodes: Subject<Episode[]> = new Subject();
-  serverResponse: Subject<any> = new Subject(); // TODO: Come back and type this?
+  response: Subject<any> = new Subject(); // TODO: Come back and type this?
   episodesUrl: string = this.url.episodeAPI;
   connectionError: string = "Unable to connect to the API";
   httpOptions = {
@@ -41,11 +41,11 @@ export class EpisodeHTTPService {
       this.httpOptions
     ).subscribe(
       (res: any) => { // TODO: type?
-        this.serverResponse.next(res);
+        this.response.next(res);
       },
       error => {
         console.error(error);
-        this.serverResponse.next(error);
+        this.response.next(error);
       }
       );
   }
@@ -57,11 +57,11 @@ export class EpisodeHTTPService {
       this.httpOptions
     ).subscribe(
       (res: any) => { // TODO: type?
-        this.serverResponse.next(res);
+        this.response.next(res);
       },
       error => {
         console.error(error);
-        this.serverResponse.next(error);
+        this.response.next(error);
       }
       );
   }

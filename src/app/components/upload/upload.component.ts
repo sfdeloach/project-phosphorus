@@ -14,14 +14,15 @@ import { Episode } from '../../models/episode.model';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit, OnDestroy {
+  showInfo: boolean = false;
   file: File;
   officers: Officer[];
-  originalEpisodes: Episode[];
-  officerSubscription: Subscription;
-  episodeSubscription: Subscription;
-  uploadSubscription: Subscription;
-  serverResponses; // TODO determine the type
-  showInfo: boolean = false;
+  currentEpisodes: Episode[];
+  subOfficers: Subscription;
+  subEpisodes: Subscription;
+  subEpisodesResponse: Subscription;
+  subOfficersResponse: Subscription;
+  serverResponses: any; // TODO: is this the correct type?
   verifier; // TODO determine the type
 
   constructor(
@@ -31,28 +32,35 @@ export class UploadComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.officerSubscription = this.officerService.officers.subscribe(
+    this.subOfficers = this.officerService.officers.subscribe(
       (ofcs: Officer[]) => {
         this.officers = ofcs;
       }
     );
 
-    this.episodeSubscription = this.episodeService.episodes.subscribe(
+    this.subEpisodes = this.episodeService.episodes.subscribe(
       (episodes: Episode[]) => {
-        this.originalEpisodes = episodes;
+        this.currentEpisodes = episodes;
       }
     );
 
-    this.uploadSubscription = this.episodeService.serverResponse.subscribe(
-      (res) => { // TODO: determine the type
+    this.subOfficersResponse = this.officerService.response.subscribe(
+      (res: any) => {
+        this.serverResponses.push(res);
+      }
+    )
+
+    this.subEpisodesResponse = this.episodeService.response.subscribe(
+      (res: any) => {
         this.serverResponses.push(res);
       });
   }
 
   ngOnDestroy() {
-    this.officerSubscription.unsubscribe();
-    this.episodeSubscription.unsubscribe();
-    this.uploadSubscription.unsubscribe();
+    this.subOfficers.unsubscribe();
+    this.subEpisodes.unsubscribe();
+    this.subOfficersResponse.unsubscribe();
+    this.subEpisodesResponse.unsubscribe();
   }
 
   toggleInfo() {
@@ -72,7 +80,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     fileReader.readAsText(this.file);
 
     // need to preserve what resides on the db for later comparison
-    let episodesDeepCopy = JSON.parse(JSON.stringify(this.originalEpisodes));
+    let episodesDeepCopy = JSON.parse(JSON.stringify(this.currentEpisodes));
 
     fileReader.onload = (evt: ProgressEvent) => {
       this.verifier = this.uploadService.verify(
@@ -84,7 +92,7 @@ export class UploadComponent implements OnInit, OnDestroy {
 
   upload() {
     // a copy of the old episodes is passed to the service
-    this.uploadService.uploader(this.originalEpisodes);
+    this.uploadService.uploader(this.currentEpisodes);
   }
 
 }
