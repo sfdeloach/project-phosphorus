@@ -13,7 +13,7 @@ export class CafeService {
     array: Array<Array<string>>, episodes: Episode[], officers: Officer[]
   ): Episode[] {
     // Create an array of Episodes
-    let result: Episode[] = episodes;
+    const result: Episode[] = episodes;
 
     // TODO: complete this service!
 

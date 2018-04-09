@@ -86,12 +86,12 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
   }
 
   onUpdate() {
-    this.message.info = "Saving changes, please wait..."
+    this.message.info = 'Saving changes, please wait...';
     this.ofcService.updateOfficer(this._id, this.editOfficerForm.value);
   }
 
   onKeypress(evt: KeyboardEvent) {
-    if (evt.key === "Enter") {
+    if (evt.key === 'Enter') {
       this.onUpdate();
     }
   }

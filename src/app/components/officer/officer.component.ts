@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { OfficerHTTPService } from '../../services/officer.http.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -19,7 +19,7 @@ export class OfficerComponent implements OnInit, OnDestroy {
   ofcSubscription: Subscription;
   response: Subscription;
   message: Message;
-  sortToggle: number = 1;
+  sortToggle = 1;
 
   constructor(
     private officerService: OfficerHTTPService
@@ -83,14 +83,14 @@ export class OfficerComponent implements OnInit, OnDestroy {
      sort officers by squad, last name, and deptID
   */
   sortOfficers(a: Officer, b: Officer): number {
-    if (a.squad < b.squad) return -1;
-    if (a.squad > b.squad) return 1;
+    if (a.squad < b.squad) { return -1; }
+    if (a.squad > b.squad) { return 1; }
     if (a.squad === b.squad) {
-      if (a.name.last < b.name.last) return -1;
-      if (a.name.last > b.name.last) return 1;
+      if (a.name.last < b.name.last) { return -1; }
+      if (a.name.last > b.name.last) { return 1; }
       if (a.name.last === b.name.last) {
-        if (a.deptID < b.deptID) return -1;
-        if (a.deptID > b.deptID) return 1;
+        if (a.deptID < b.deptID) { return -1; }
+        if (a.deptID > b.deptID) { return 1; }
       }
     }
     return 0;
@@ -102,16 +102,16 @@ export class OfficerComponent implements OnInit, OnDestroy {
   sortByProperty(toggle: number, parent: string, child?: string) {
     if (child) {
       return (a: Officer, b: Officer): number => {
-        if (a[parent][child] < b[parent][child]) return -1 * toggle;
-        if (a[parent][child] > b[parent][child]) return 1 * toggle;
+        if (a[parent][child] < b[parent][child]) { return -1 * toggle; }
+        if (a[parent][child] > b[parent][child]) { return 1 * toggle; }
         return 0;
-      }
+      };
     } else {
       return (a: Officer, b: Officer): number => {
-        if (a[parent] < b[parent]) return -1 * toggle;
-        if (a[parent] > b[parent]) return 1 * toggle;
+        if (a[parent] < b[parent]) { return -1 * toggle; }
+        if (a[parent] > b[parent]) { return 1 * toggle; }
         return 0;
-      }
+      };
     }
   }
 }

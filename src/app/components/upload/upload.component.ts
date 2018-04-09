@@ -14,16 +14,16 @@ import { Episode } from '../../models/episode.model';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit, OnDestroy {
-  showInfo: boolean = false;
+  showInfo = false;
   file: File;
   officers: Officer[];
   currentEpisodes: Episode[];
+  serverResponses: any; // TODO: should this have a more specific type?
+  verifier: any;        // TODO: should this have a more specific type?
   subOfficers: Subscription;
   subEpisodes: Subscription;
   subEpisodesResponse: Subscription;
   subOfficersResponse: Subscription;
-  serverResponses: any; // TODO: is this the correct type?
-  verifier; // TODO determine the type
 
   constructor(
     private officerService: OfficerHTTPService,
@@ -48,7 +48,7 @@ export class UploadComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.serverResponses.push(res);
       }
-    )
+    );
 
     this.subEpisodesResponse = this.episodeService.response.subscribe(
       (res: any) => {
@@ -76,11 +76,11 @@ export class UploadComponent implements OnInit, OnDestroy {
   }
 
   verify() {
-    let fileReader: FileReader = new FileReader();
+    const fileReader: FileReader = new FileReader();
     fileReader.readAsText(this.file);
 
-    // need to preserve what resides on the db for later comparison
-    let episodesDeepCopy = JSON.parse(JSON.stringify(this.currentEpisodes));
+    // preserve db data for later comparison
+    const episodesDeepCopy = JSON.parse(JSON.stringify(this.currentEpisodes));
 
     fileReader.onload = (evt: ProgressEvent) => {
       this.verifier = this.uploadService.verify(

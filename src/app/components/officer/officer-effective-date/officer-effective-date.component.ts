@@ -34,16 +34,16 @@ export class OfficerEffectiveDateComponent implements OnInit, OnDestroy {
       (res: UpdateResponse) => {
         this.message.info = undefined;
         if (res.keg) {
-          this.message.danger = "API is working, but unable to connect to database";
+          this.message.danger = 'API is working, but unable to connect to database';
           console.error(res);
         } else if (res.message) {
-          this.message.danger = "Unable to connect to the API";
+          this.message.danger = 'Unable to connect to the API';
           console.error(res);
         } else if (res.ok) {
           this.router.navigate(['/officers']);
         } else {
           this.message.warning = 'Something weird just happened...';
-          console.log('We received something unexpected from the server.')
+          console.log('We received something unexpected from the server.');
           console.error(res);
         }
       }
@@ -57,7 +57,7 @@ export class OfficerEffectiveDateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.message = new Message("Updating effective dates");
+    this.message = new Message('Updating effective dates');
     this.ofcService.updateEffectiveDates(this.squadForm.value.effDate);
   }
 

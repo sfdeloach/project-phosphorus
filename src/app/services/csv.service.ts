@@ -13,8 +13,8 @@ export class CsvService {
   ];
 
   public xcadHeaders: Array<string> = [
-    "EventNbr", "Init_DateTime", "FinalEventType", "SourceCall", "BadgeNbr",
-    "UnitId", "PrimaryUnit", "DispCode"
+    'EventNbr', 'Init_DateTime', 'FinalEventType', 'SourceCall', 'BadgeNbr',
+    'UnitId', 'PrimaryUnit', 'DispCode'
   ];
 
   constructor() { }
@@ -32,8 +32,8 @@ export class CsvService {
     const csvCharArray: string[] = csv.replace(/[\r]/g, '').split('');
 
     // Create an empty array where each element will hold a CSV record/line
-    let lineArray: string[] = [];
-    let line: string = '';
+    const lineArray: string[] = [];
+    let line = '';
 
     // Populate the lineArray
     csvCharArray.forEach(character => {
@@ -46,16 +46,16 @@ export class CsvService {
     });
 
     // The final result will be an array of array of strings
-    let result = [];
+    const result = [];
 
     // Process each element of the `lines` array
     lineArray.forEach(line => {
-      let value: string = '';
-      let valueArray: string[] = [];
-      let charArray: string[] = line.split('');
+      let value = '';
+      const valueArray: string[] = [];
+      const charArray: string[] = line.split('');
 
       charArray.forEach((character, index) => {
-        if (character === ",") {
+        if (character === ',') {
           valueArray.push(value);
           value = '';
         } else if (character === '"') {
@@ -74,20 +74,24 @@ export class CsvService {
   }
 
   isValidFile(fileType: string, headers: Array<string>): boolean {
-    let i: number = 0;
+    let i = 0;
     let result = true;
-    let fileHeaders = undefined;
+    let fileHeaders;
 
-    if (fileType === "XCAD") fileHeaders = this.xcadHeaders;
-    else if (fileType === "Cafe") fileHeaders = this.cafeHeaders;
-    else return false;
+    if (fileType === 'XCAD') {
+      fileHeaders = this.xcadHeaders;
+    } else if (fileType === 'Cafe') {
+      fileHeaders = this.cafeHeaders;
+    } else {
+      return false;
+    }
 
     headers.forEach(header => {
       if (header !== fileHeaders[i++]) {
         result = false;
-      };
+      }
     });
-    return result
+    return result;
   }
 
 }

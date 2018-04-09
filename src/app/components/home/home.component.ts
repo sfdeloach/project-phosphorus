@@ -13,7 +13,7 @@ import { Officer } from '../../models/officer.model';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  episodes: Episode[]
+  episodes: Episode[];
   episodeSubscription: Subscription;
   officers: Officer[];
   officerSubscription: Subscription;
@@ -68,10 +68,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   findOfficerRanges() {
-    let includedOfcs: number = 0;
+    let includedOfcs = 0;
 
     this.officers.forEach((officer: Officer) => {
-      if (officer.include) includedOfcs += 1;
+      if (officer.include) { includedOfcs += 1; }
     });
 
     this.officerIncludedCount = includedOfcs;
@@ -82,16 +82,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     let maxDate: Date = this.startingDate;
     let firstEvt: number = this.firstEvent;
     let lastEvt: number = this.lastEvent;
-    let reportCnt: number = 0;
+    let reportCnt = 0;
 
     this.episodes.forEach((episode: Episode) => {
-      let date: Date = this.getCallDate(episode);
-      let evt: number = episode.call.eventNbr;
-      if (date < minDate) minDate = date;
-      if (date > maxDate) maxDate = date;
-      if (evt < firstEvt ) firstEvt = evt;
-      if (evt > lastEvt ) lastEvt = evt;
-      if (episode.reports.length > 0) reportCnt += episode.reports.length;
+      const date: Date = this.getCallDate(episode);
+      const evt: number = episode.call.eventNbr;
+      if (date < minDate) { minDate = date; }
+      if (date > maxDate) { maxDate = date; }
+      if (evt < firstEvt ) { firstEvt = evt; }
+      if (evt > lastEvt ) { lastEvt = evt; }
+      if (episode.reports.length > 0) { reportCnt += episode.reports.length; }
     });
 
     this.startingDate = minDate;
