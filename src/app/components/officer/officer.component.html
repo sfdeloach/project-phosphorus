@@ -14,8 +14,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let officer of officers">
-          <td *ngIf="officer.include" class="included-true">&#10004;</td>
-          <td *ngIf="!officer.include" class="included-false">&#10008;</td>
+          <td *ngIf="officer.include" class="included-true">
+            <i class="fas fa-plus-circle"></i>
+          </td>
+          <td *ngIf="!officer.include" class="included-false">
+            <i class="fas fa-minus-circle"></i>
+          </td>
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>
