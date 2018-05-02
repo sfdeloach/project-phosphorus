@@ -1,5 +1,5 @@
 <div class="row justify-content-center" (keypress)="onKeypress($event)">
-  <div class="col-4">
+  <div class="col-6">
     <h3>Edit Officer</h3>
     <form [formGroup]="editOfficerForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
@@ -45,9 +45,11 @@
         </div>
       </div>
       <button class="btn btn-success" type="button" (click)="onUpdate()" [disabled]="editOfficerForm.invalid">
-        Update
+          <fa name="edit"></fa> Update
       </button>
-      <a class="btn btn-secondary float-right" routerLink="/officers">Cancel</a>
+      <a class="btn btn-secondary float-right" routerLink="/officers">
+        <fa name="ban"></fa> Cancel
+      </a>
     </form>
     <div class="alert alert-danger" *ngIf="message.danger">
       {{ message.danger }}

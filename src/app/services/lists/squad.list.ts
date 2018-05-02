@@ -7,10 +7,14 @@ export class SquadList {
     'Bravo',
     'Charlie',
     'Delta',
-    'Street Crimes',
+    'CIS',
+    'SIS/SCU',
     'Traffic',
-    'Uptown/Gateway'
-  ]
+    'SRO',
+    'Uptown',
+    'COPS',
+    'Mgmt Support'
+  ];
 
   constructor() { }
 

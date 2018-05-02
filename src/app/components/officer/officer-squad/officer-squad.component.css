@@ -1,6 +1,6 @@
 [type="checkbox"]:checked:after {
-  content: "\2714";
-  left: -1.4rem;
+  content: "x";
+  left: -1.2rem;
   top: -2.25rem;
   font-size: 2.5rem;
   color: rgba(40, 167, 69, 0.8);

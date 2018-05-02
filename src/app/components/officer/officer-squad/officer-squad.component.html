@@ -12,8 +12,12 @@
           </label>
         </div>
       </div>
-      <button class="btn btn-success" type="submit" [disabled]="squadForm.invalid">Save Changes</button>
-      <a class="btn btn-secondary float-right" routerLink="/officers">Return to Overview</a>
+      <button class="btn btn-success" type="submit" [disabled]="squadForm.invalid">
+          <fa name="save"></fa> Save Changes
+      </button>
+      <a class="btn btn-secondary float-right" routerLink="/officers">
+        <fa name="undo"></fa> Return to Overview
+      </a>
     </form>
     <div class="alert alert-danger" *ngIf="message.danger">
       {{ message.danger }}

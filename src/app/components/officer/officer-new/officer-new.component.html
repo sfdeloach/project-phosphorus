@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-  <div class="col-4">
+  <div class="col-6">
     <h3>Add a new officer</h3>
     <form [formGroup]="newOfficerForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
@@ -44,9 +44,15 @@
           </label>
         </div>
       </div>
-      <button class="btn btn-success" type="submit" [disabled]="newOfficerForm.invalid">Save</button>
-      <button class="btn btn-info" type="reset" [disabled]="newOfficerForm.pristine" (click)="resetForm()">Reset</button>
-      <a class="btn btn-secondary float-right" routerLink="/officers">Return to Overview</a>
+      <button class="btn btn-success" type="submit" [disabled]="newOfficerForm.invalid">
+          <fa name="save"></fa> Save
+      </button>
+      <button class="btn btn-info" type="reset" [disabled]="newOfficerForm.pristine" (click)="resetForm()">
+          <fa name="eraser"></fa> Clear Form
+      </button>
+      <a class="btn btn-secondary float-right" routerLink="/officers">
+        <fa name="undo"></fa> Return to Overview
+      </a>
     </form>
     <div class="alert alert-danger" *ngIf="message.danger">
       {{ message.danger }}

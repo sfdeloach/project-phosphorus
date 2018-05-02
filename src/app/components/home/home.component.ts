@@ -106,4 +106,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     return new Date(episode.call.created);
   }
 
+  getJSON() {
+    // TODO: necessary to implement this feature?
+    alert('This feature not available.');
+  }
+
 }

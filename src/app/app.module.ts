@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './/app-routing.module';
 
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
@@ -41,7 +43,8 @@ import { ApiUrlsList } from './services/lists/api.urls.list';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFontAwesomeModule
   ],
   providers: [
     CsvService,
