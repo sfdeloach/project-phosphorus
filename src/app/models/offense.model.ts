@@ -1,7 +1,7 @@
 export class Offense {
 
   constructor(
-    public statue: string,
+    public statute: string,
     public statuteDesc: string,
     public ucrCode: string,
     public ucrDesc: string,

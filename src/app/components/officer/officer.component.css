@@ -23,13 +23,6 @@ th {
   cursor: pointer;
 }
 
-[type="checkbox"]:checked:after {
-  left: -0.55em;
-  top: -0.9em;
-  font-size: 2em;
-  color: #dd3b45;
-}
-
 .included-true {
   color: #28a745;
 }

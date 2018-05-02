@@ -1,8 +1,8 @@
 export class Officer {
 
   constructor(
-    public _id: string, // key assigned by database
-    public deptID: number,  // Badge or ID number, immutable
+    public _id: string,    // key assigned by database
+    public deptID: number, // unique dept ID number
     public name: {
       last: string,
       first: string
@@ -10,7 +10,7 @@ export class Officer {
     public squad: string,
     public effDate: Date,
     public include: boolean,
-    public error?: string
+    public error?: any
   ) { }
 
 }

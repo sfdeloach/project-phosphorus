@@ -4,7 +4,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="sortable" (click)="onHeaderClick('include')">Include</th>
+          <th class="sortable" (click)="onHeaderClick('include')">Included?</th>
           <th class="sortable" (click)="onHeaderClick('name', 'last')">Name</th>
           <th class="sortable" (click)="onHeaderClick('deptID')">ID No.</th>
           <th class="sortable" (click)="onHeaderClick('squad')">Squad</th>
@@ -14,12 +14,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let officer of officers">
-          <td *ngIf="officer.include" class="included-true">
-            <i class="fas fa-plus-circle"></i>
-          </td>
-          <td *ngIf="!officer.include" class="included-false">
-            <i class="fas fa-minus-circle"></i>
-          </td>
+          <td *ngIf="officer.include" class="included-true">Y</td>
+          <td *ngIf="!officer.include" class="included-false">N</td>
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>

@@ -15,10 +15,12 @@
       </ol>
       <p>
         The 'episodes' collection is built primarily from two sources: XCAD and
-        Cafe. The sources should come in the form of a CSV file. The order of the column
-        headers inside each CSV file is vitally important, however, the upload order
-        is less important. Best practice dictates the XCAD file should be loaded
-        first followed by the Cafe file.
+        Cafe. The sources should come in the form of a CSV file. The order and name
+        of the column headers in each CSV file is vitally important. If the order
+        and name are not in the expected format, the upload will fail. Also, when
+        building the <code>episodes</code> database, the XCAD source should be
+        uploaded first. Failure to follow this order will cause the database to be
+        inaccurate.
       </p>
       <p>
         There are some <code>Call</code> objects that do not have associated
@@ -34,18 +36,20 @@
         <li>
           An <code>officers</code> collection is created and maintained by the user.
           This collection is independent of the <code>episodes</code> collection and
-          is used as a reference for current squad assignments.
+          is used to assign officers to squads. Additional features include an ability
+          to include/exclude officers from reports as well as designating a start date
+          from which productivity should be counted.
         </li>
         <li>
           The <code>episodes</code> collection is created via CSV files that have been
           created from a query seperate from this application. The XCAD results area
           agnostic of possible associated <code>Report</code> data and will only check
-          to see if an <code>&#123;eventNbr&#125;</code>  property exists before creating
+          to see if an <code>&#123;eventNbr&#125;</code> property exists before creating
           a new record.
         </li>
         <li>
           A Cafe CSV file is next uploaded, which will update/populate the
-          existing  <code>episodes</code> collection, creating new documents for the
+          existing <code>episodes</code> collection, creating new documents for the
           collection when an event number is either not provided in the CSV file
           or not found in the existing collection.
         </li>
@@ -91,13 +95,15 @@
       </code></pre>
       <pre><code>
       Officer &#123;
-        deptID: number,
-        radioID: string,
+        _id: any,       // key assigned by database
+        deptID: number, // unique dept ID number
         name: &#123;
           last: string,
           first: string
         &#125;,
-        squad: string
+        squad: string,
+        effDate: Date,
+        include: boolean
       &#125;
       </code></pre>
     </div>

@@ -50,7 +50,7 @@ export class XCADService {
         const disp: string = record[7].trim();
 
         if (this.isNewEpisode(eventNbr)) {
-            let call: Call = new Call(
+            const call: Call = new Call(
               eventNbr,
               created,
               eventType,
