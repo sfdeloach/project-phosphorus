@@ -1,60 +1,104 @@
 <div class="row justify-content-center">
-  <div class="col-6">
-    <h3>Upload File</h3>
+  <div class="col-8">
+    <h3>
+      <fa name="upload"></fa>
+      Upload File
+      <fa name="upload"></fa>
+    </h3>
     <button class="btn btn-secondary btn-sm" (click)="toggleInfo()">
       <div *ngIf="!showInfo">Click here for more information</div>
       <div *ngIf="showInfo">Hide instructions</div>
     </button>
     <div class="info" *ngIf="showInfo">
-      <h4>Background</h4>
+      <h4>
+        <fa name="history"></fa>
+        Background
+        <fa name="history"></fa>
+      </h4>
       <hr>
       <p>The database in use by this application has two collections:</p>
       <ol>
-        <li> <code>episodes</code> </li>
-        <li> <code>officers</code> </li>
+        <li> <code>Episodes</code> </li>
+        <li> <code>Officers</code> </li>
       </ol>
+      <h6>
+        Episodes
+        <fa name="angle-double-right"></fa>
+        <fa name="angle-double-right"></fa>
+        <fa name="angle-double-right"></fa>
+      </h6>
       <p>
-        The 'episodes' collection is built primarily from two sources: XCAD and
-        Cafe. The sources should come in the form of a CSV file. The order and name
-        of the column headers in each CSV file is vitally important. If the order
-        and name are not in the expected format, the upload will fail. Also, when
-        building the <code>episodes</code> database, the XCAD source should be
-        uploaded first. Failure to follow this order will cause the database to be
-        inaccurate.
-      </p>
-      <p>
-        There are some <code>Call</code> objects that do not have associated
-        <code>Report</code>  objects. And conversely, there are some <code>Report</code>
-        objects that do not have associated <code>Call</code> objects. This last
-        instance is typically observed in TC (traffic citation) report types. Nevertheless,
-        all of the data provided from XCAD and Cafe is aggregated into one
-        <code>episodes</code> collection
-      </p>
-      <h4>How it's made</h4>
-      <hr>
-      <ol>
+        The <code>Episodes</code> collection is built from two external sources:
+        XCAD and Cafe. The sources must be provided in the form of a
+        comma-delimited CSV file. The order and name of each column must conform
+        to a specified format, otherwise the file will fail to upload. The
+        application will also expect the user to first load XCAD data for a
+        given span of time, <strong>then follow this with Cafe data for the same
+          period</strong>.
+        </p>
+        <p>
+          An <code>Episodes</code> object consists of a <code>Call</code> object
+          and an array of <code>Report</code> objects. Data from XCAD is used to
+          build the <code>Call</code> object and data from Cafe is used to build
+          the <code>Report</code> object array.
+        </p>
+        <p>
+          In some cases, an <code>Episodes</code> object will consist only of a
+          <code>Call</code> object. This is usually the case when no report is
+          generated from a XCAD event. Conversely, some <code>Episodes</code>
+          will only consist of <code>Report</code> objects. This is typically
+          observed in TC (traffic citation) report types. Nevertheless, the
+          application will attempt to take the data provided from two distinct
+          sources and attempt to build an aggregate database.
+        </p>
+        <h6>
+          Officers
+          <fa name="angle-double-right"></fa>
+          <fa name="angle-double-right"></fa>
+          <fa name="angle-double-right"></fa>
+        </h6>
+        <p>
+          The <code>Officers</code> collection is maintained by the user and is
+          used to setup productivity reports. It is in this collection that a user
+          can control the spelling of the officer's name, the squad they are
+          assigned to, and the effective date of their performance indicators.
+          Officers may also be excluded from reports based on settings 
+        </p>
+        <h4>
+          <fa name="question"></fa>
+          How it's made
+          <fa name="question"></fa>
+        </h4>
+        <hr>
+        <ol>
         <li>
-          An <code>officers</code> collection is created and maintained by the user.
-          This collection is independent of the <code>episodes</code> collection and
-          is used to assign officers to squads. Additional features include an ability
-          to include/exclude officers from reports as well as designating a start date
-          from which productivity should be counted.
+          The <code>Officers</code> collection is created and maintained by the
+          user. This collection is independent of the <code>Episodes</code>
+          collection and is used to assign a number of properties to an officer.
+          Additional features include an ability to include/exclude officers
+          from reports as well as designating a start date from which
+          productivity should be counted.
         </li>
         <li>
-          The <code>episodes</code> collection is created via CSV files that have been
-          created from a query seperate from this application. The XCAD results area
-          agnostic of possible associated <code>Report</code> data and will only check
-          to see if an <code>&#123;eventNbr&#125;</code> property exists before creating
+          The <code>Episodes</code> collection is created via CSV files that
+          have been created from a query seperate from this application. The
+          XCAD data does not contain information on any possible associations
+          with <code>Report</code> data. It will only check to see if an
+          <code>&#123;eventNbr&#125;</code> property exists before creating
           a new record.
         </li>
         <li>
           A Cafe CSV file is next uploaded, which will update/populate the
-          existing <code>episodes</code> collection, creating new documents for the
-          collection when an event number is either not provided in the CSV file
-          or not found in the existing collection.
+          existing <code>Episodes</code> collection, creating new documents for
+          the collection when an event number is either not provided in the CSV
+          file or not found in the existing collection.
         </li>
       </ol>
-      <h4>Models</h4>
+      <h4>
+        <fa name="key"></fa>
+        Models
+        <fa name="key"></fa>
+      </h4>
       <hr>
       <pre><code>
       Episode &#123;
