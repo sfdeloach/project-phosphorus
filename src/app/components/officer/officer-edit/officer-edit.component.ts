@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerHTTPService } from '../../../services/officer.http.service';
+import { OfficerHttpService } from '../../../services/officer.http.service';
 import { SquadList } from '../../../services/lists/squad.list';
 
 import { Officer } from '../../../models/officer.model';
@@ -27,7 +27,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private ofcService: OfficerHTTPService,
+    private ofcService: OfficerHttpService,
     private squadList: SquadList
   ) { }
 

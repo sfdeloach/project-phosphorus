@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { OfficerHTTPService } from '../../services/officer.http.service';
+import { OfficerHttpService } from '../../services/officer.http.service';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Officer } from '../../models/officer.model';
@@ -22,7 +22,7 @@ export class OfficerComponent implements OnInit, OnDestroy {
   sortToggle = 1;
 
   constructor(
-    private officerService: OfficerHTTPService
+    private officerService: OfficerHttpService
   ) { }
 
   ngOnInit() {

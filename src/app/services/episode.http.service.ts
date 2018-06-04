@@ -5,13 +5,15 @@ import { Subject } from 'rxjs/Subject';
 import { ApiUrlsList } from './lists/api.urls.list';
 
 import { Episode } from '../models/episode.model';
+import { Message } from '../models/message.model';
+import { InsertManyResponse } from '../models/responses/insert.many.model';
+import { RemoveResponse } from '../models/responses/remove.model';
 
 @Injectable()
-export class EpisodeHTTPService {
+export class EpisodeHttpService {
   episodes: Subject<Episode[]> = new Subject();
-  response: Subject<any> = new Subject(); // TODO: Come back and type this?
+  message: Subject<Message> = new Subject();
   episodesUrl: string = this.url.episodeAPI;
-  connectionError: string = "Unable to connect to the API";
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -35,34 +37,32 @@ export class EpisodeHTTPService {
   }
 
   insertEpisodes(episodes: Episode[]) {
-    this.http.post<any>( // TODO: type?
-      this.episodesUrl + `/new-many`,
+    this.http.post<InsertManyResponse<Episode[]>>(
+      this.episodesUrl,
       { episodes: episodes },
       this.httpOptions
     ).subscribe(
-      (res: any) => { // TODO: type?
-        this.response.next(res);
+      (res: InsertManyResponse<Episode[]>) => {
+        this.message.next(
+          new Message(res.insertedCount + ' lines processed')
+        );
       },
       error => {
         console.error(error);
-        this.response.next(error);
       }
       );
   }
 
-  updateEpisode(episode: Episode) {
-    this.http.put<any>( // TODO: type?
-      this.episodesUrl + `/${episode._id}`,
-      { episode: episode },
-      this.httpOptions
+  wipeEpisodes() {
+    this.http.delete<RemoveResponse>(
+      this.episodesUrl
     ).subscribe(
-      (res: any) => { // TODO: type?
-        this.response.next(res);
-      },
-      error => {
-        console.error(error);
-        this.response.next(error);
+      (res: RemoveResponse) => {
+        this.message.next(
+          new Message('All episodes have been successfully wiped')
+        );
       }
-      );
+    )
+    ;
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { EpisodeHTTPService } from '../../services/episode.http.service';
-import { OfficerHTTPService } from '../../services/officer.http.service';
+import { EpisodeHttpService } from '../../services/episode.http.service';
+import { OfficerHttpService } from '../../services/officer.http.service';
 
 import { Episode } from '../../models/episode.model';
 import { Officer } from '../../models/officer.model';
@@ -28,8 +28,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   officerIncludedCount: number;
 
   constructor(
-    private episodeService: EpisodeHTTPService,
-    private officerService: OfficerHTTPService
+    private episodeService: EpisodeHttpService,
+    private officerService: OfficerHttpService
   ) { }
 
   ngOnInit() {
@@ -91,7 +91,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (date > maxDate) { maxDate = date; }
       if (evt < firstEvt ) { firstEvt = evt; }
       if (evt > lastEvt ) { lastEvt = evt; }
-      if (episode.reports.length > 0) { reportCnt += episode.reports.length; }
+      if (episode.reports && episode.reports.length > 0) {
+        reportCnt += episode.reports.length;
+      }
     });
 
     this.startingDate = minDate;
@@ -105,10 +107,4 @@ export class HomeComponent implements OnInit, OnDestroy {
   getCallDate(episode: Episode): Date {
     return new Date(episode.call.created);
   }
-
-  getJSON() {
-    // TODO: necessary to implement this feature?
-    alert('This feature not available.');
-  }
-
 }

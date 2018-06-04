@@ -12,36 +12,27 @@ export class XCADService {
 
   constructor() { }
 
-  setup(episodes: Episode[], officers: Officer[]) {
-    this.episodes = episodes;
-    this.officers = officers;
-    this.deptIDs = [];
-    officers.forEach(officer => {
-      this.deptIDs.push(officer.deptID); // current list of deptIDs TODO: add property to Officer that flags inclusion into report?
-    });
-  }
-
   xcadToEpisodes(
-    tableArray: Array<Array<string>>, episodes: Episode[], officers: Officer[]
+    tableArray: Array<Array<string>>, officers: Officer[]
   ): Episode[] {
 
-    this.setup(episodes, officers);
+    // initialize properties and create an updated department ID list
+    this.setup(officers);
 
-    // Remove column headers
+    // Remove column headers then process the table
     tableArray.splice(0, 1);
-
     tableArray.forEach(record => {
+      // trim the leading 'A0' from the table
       const deptID: number = +record[4].trim().slice(2);
-      const officer: Officer = this.isIncludedOfficer(deptID) ?
+
+      const officer: Officer = this.officerExists(deptID) ?
         this.getOfficer(deptID) : undefined;
 
-      if (officer) { // TODO: analyze if this is the intended design, maybe all records should be processed?
-        // Keep it the way it is...will it build a db similar to the old system where all stats are disregarded
-        // unless you are in patrol..
-        // If this conditional is removed, all records are brought into the assembled db, and all episodes for an
-        // officer will be counted prior to their arrival in patrol
-        // ...maybe each officer will need a new Date property of when the squad assignment is effective? no this
-        // might be a problem for officers who transfer within patrol, unless the default is October 1st????
+      if (!officer) {
+        console.log(`%c! dept ID ${deptID} is not recognized`, 'color: orange');
+      } else {
+        console.log(`%cdept ID ${deptID} is ` +
+          `${officer.name.first[0]}. ${officer.name.last}`, 'color: grey');
         const eventNbr: number = +record[0].trim();
         const created: Date = new Date(record[1]);
         const eventType: string = record[2].trim();
@@ -50,24 +41,24 @@ export class XCADService {
         const disp: string = record[7].trim();
 
         if (this.isNewEpisode(eventNbr)) {
-            const call: Call = new Call(
-              eventNbr,
-              created,
-              eventType,
-              src,
-              [officer], // unit array
-              primary === 1 ? officer : undefined,
-              [disp]
-            );
-            this.episodes.push(new Episode(call));
+          console.log(`%c* ${eventNbr} is new`, 'color: green');
+          const call: Call = new Call(
+            eventNbr,
+            created,
+            eventType,
+            src,
+            [officer], // unit array
+            primary === 1 ? officer : undefined,
+            [disp]
+          );
+          this.episodes.push(new Episode(call));
         } else {
+          console.log(`%c${eventNbr} is not new`, 'color: grey');
           const existingEpisode: Episode = this.getEpisode(eventNbr);
           const existingEpisodeIndex: number = this.getEpisodeIndex(eventNbr);
 
           // update units array, primary, and disp array if necessary
-
           if (!this.wasOfficerAdded(officer, existingEpisode)) {
-            // add officer to the unit array
             existingEpisode.call.units.push(officer);
           }
 
@@ -85,24 +76,28 @@ export class XCADService {
       }
     });
 
-    // TODO: remove all episodes that do not have a primary officer?
-    //       or keep them so included officers can be credited with a call?
-
     return this.episodes;
   }
 
   // helper functions //////////////////////////////////////////////////////////
+  setup(officers: Officer[]) {
+    this.officers = officers;
+    this.deptIDs = [];
+    this.episodes = [];
+    officers.forEach(officer => {
+      this.deptIDs.push(officer.deptID); // current list of deptIDs
+    });
+  }
 
   isNewEpisode(eventNbr: number): boolean {
     return this.episodes.find(
       episode => {
-        // console.log(`${episode.call.eventNbr} = ${eventNbr}`);
         return episode.call.eventNbr === eventNbr;
       }
     ) ? false : true;
   }
 
-  isIncludedOfficer(deptID: number): boolean {
+  officerExists(deptID: number): boolean {
     return this.officers.find(
       officer => {
         return officer.deptID === deptID;

@@ -7,37 +7,39 @@ import { AppRoutingModule } from './/app-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
-import { UploadComponent } from './components/upload/upload.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { OfficerComponent } from './components/officer/officer.component';
 import { OfficerEditComponent } from './components/officer/officer-edit/officer-edit.component';
+import { OfficerEffectiveDateComponent } from './components/officer/officer-effective-date/officer-effective-date.component';
 import { OfficerNewComponent } from './components/officer/officer-new/officer-new.component';
 import { OfficerSquadComponent } from './components/officer/officer-squad/officer-squad.component';
-import { OfficerEffectiveDateComponent } from './components/officer/officer-effective-date/officer-effective-date.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { UploadComponent } from './components/upload/upload.component';
+import { WipeEpisodesComponent } from './components/upload/wipe-episodes/wipe-episodes.component';
 
 import { CsvService } from './services/csv.service';
 import { CafeService } from './services/cafe.service';
 import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
-import { OfficerHTTPService } from './services/officer.http.service';
-import { EpisodeHTTPService } from './services/episode.http.service';
+import { OfficerHttpService } from './services/officer.http.service';
+import { EpisodeHttpService } from './services/episode.http.service';
 import { SquadList } from './services/lists/squad.list';
 import { ApiUrlsList } from './services/lists/api.urls.list';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
     HomeComponent,
-    UploadComponent,
+    NavbarComponent,
     OfficerComponent,
     OfficerEditComponent,
+    OfficerEffectiveDateComponent,
     OfficerNewComponent,
     OfficerSquadComponent,
-    OfficerEffectiveDateComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    UploadComponent,
+    WipeEpisodesComponent
   ],
   imports: [
     BrowserModule,
@@ -51,8 +53,8 @@ import { ApiUrlsList } from './services/lists/api.urls.list';
     CafeService,
     XCADService,
     UploadService,
-    OfficerHTTPService,
-    EpisodeHTTPService,
+    OfficerHttpService,
+    EpisodeHttpService,
     SquadList,
     ApiUrlsList
   ],

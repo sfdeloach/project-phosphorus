@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators, NgControlStatusGroup } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerHTTPService } from '../../../services/officer.http.service';
+import { OfficerHttpService } from '../../../services/officer.http.service';
 import { SquadList } from '../../../services/lists/squad.list';
 
 import { Officer } from '../../../models/officer.model';
@@ -24,7 +24,7 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private squadList: SquadList,
-    private ofcService: OfficerHTTPService,
+    private ofcService: OfficerHttpService,
     private router: Router
   ) { }
 

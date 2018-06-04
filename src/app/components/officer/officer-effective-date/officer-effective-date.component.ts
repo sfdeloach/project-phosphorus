@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerHTTPService } from '../../../services/officer.http.service';
+import { OfficerHttpService } from '../../../services/officer.http.service';
 
 import { Message } from '../../../models/message.model';
 import { UpdateResponse } from '../../../models/responses/update.model';
@@ -21,7 +21,7 @@ export class OfficerEffectiveDateComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ofcService: OfficerHTTPService,
+    private ofcService: OfficerHttpService,
     private router: Router
   ) { }
 

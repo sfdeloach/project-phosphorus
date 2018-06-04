@@ -2,7 +2,7 @@ export class Officer {
 
   constructor(
     public _id: string,    // key assigned by database
-    public deptID: number, // unique dept ID number
+    public deptID: number, // unique 3-digit number
     public name: {
       last: string,
       first: string

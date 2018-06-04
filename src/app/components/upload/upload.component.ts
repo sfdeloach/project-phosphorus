@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerHTTPService } from '../../services/officer.http.service';
-import { EpisodeHTTPService } from '../../services/episode.http.service';
+import { OfficerHttpService } from '../../services/officer.http.service';
 import { UploadService } from '../../services/upload.service';
+import { EpisodeHttpService } from '../../services/episode.http.service';
 
 import { Officer } from '../../models/officer.model';
-import { Episode } from '../../models/episode.model';
+import { Message } from '../../models/message.model';
 
 @Component({
   selector: 'app-upload',
@@ -17,82 +17,77 @@ export class UploadComponent implements OnInit, OnDestroy {
   showInfo = false;
   file: File;
   officers: Officer[];
-  currentEpisodes: Episode[];
-  serverResponses: any; // TODO: should this have a more specific type?
-  verifier: any;        // TODO: should this have a more specific type?
+  messages: Message[];
   subOfficers: Subscription;
-  subEpisodes: Subscription;
-  subEpisodesResponse: Subscription;
-  subOfficersResponse: Subscription;
+  subUploadMessages: Subscription;
+  subEpisodeMessages: Subscription;
 
   constructor(
-    private officerService: OfficerHTTPService,
-    private episodeService: EpisodeHTTPService,
-    private uploadService: UploadService
+    private officerService: OfficerHttpService,
+    private uploadService: UploadService,
+    private episodeService: EpisodeHttpService
   ) { }
 
   ngOnInit() {
+    this.clearMessages();
+
     this.subOfficers = this.officerService.officers.subscribe(
       (ofcs: Officer[]) => {
+        this.messages.push(
+          new Message('Ready to upload')
+        );
         this.officers = ofcs;
       }
     );
 
-    this.subEpisodes = this.episodeService.episodes.subscribe(
-      (episodes: Episode[]) => {
-        this.currentEpisodes = episodes;
+    this.subUploadMessages = this.uploadService.message.subscribe(
+      (message: Message) => {
+        this.clearMessages();
+        this.messages.push(message);
       }
     );
 
-    this.subOfficersResponse = this.officerService.response.subscribe(
-      (res: any) => {
-        this.serverResponses.push(res);
+    this.subEpisodeMessages = this.episodeService.message.subscribe(
+      (message: Message) => {
+        this.clearMessages();
+        this.messages.push(message);
       }
     );
-
-    this.subEpisodesResponse = this.episodeService.response.subscribe(
-      (res: any) => {
-        this.serverResponses.push(res);
-      });
   }
 
   ngOnDestroy() {
     this.subOfficers.unsubscribe();
-    this.subEpisodes.unsubscribe();
-    this.subOfficersResponse.unsubscribe();
-    this.subEpisodesResponse.unsubscribe();
+    this.subUploadMessages.unsubscribe();
+    this.subEpisodeMessages.unsubscribe();
   }
 
   toggleInfo() {
     this.showInfo = !this.showInfo;
   }
 
-  fileChanged(file: File) {
-    this.file = file;
-    this.verifier = undefined;
-    this.serverResponses = [];
-    this.officerService.getOfficers();
-    this.episodeService.getEpisodes();
+  clearMessages() {
+    this.messages = [];
   }
 
-  verify() {
-    const fileReader: FileReader = new FileReader();
-    fileReader.readAsText(this.file);
-
-    // preserve db data for later comparison
-    const episodesDeepCopy = JSON.parse(JSON.stringify(this.currentEpisodes));
-
-    fileReader.onload = (evt: ProgressEvent) => {
-      this.verifier = this.uploadService.verify(
-        fileReader.result,
-        this.officers,
-        episodesDeepCopy);
-    };
+  fileChanged(file: File) {
+    this.file = file;
+    this.clearMessages();
+    this.officerService.getOfficers();
   }
 
   upload() {
-    // a copy of the old episodes is passed to the service
-    this.uploadService.uploader(this.currentEpisodes);
-  }
+    this.clearMessages();
+    this.messages.push(
+      new Message(null, null, 'One moment please...processing file...')
+    );
 
+    const fileReader: FileReader = new FileReader();
+    fileReader.readAsText(this.file);
+
+    fileReader.onload = (evt: ProgressEvent) => {
+      setTimeout(() => {
+        this.uploadService.upload(fileReader.result, this.officers);
+      }, 1000);
+    };
+  }
 }

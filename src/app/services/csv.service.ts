@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { Episode } from '../models/episode.model';
 import { Call } from '../models/call.model';
+import { Element } from '@angular/compiler';
 
 @Injectable()
 export class CsvService {
@@ -49,10 +50,10 @@ export class CsvService {
     const result = [];
 
     // Process each element of the `lines` array
-    lineArray.forEach(line => {
+    lineArray.forEach(element => {
       let value = '';
       const valueArray: string[] = [];
-      const charArray: string[] = line.split('');
+      const charArray: string[] = element.split('');
 
       charArray.forEach((character, index) => {
         if (character === ',') {

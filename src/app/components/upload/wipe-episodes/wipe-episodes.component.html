@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <h3>
+      Wipe Episodes
+    </h3>
+    <div class="alert alert-danger">
+      <fa name="exclamation"></fa> DANGER
+      <fa name="exclamation"></fa>
+      <br> This will wipe all episodes from the database.
+      <br> You have been warned.
+    </div>
+    <button class="btn btn-danger" (click)="wipeEpisodes()">
+      <fa name="exclamation"></fa> Wipe episodes
+    </button>
+    <a class="btn btn-secondary float-right" routerLink="/upload">
+      <fa name="undo"></fa> Return to Upload
+    </a>
+    <div *ngIf="message">
+      <div *ngIf="message.success">
+        <div class="message-block alert alert-success">
+          <span class="dingbat">
+            <fa name="thumbs-up"></fa>
+          </span>
+          <span class="message"> {{ message.success }} </span>
+        </div>
+      </div>
+      <div *ngIf="message.danger">
+        <div class="message-block alert alert-danger">
+          <span class="dingbat">
+            <fa name="times"></fa>
+          </span>
+          <span class="message"> {{ message.danger }} </span>
+        </div>
+      </div>
+      <div *ngIf="message.info">
+        <div class="message-block alert alert-info">
+          <span class="dingbat">
+            <fa name="cog" animation="spin"></fa>
+          </span>
+          <span class="message"> {{ message.info }} </span>
+        </div>
+      </div>
+      <div *ngIf="message.warning">
+        <div class="message-block alert alert-warning">
+          <span class="dingbat">
+            <fa name="exclamation"></fa>
+          </span>
+          <span class="message"> {{ message.warning }} </span>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>

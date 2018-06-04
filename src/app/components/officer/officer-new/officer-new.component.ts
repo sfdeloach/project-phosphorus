@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OfficerHTTPService } from '../../../services/officer.http.service';
+import { OfficerHttpService } from '../../../services/officer.http.service';
 import { SquadList } from '../../../services/lists/squad.list';
 
 import { Officer } from '../../../models/officer.model';
@@ -23,7 +23,7 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ofcService: OfficerHTTPService,
+    private ofcService: OfficerHttpService,
     private squadList: SquadList
   ) { }
 

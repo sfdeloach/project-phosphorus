@@ -9,6 +9,9 @@
       <div *ngIf="!showInfo">Click here for more information</div>
       <div *ngIf="showInfo">Hide instructions</div>
     </button>
+    <a class="btn btn-danger btn-sm float-right" routerLink="/upload/wipe-episodes">
+      <fa name="trash"></fa> Wipe episodes
+    </a>
     <div class="info" *ngIf="showInfo">
       <h4>
         <fa name="history"></fa>
@@ -18,8 +21,12 @@
       <hr>
       <p>The database in use by this application has two collections:</p>
       <ol>
-        <li> <code>Episodes</code> </li>
-        <li> <code>Officers</code> </li>
+        <li>
+          <code>Episodes</code>
+        </li>
+        <li>
+          <code>Officers</code>
+        </li>
       </ol>
       <h6>
         Episodes
@@ -28,70 +35,68 @@
         <fa name="angle-double-right"></fa>
       </h6>
       <p>
-        The <code>Episodes</code> collection is built from two external sources:
-        XCAD and Cafe. The sources must be provided in the form of a
-        comma-delimited CSV file. The order and name of each column must conform
-        to a specified format, otherwise the file will fail to upload. The
-        application will also expect the user to first load XCAD data for a
-        given span of time, <strong>then follow this with Cafe data for the same
-          period</strong>.
-        </p>
-        <p>
-          An <code>Episodes</code> object consists of a <code>Call</code> object
-          and an array of <code>Report</code> objects. Data from XCAD is used to
-          build the <code>Call</code> object and data from Cafe is used to build
-          the <code>Report</code> object array.
-        </p>
-        <p>
-          In some cases, an <code>Episodes</code> object will consist only of a
-          <code>Call</code> object. This is usually the case when no report is
-          generated from a XCAD event. Conversely, some <code>Episodes</code>
-          will only consist of <code>Report</code> objects. This is typically
-          observed in TC (traffic citation) report types. Nevertheless, the
-          application will attempt to take the data provided from two distinct
-          sources and attempt to build an aggregate database.
-        </p>
-        <h6>
-          Officers
-          <fa name="angle-double-right"></fa>
-          <fa name="angle-double-right"></fa>
-          <fa name="angle-double-right"></fa>
-        </h6>
-        <p>
-          The <code>Officers</code> collection is maintained by the user and is
-          used to setup productivity reports. It is in this collection that a user
-          can control the spelling of the officer's name, the squad they are
-          assigned to, and the effective date of their performance indicators.
-          Officers may also be excluded from reports based on settings 
-        </p>
-        <h4>
-          <fa name="question"></fa>
-          How it's made
-          <fa name="question"></fa>
-        </h4>
-        <hr>
-        <ol>
+        The
+        <code>Episodes</code> collection is built from two external sources: XCAD and Cafe. The sources must be provided in the
+        form of a comma-delimited CSV file. The order and name of each column must conform to a specified format, otherwise
+        the file will fail to upload. The application will also expect the user to first load XCAD data for a given span
+        of time,
+        <strong>then follow this with Cafe data for the same period
+        </strong>.
+      </p>
+      <p>
+        An
+        <code>Episodes</code> object consists of a
+        <code>Call</code> object and an array of
+        <code>Report</code> objects. Data from XCAD is used to build the
+        <code>Call</code> object and data from Cafe is used to build the
+        <code>Report</code> object array.
+      </p>
+      <p>
+        In some cases, an
+        <code>Episodes</code> object will consist only of a
+        <code>Call</code> object. This is usually the case when no report is generated from a XCAD event. Conversely, some
+        <code>Episodes</code>
+        will only consist of
+        <code>Report</code> objects. This is typically observed in TC (traffic citation) report types. Nevertheless, the application
+        will attempt to take the data provided from two distinct sources and attempt to build an aggregate database.
+      </p>
+      <h6>
+        Officers
+        <fa name="angle-double-right"></fa>
+        <fa name="angle-double-right"></fa>
+        <fa name="angle-double-right"></fa>
+      </h6>
+      <p>
+        The
+        <code>Officers</code> collection is maintained by the user and is used to setup productivity reports. It is in this collection
+        that a user can control the spelling of the officer's name, the squad they are assigned to, and the effective date
+        of their performance indicators. Officers may also be excluded from reports based on settings
+      </p>
+      <h4>
+        <fa name="question"></fa>
+        How it's made
+        <fa name="question"></fa>
+      </h4>
+      <hr>
+      <ol>
         <li>
-          The <code>Officers</code> collection is created and maintained by the
-          user. This collection is independent of the <code>Episodes</code>
-          collection and is used to assign a number of properties to an officer.
-          Additional features include an ability to include/exclude officers
-          from reports as well as designating a start date from which
-          productivity should be counted.
+          The
+          <code>Officers</code> collection is created and maintained by the user. This collection is independent of the
+          <code>Episodes</code>
+          collection and is used to assign a number of properties to an officer. Additional features include an ability to include/exclude
+          officers from reports as well as designating a start date from which productivity should be counted.
         </li>
         <li>
-          The <code>Episodes</code> collection is created via CSV files that
-          have been created from a query seperate from this application. The
-          XCAD data does not contain information on any possible associations
-          with <code>Report</code> data. It will only check to see if an
-          <code>&#123;eventNbr&#125;</code> property exists before creating
-          a new record.
+          The
+          <code>Episodes</code> collection is created via CSV files that have been created from a query seperate from this application.
+          The XCAD data does not contain information on any possible associations with
+          <code>Report</code> data. It will only check to see if an
+          <code>&#123;eventNbr&#125;</code> property exists before creating a new record.
         </li>
         <li>
-          A Cafe CSV file is next uploaded, which will update/populate the
-          existing <code>Episodes</code> collection, creating new documents for
-          the collection when an event number is either not provided in the CSV
-          file or not found in the existing collection.
+          A Cafe CSV file is next uploaded, which will update/populate the existing
+          <code>Episodes</code> collection, creating new documents for the collection when an event number is either not provided
+          in the CSV file or not found in the existing collection.
         </li>
       </ol>
       <h4>
@@ -101,100 +106,96 @@
       </h4>
       <hr>
       <pre><code>
-      Episode &#123;
-        _id: any,
-        call: Call,
-        reports: Report[]
-      &#125;
+  Episode &#123;
+  call: Call,
+  reports: Report[],
+  _id?: any,
+  &#125;
       </code></pre>
       <pre><code>
-      Call &#123;
-        eventNbr: number,
-        created: Date,
-        eventType: string,
-        src: string,
-        units: Officer[],
-        primaryUnit: Officer
-        disps: string[],
-      &#125;
+  Call &#123;
+    eventNbr: number,
+    created: Date,
+    eventType: string,
+    src: string,
+    units: Officer[],
+    primaryUnit: Officer
+    disps: string[],
+  &#125;
       </code></pre>
       <pre><code>
-      Report &#123;
-        caseNbr: string,
-        reportDate: Date,
-        type: string,
-        offenses: Offense[],
-        clearance: string,
-        reportingOfc: Officer
-      &#125;
+  Report &#123;
+    caseNbr: string,
+    reportDate: Date,
+    type: string,
+    offenses: Offense[],
+    clearance: string,
+    reportingOfc: Officer
+  &#125;
       </code></pre>
       <pre><code>
-      Offense &#123;
-        statute: string,
-        statuteDesc: string,
-        ucrCode: string,
-        ucrDesc: string,
-        ncicLevel: string
-      &#125;
+  Offense &#123;
+    statute: string,
+    statuteDesc: string,
+    ucrCode: string,
+    ucrDesc: string,
+    ncicLevel: string
+  &#125;
       </code></pre>
       <pre><code>
-      Officer &#123;
-        _id: any,       // key assigned by database
-        deptID: number, // unique dept ID number
-        name: &#123;
-          last: string,
-          first: string
-        &#125;,
-        squad: string,
-        effDate: Date,
-        include: boolean
-      &#125;
+  Officer &#123;
+    _id: any,       // key assigned by database
+    deptID: number, // unique 3-digit number
+    name: &#123;
+      last: string,
+      first: string
+    &#125;,
+    squad: string,
+    effDate: Date,
+    include: boolean,
+    error?: any
+  &#125;
       </code></pre>
     </div>
 
     <hr>
 
-    <h5><strong>Step 1:</strong> Select</h5>
+    <h5>
+      <strong>Step 1:</strong> Select
+    </h5>
     <input type='file' #newFile (change)="fileChanged(newFile.files[0])" />
 
-    <h5 [ngClass]="{'disabled': !file}"><strong>Step 2:</strong> Verify</h5>
-    <button class="btn btn-primary btn-block" [ngClass]="{'disabled': !file}" [disabled]="!file" (click)="verify()">
-      Verify
+    <h5 [ngClass]="{'disabled': !file}">
+      <strong>Step 2:</strong> Upload
+    </h5>
+    <button class="btn btn-primary btn-block" [ngClass]="{'disabled': !file}" [disabled]="!file" (click)="upload()">
+      Upload
     </button>
-    <div class="message-block" *ngIf="verifier">
-      <div class="alert" [ngClass]="{'alert-danger': verifier.error, 'alert-success': !verifier.error}">
-        <span *ngIf="!verifier.error">
-          <span class="dingbat"> + </span>
-          <span class="message"> {{ verifier.message }} </span>
-        </span>
-        <span *ngIf="verifier.error">
-          <span class="dingbat"> X </span>
-          <span class="message"> {{ verifier.error.message }} </span>
-        </span>
-      </div>
-    </div>
 
-    <div *ngIf="verifier">
-      <h5 [ngClass]="{'disabled': verifier.error}"><strong>Step 3:</strong> Upload</h5>
-      <button class="btn btn-success btn-block" [ngClass]="{'disabled': verifier.error}" [disabled]="verifier.error" (click)="upload()">
-        Upload
-      </button>
-    </div>
-
-    <div *ngFor="let response of serverResponses">
-      <div class="message-block" *ngIf="!response.error">
-        <div class="alert alert-success" [ngClass]="{'alert-warning': response.num === 0}">
-          <span class="dingbat"> + </span>
-          <span class="message"> {{ response.num }} {{ response.message }} </span>
+    <div *ngFor="let message of messages">
+      <div *ngIf="message.success">
+        <div class="message-block alert alert-success">
+          <span class="dingbat"> <fa name="thumbs-up"></fa> </span>
+          <span class="message"> {{ message.success }} </span>
         </div>
       </div>
-      <div class="message-block" *ngIf="response.error">
-        <div class="alert alert-danger">
-          <span class="dingbat"> X </span>
-          <span class="message"> {{ response.error.message }} </span>
+      <div *ngIf="message.danger">
+        <div class="message-block alert alert-danger">
+          <span class="dingbat"> <fa name="times"></fa> </span>
+          <span class="message"> {{ message.danger }} </span>
+        </div>
+      </div>
+      <div *ngIf="message.info">
+        <div class="message-block alert alert-info">
+          <span class="dingbat"> <fa name="cog" animation="spin"></fa> </span>
+          <span class="message"> {{ message.info }} </span>
+        </div>
+      </div>
+      <div *ngIf="message.warning">
+        <div class="message-block alert alert-warning">
+          <span class="dingbat"> <fa name="exclamation"></fa> </span>
+          <span class="message"> {{ message.warning }} </span>
         </div>
       </div>
     </div>
-
   </div>
-</div>

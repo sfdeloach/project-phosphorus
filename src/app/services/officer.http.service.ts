@@ -12,7 +12,7 @@ import { RemoveResponse } from '../models/responses/remove.model';
 import { UpdateResponse } from '../models/responses/update.model';
 
 @Injectable()
-export class OfficerHTTPService {
+export class OfficerHttpService {
   officer: Subject<Officer> = new Subject();
   officers: Subject<Officer[]> = new Subject();
   response: Subject<any> = new Subject(); // TODO: type?
@@ -36,7 +36,7 @@ export class OfficerHTTPService {
       (error) => {
         console.error(error);
       }
-      );
+    );
   }
 
   getOfficers() {
@@ -109,14 +109,17 @@ export class OfficerHTTPService {
     this.resetSquadAssignments()
       .subscribe(
         (res: UpdateResponse) => {
-          if (query.$or) this.setSquadAssignments(query);
-          else this.response.next(res);
+          if (query.$or) {
+            this.setSquadAssignments(query);
+          } else {
+            this.response.next(res);
+          }
         },
         err => {
           console.error(err);
           this.response.next(err);
         }
-      )
+      );
   }
 
   resetSquadAssignments(): Observable<UpdateResponse> {
@@ -124,7 +127,7 @@ export class OfficerHTTPService {
       this.officersUrl + '/include',
       {
         'query': {},
-        'update': { '$set': { 'include': false }}
+        'update': { '$set': { 'include': false } }
       },
       this.httpOptions
     );
@@ -135,7 +138,7 @@ export class OfficerHTTPService {
       this.officersUrl + '/include',
       {
         'query': query,
-        'update': { '$set': { 'include': true }}
+        'update': { '$set': { 'include': true } }
       },
       this.httpOptions
     ).subscribe(
@@ -154,7 +157,7 @@ export class OfficerHTTPService {
       this.officersUrl + '/include',
       {
         'query': {},
-        'update': { '$set': { 'effDate': update }}
+        'update': { '$set': { 'effDate': update } }
       },
       this.httpOptions
     ).subscribe(

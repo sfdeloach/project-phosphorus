@@ -1,19 +1,19 @@
 <div class="row justify-content-center">
-  <div class="col-6">
+  <div class="col-8">
     <h3>Summary</h3>
     <table class="table">
       <tbody>
         <tr>
           <td>Number of episodes</td>
-          <td>{{ episodeCount }}</td>
+          <td>{{ episodeCount | number }}</td>
         </tr>
         <tr>
           <td>Starting date</td>
-          <td>{{ startingDate | date }}</td>
+          <td>{{ startingDate | date:'MMMM d, yyyy - h:mm:ss a' }}</td>
         </tr>
         <tr>
           <td>Ending date</td>
-          <td>{{ endingDate | date }}</td>
+          <td>{{ endingDate | date:'MMMM d, yyyy - h:mm:ss a' }}</td>
         </tr>
         <tr>
           <td>First event number</td>
@@ -25,21 +25,18 @@
         </tr>
         <tr>
           <td>Number of reports</td>
-          <td>{{ reportCount }}</td>
+          <td>{{ reportCount | number }}</td>
         </tr>
         <tr>
           <td>Number of total officers</td>
-          <td>{{ officerCount }}</td>
+          <td>{{ officerCount | number }}</td>
         </tr>
         <tr>
           <td>Number of included officers</td>
-          <td>{{ officerIncludedCount }}
-            ( {{ officerIncludedCount/officerCount | percent}} )</td>
+          <td>{{ officerIncludedCount | number }}
+            , or about {{ officerIncludedCount/officerCount | percent}}</td>
         </tr>
       </tbody>
     </table>
-    <button disabled class="btn btn-primary" type="button" (click)="getJSON()">
-      View Raw Data (not available)
-    </button>
   </div>
 </div>
