@@ -8,8 +8,8 @@ export class Call {
     public created: Date,
     public eventType: string,
     public src: string,
-    public units: Officer[],
-    public primaryUnit: Officer,
+    public units: number[],
+    public primaryUnit: number,
     public disps: string[]
   ) { }
 

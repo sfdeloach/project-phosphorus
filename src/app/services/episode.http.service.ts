@@ -44,7 +44,7 @@ export class EpisodeHttpService {
     ).subscribe(
       (res: InsertManyResponse<Episode[]>) => {
         this.message.next(
-          new Message(res.insertedCount + ' lines processed')
+          new Message(res.insertedCount + ' episodes created')
         );
       },
       error => {

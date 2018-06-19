@@ -47,31 +47,39 @@ export class XCADService {
             created,
             eventType,
             src,
-            [officer], // unit array
-            primary === 1 ? officer : undefined,
+            [officer.deptID], // unit array
+            primary === 1 ? officer.deptID : undefined,
             [disp]
           );
           this.episodes.push(new Episode(call));
         } else {
           console.log(`%c${eventNbr} is not new`, 'color: grey');
-          const existingEpisode: Episode = this.getEpisode(eventNbr);
-          const existingEpisodeIndex: number = this.getEpisodeIndex(eventNbr);
+          const episode: Episode = this.getEpisode(eventNbr);
+          const index: number = this.getEpisodeIndex(eventNbr);
+          let updateNeeded = false;
 
           // update units array, primary, and disp array if necessary
-          if (!this.wasOfficerAdded(officer, existingEpisode)) {
-            existingEpisode.call.units.push(officer);
+          if (!this.wasOfficerAdded(officer, episode)) {
+           episode.call.units.push(officer.deptID);
+           updateNeeded = true;
           }
 
           if (primary === 1) {
-            existingEpisode.call.primaryUnit = officer;
+            episode.call.primaryUnit = officer.deptID;
+            updateNeeded = true;
           }
 
-          if (!this.wasDispositionAdded(disp, existingEpisode)) {
-            existingEpisode.call.disps.push(disp);
+          if (!this.wasDispositionAdded(disp, episode)) {
+            episode.call.disps.push(disp);
+            updateNeeded = true;
           }
 
-          // replace the old episode with the updated version
-          this.episodes[existingEpisodeIndex] = existingEpisode;
+          if (updateNeeded) {
+            this.episodes[index] = episode;
+            console.log(`%cUpdate of ${episode.call.eventNbr} is needed`, 'color: blue');
+          } else {
+            console.log(`%cUpdate of ${episode.call.eventNbr} is not needed`, 'color: red');
+          }
         }
       }
     });
@@ -132,7 +140,7 @@ export class XCADService {
   wasOfficerAdded(ofc: Officer, episode: Episode): boolean {
     return episode.call.units.find(
       unit => {
-        return unit === ofc;
+        return unit === ofc.deptID;
       }
     ) ? true : false;
   }
