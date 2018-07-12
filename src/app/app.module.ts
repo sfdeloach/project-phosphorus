@@ -24,7 +24,6 @@ import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
 import { OfficerHttpService } from './services/officer.http.service';
 import { EpisodeHttpService } from './services/episode.http.service';
-import { SquadList } from './services/lists/squad.list';
 import { ApiUrlsList } from './services/lists/api.urls.list';
 
 @NgModule({
@@ -55,7 +54,6 @@ import { ApiUrlsList } from './services/lists/api.urls.list';
     UploadService,
     OfficerHttpService,
     EpisodeHttpService,
-    SquadList,
     ApiUrlsList
   ],
   bootstrap: [AppComponent]

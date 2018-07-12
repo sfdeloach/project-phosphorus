@@ -6,8 +6,7 @@
         <label class="center-block">Department ID:</label>
         <input #deptIDInput type="number" class="form-control" formControlName="deptID">
       </div>
-      <div class="alert alert-danger"
-        *ngIf="editOfficerForm.controls.deptID.touched && editOfficerForm.controls.deptID.invalid">
+      <div class="alert alert-danger" *ngIf="editOfficerForm.controls.deptID.touched && editOfficerForm.controls.deptID.invalid">
         ID numbers must be three digits or less
       </div>
       <div formGroupName="name">
@@ -19,6 +18,12 @@
           <label class="center-block">First name:</label>
           <input type="text" class="form-control" formControlName="first">
         </div>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Division:</label>
+        <select (click)="onChange()" class="form-control" formControlName="division">
+          <option *ngFor="let division of divisions" [value]="division">{{ division }}</option>
+        </select>
       </div>
       <div class="form-group">
         <label class="center-block">Squad:</label>
@@ -33,19 +38,17 @@
       <div class="form-group">
         <div class="form-check">
           <label class="form-check-label">
-            <input name="include" type="radio" class="form-check-input" [value]="true" formControlName="include">
-            Include in reports
+            <input name="include" type="radio" class="form-check-input" [value]="true" formControlName="include"> Include in reports
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input name="include" type="radio" class="form-check-input" [value]="false" formControlName="include">
-            Do not include in reports
+            <input name="include" type="radio" class="form-check-input" [value]="false" formControlName="include"> Do not include in reports
           </label>
         </div>
       </div>
       <button class="btn btn-success" type="button" (click)="onUpdate()" [disabled]="editOfficerForm.invalid">
-          <fa name="edit"></fa> Update
+        <fa name="edit"></fa> Update
       </button>
       <a class="btn btn-secondary float-right" routerLink="/officers">
         <fa name="ban"></fa> Cancel

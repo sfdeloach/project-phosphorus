@@ -8,7 +8,7 @@
       </div>
       <div class="alert alert-danger"
         *ngIf="newOfficerForm.controls.deptID.touched && newOfficerForm.controls.deptID.invalid">
-        ID numbers must be three digits or less
+        ID numbers must be four digits or less
       </div>
       <div formGroupName="name">
         <div class="form-group">
@@ -19,6 +19,12 @@
           <label class="center-block">First name:</label>
           <input type="text" class="form-control" formControlName="first">
         </div>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Division:</label>
+        <select (click)="onChange()"class="form-control" formControlName="division">
+          <option *ngFor="let division of divisions" [value]="division">{{ division }}</option>
+        </select>
       </div>
       <div class="form-group">
         <label class="center-block">Squad:</label>

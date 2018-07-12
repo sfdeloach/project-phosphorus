@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormBuilder, Validators, NgControlStatusGroup }
 import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerHttpService } from '../../../services/officer.http.service';
-import { SquadList } from '../../../services/lists/squad.list';
+import { Department } from '../../../services/lists/department.list';
 
 import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';
@@ -23,13 +23,12 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private squadList: SquadList,
     private ofcService: OfficerHttpService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.squads = this.squadList.squads;
+    this.squads = squads.structure;
     const form = {};
     this.squads.forEach(squad => {
       form[squad] = false;

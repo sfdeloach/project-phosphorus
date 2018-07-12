@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerHttpService } from '../../../services/officer.http.service';
-import { SquadList } from '../../../services/lists/squad.list';
+import { Department } from '../../../services/lists/department.list';
 
 import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';
@@ -19,12 +19,13 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
   officer: Officer;
   message: Message;
   response: Subscription;
-  squads: string[];
+  department = new Department();
+  divisions: string[] = [];
+  squads: string[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private ofcService: OfficerHttpService,
-    private squadList: SquadList
+    private ofcService: OfficerHttpService
   ) { }
 
   ngOnInit() {
@@ -32,12 +33,14 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
       'deptID': ['',
         [
           Validators.required,
-          Validators.pattern('^[0-9]{3}$|^[0-9]{2}|^[0-9]$')
+          Validators.pattern('^[0-9]{3}$|^[0-9]{2}|^[0-9]$'),
+          Validators.max(9999)
         ]],
       'name': this.formBuilder.group({
         'last': ['', Validators.required],
         'first': ['', Validators.required]
       }),
+      'division': ['', Validators.required],
       'squad': ['', Validators.required],
       'effDate': ['', Validators.required],
       'include': [true, Validators.required]
@@ -53,18 +56,24 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
           this.message.success = this.officer.name.last + ', '
             + this.officer.name.first + ' successfully added';
         } else {
-          this.message.warning = 'Something happened, and it should not have';
+          this.message.warning = 'Something just happened, and it should not have...';
           console.error(res);
         }
       }
     );
 
-    this.squads = this.squadList.squads;
+    this.divisions = this.department.getDivisions().sort();
     this.message = new Message();
   }
 
   ngOnDestroy() {
     this.response.unsubscribe();
+  }
+
+  onChange() {
+    this.squads = this.department
+      .getSquads(this.newOfficerForm.value.division)
+      .sort();
   }
 
   onSubmit() {
