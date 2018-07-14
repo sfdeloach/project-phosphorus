@@ -3,22 +3,23 @@
     <h3>Include By Squad</h3>
     <button class="btn btn-secondary btn-sm" (click)="setAll(true)">Select all</button>
     <button class="btn btn-secondary btn-sm" (click)="setAll(false)">Clear all</button>
-    <form [formGroup]="squadForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <form [formGroup]="divisionForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
         <div class="form-check" *ngFor="let squad of squads">
           <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" [formControlName]="squad">
-            {{ squad }}
+            <input type="checkbox" class="form-check-input" [formControlName]="squad.squad"> {{ squad.division }} - {{ squad.squad }}
           </label>
         </div>
       </div>
-      <button class="btn btn-success" type="submit" [disabled]="squadForm.invalid">
-          <fa name="save"></fa> Save Changes
+      <button class="btn btn-success" type="submit" [disabled]="divisionForm.invalid">
+        <fa name="save"></fa> Save Changes
       </button>
       <a class="btn btn-secondary float-right" routerLink="/officers">
         <fa name="undo"></fa> Return to Overview
       </a>
     </form>
+
     <div class="alert alert-danger" *ngIf="message.danger">
       {{ message.danger }}
     </div>
@@ -28,6 +29,8 @@
     <div class="alert alert-info" *ngIf="message.info">
       {{ message.info }}
     </div>
+
     <hr>
+
   </div>
 </div>

@@ -18,7 +18,7 @@ export class OfficerComponent implements OnInit, OnDestroy {
   officer: Officer;
   ofcSubscription: Subscription;
   response: Subscription;
-  message: Message;
+  message: Message = new Message();
   sortToggle = 1;
 
   constructor(
@@ -51,7 +51,6 @@ export class OfficerComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.message = new Message();
     this.officerService.getOfficers();
   }
 

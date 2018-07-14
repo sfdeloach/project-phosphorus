@@ -1,6 +1,26 @@
 <div class="row justify-content-center">
-  <div class="col-8">
+  <div class="col-10">
     <h3>Officer Overview</h3>
+    <a class="btn btn-primary" routerLink="/officers/new">
+      <fa name="user"></fa> Add new officer
+    </a>
+    <div class="float-right">
+      <a class="btn btn-primary" routerLink="/officers/squad">
+        <fa name="plus"></fa> Include by squad
+      </a>
+      <a class="btn btn-primary" routerLink="/officers/effective-date">
+        <fa name="calendar"></fa>Set effective date
+      </a>
+    </div>
+    <div class="alert alert-success" *ngIf="message.success">
+      {{ message.success }}
+    </div>
+    <div class="alert alert-warning" *ngIf="message.warning">
+      {{ message.warning }}
+    </div>
+    <div class="alert alert-danger" *ngIf="message.danger">
+      {{ message.danger }}
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -14,8 +34,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let officer of officers">
-          <td *ngIf="officer.include" class="included-true"><fa name="check-circle"></fa></td>
-          <td *ngIf="!officer.include" class="included-false"><fa name="minus-square"></fa></td>
+          <td *ngIf="officer.include" class="included-true">
+            <fa name="check-circle"></fa>
+          </td>
+          <td *ngIf="!officer.include" class="included-false">
+            <fa name="minus-square"></fa>
+          </td>
           <td>{{ officer.name.last }}, {{ officer.name.first }}</td>
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>
@@ -26,7 +50,7 @@
           </td>
           <td>
             <button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">
-                <fa name="trash"></fa> remove
+              <fa name="trash"></fa> remove
             </button>
           </td>
         </tr>
@@ -34,24 +58,6 @@
     </table>
     <div class="alert alert-info" *ngIf="!officers">
       Loading...
-    </div>
-    <a class="btn btn-primary" routerLink="/officers/new">
-      <fa name="user"></fa> Add new officer
-    </a>
-    <a class="btn btn-primary" routerLink="/officers/squad">
-      <fa name="plus"></fa> Include by squad
-    </a>
-    <a class="btn btn-primary" routerLink="/officers/effective-date">
-      <fa name="calendar"></fa>Set effective date
-    </a>
-    <div class="alert alert-success" *ngIf="message.success">
-      {{ message.success }}
-    </div>
-    <div class="alert alert-warning" *ngIf="message.warning">
-      {{ message.warning }}
-    </div>
-    <div class="alert alert-danger" *ngIf="message.danger">
-      {{ message.danger }}
     </div>
     <hr>
   </div>

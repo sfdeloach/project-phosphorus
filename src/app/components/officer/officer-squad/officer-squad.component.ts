@@ -16,9 +16,10 @@ import { UpdateResponse } from '../../../models/responses/update.model';
   styleUrls: ['./officer-squad.component.css']
 })
 export class OfficerSquadComponent implements OnInit, OnDestroy {
-  squadForm: FormGroup;
-  squads: string[];
-  message: Message;
+  divisionForm: FormGroup;
+  department = new Department();
+  squads = [];
+  message: Message = new Message();
   response: Subscription;
 
   constructor(
@@ -28,13 +29,14 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.squads = squads.structure;
+    this.squads = this.department.getStructureArray();
+
     const form = {};
-    this.squads.forEach(squad => {
-      form[squad] = false;
+    this.squads.forEach(element => {
+      form[element.squad] = false;
     });
 
-    this.squadForm = this.formBuilder.group(form);
+    this.divisionForm = this.formBuilder.group(form);
 
     this.response = this.ofcService.response.subscribe(
       (res: UpdateResponse) => {
@@ -63,12 +65,12 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.message = new Message('Updating squad assignments');
+    this.message.info = 'Updating squad assignments';
     const query = [];
 
-    for (const squad in this.squadForm.value) {
-      if (this.squadForm.value[squad]) {
-        query.push({ 'squad': squad });
+    for (const squad in this.divisionForm.value) {
+      if (this.divisionForm.value[squad]) {
+        query.push({ squad: squad });
       }
     }
 
@@ -79,11 +81,11 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
 
   setAll(bool: boolean) {
     const form = {};
-    this.squads.forEach(squad => {
-      form[squad] = bool;
+    this.squads.forEach(element => {
+      form[element.squad] = bool;
     });
 
-    this.squadForm.setValue(form);
+    this.divisionForm.setValue(form);
   }
 
 }

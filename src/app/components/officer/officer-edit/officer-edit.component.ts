@@ -36,7 +36,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
     this.divisions = this.department.getDivisions().sort();
 
     this.editOfficerForm = this.fb.group({
-      deptID: [
+      'deptID': [
         'loading...',
         [
           Validators.required,
@@ -44,14 +44,14 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
           Validators.max(9999)
         ]
       ],
-      name: this.fb.group({
+      'name': this.fb.group({
         last: ['loading...', Validators.required],
         first: ['loading...', Validators.required]
       }),
-      division: ['loading...', Validators.required],
-      squad: ['loading...', Validators.required],
-      effDate: ['', Validators.required],
-      include: ['', Validators.required]
+      'division': ['loading...', Validators.required],
+      'squad': ['loading...', Validators.required],
+      'effDate': ['', Validators.required],
+      'include': ['', Validators.required]
     });
 
     this.response = this.ofcService.response.subscribe(
@@ -68,17 +68,24 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
 
     this.officer = this.ofcService.officer.subscribe((ofc: Officer) => {
       this.editOfficerForm = this.fb.group({
-        deptID: [ofc.deptID, Validators.required],
-        name: this.fb.group({
+        'deptID': [
+          ofc.deptID,
+          [
+            Validators.required,
+            Validators.pattern('^[0-9]{3}$|^[0-9]{2}|^[0-9]$'),
+            Validators.max(9999)
+          ]
+        ],
+        'name': this.fb.group({
           last: [ofc.name.last, Validators.required],
           first: [ofc.name.first, Validators.required]
         }),
-        division: ofc.division,
-        squad: ofc.squad,
-        effDate: ofc.effDate,
-        include: ofc.include
+        'division': ofc.division,
+        'squad': ofc.squad,
+        'effDate': ofc.effDate,
+        'include': ofc.include
       });
-      this.onChange();
+      this.onDivisionSelect();
     });
 
     this._id = this.route.snapshot.params.id;
@@ -91,7 +98,7 @@ export class OfficerEditComponent implements OnInit, OnDestroy {
     this.officer.unsubscribe();
   }
 
-  onChange() {
+  onDivisionSelect() {
     this.squads = this.department
       .getSquads(this.editOfficerForm.value.division)
       .sort();

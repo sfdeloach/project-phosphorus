@@ -70,7 +70,7 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
     this.response.unsubscribe();
   }
 
-  onChange() {
+  onDivisionSelect() {
     this.squads = this.department
       .getSquads(this.newOfficerForm.value.division)
       .sort();

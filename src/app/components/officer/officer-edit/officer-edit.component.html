@@ -1,12 +1,12 @@
 <div class="row justify-content-center" (keypress)="onKeypress($event)">
   <div class="col-6">
     <h3>Edit Officer</h3>
-    <form [formGroup]="editOfficerForm" (ngSubmit)="onSubmit()" novalidate>
+    <form [formGroup]="editOfficerForm" (ngSubmit)="onUpdate()" novalidate>
       <div class="form-group">
         <label class="center-block">Department ID:</label>
         <input #deptIDInput type="number" class="form-control" formControlName="deptID">
       </div>
-      <div class="alert alert-danger" *ngIf="editOfficerForm.controls.deptID.touched && editOfficerForm.controls.deptID.invalid">
+      <div class="alert alert-danger" *ngIf="editOfficerForm.controls['deptID'].touched && editOfficerForm.controls['deptID'].invalid">
         ID numbers must be three digits or less
       </div>
       <div formGroupName="name">
@@ -21,7 +21,7 @@
       </div>
       <div class="form-group">
         <label class="center-block">Division:</label>
-        <select (click)="onChange()" class="form-control" formControlName="division">
+        <select (click)="onDivisionSelect()" class="form-control" formControlName="division">
           <option *ngFor="let division of divisions" [value]="division">{{ division }}</option>
         </select>
       </div>
@@ -47,7 +47,7 @@
           </label>
         </div>
       </div>
-      <button class="btn btn-success" type="button" (click)="onUpdate()" [disabled]="editOfficerForm.invalid">
+      <button class="btn btn-success" type="submit" [disabled]="editOfficerForm.invalid">
         <fa name="edit"></fa> Update
       </button>
       <a class="btn btn-secondary float-right" routerLink="/officers">
