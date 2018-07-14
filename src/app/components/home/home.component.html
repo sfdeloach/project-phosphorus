@@ -1,10 +1,10 @@
 <div class="row justify-content-center">
   <div class="col-8">
-    <h3>Summary</h3>
+    <h3><fa name="home"></fa> Summary</h3>
     <table class="table">
-      <tbody>
+      <tbody *ngIf="episodes && episodes.length > 0">
         <tr>
-          <td>Number of episodes</td>
+          <td>Episodes</td>
           <td>{{ episodeCount | number }}</td>
         </tr>
         <tr>
@@ -24,17 +24,26 @@
           <td>{{ lastEvent }}</td>
         </tr>
         <tr>
-          <td>Number of reports</td>
+          <td>Reports</td>
           <td>{{ reportCount | number }}</td>
         </tr>
         <tr>
-          <td>Number of total officers</td>
+          <td>Officers</td>
           <td>{{ officerCount | number }}</td>
         </tr>
         <tr>
-          <td>Number of included officers</td>
+          <td>Included officers</td>
           <td>{{ officerIncludedCount | number }}
             , or about {{ officerIncludedCount/officerCount | percent}}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="episodes && episodes.length === 0">
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <h2 class="big-empty faded">
+              <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
+            <h4 class="big-empty faded">Now kindly move along.</h4>
+          </td>
         </tr>
       </tbody>
     </table>

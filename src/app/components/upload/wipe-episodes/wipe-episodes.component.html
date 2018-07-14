@@ -1,16 +1,17 @@
 <div class="row justify-content-center">
-  <div class="col-8">
+  <div class="col-6">
     <h3>
       Wipe Episodes
     </h3>
     <div class="alert alert-danger">
-      <fa name="exclamation"></fa> DANGER
-      <fa name="exclamation"></fa>
-      <br> This will wipe all episodes from the database.
-      <br> You have been warned.
+      <h4>
+        <fa name="exclamation-triangle"></fa> DANGER
+      </h4>
+      <hr>
+      <p>This will wipe all episodes from the database.<p>
     </div>
     <button class="btn btn-danger" (click)="wipeEpisodes()">
-      <fa name="exclamation"></fa> Wipe episodes
+      <fa name="exclamation-triangle"></fa> Wipe episodes
     </button>
     <a class="btn btn-secondary float-right" routerLink="/upload">
       <fa name="undo"></fa> Return to Upload
@@ -49,6 +50,5 @@
         </div>
       </div>
     </div>
-    <hr>
   </div>
 </div>

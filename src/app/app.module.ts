@@ -25,6 +25,7 @@ import { UploadService } from './services/upload.service';
 import { OfficerHttpService } from './services/officer.http.service';
 import { EpisodeHttpService } from './services/episode.http.service';
 import { ApiUrlsList } from './services/lists/api.urls.list';
+import { OfficerTabsComponent } from './components/officer/officer-tabs/officer-tabs.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ApiUrlsList } from './services/lists/api.urls.list';
     OfficerSquadComponent,
     PageNotFoundComponent,
     UploadComponent,
-    WipeEpisodesComponent
+    WipeEpisodesComponent,
+    OfficerTabsComponent
   ],
   imports: [
     BrowserModule,

@@ -3,18 +3,18 @@
     <h3>Set Effective Date</h3>
     <form [formGroup]="squadForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="alert alert-warning">
-          <fa name="exclamation"></fa>  WARNING <fa name="exclamation"></fa> 
-        <br>
-        This will override the effective date for all officers.
-        <br>
-        Use with caution.
+        <h4>
+          <fa name="exclamation-triangle"></fa> CAUTION
+        </h4>
+        <hr>
+        <p>This will override the effective date for all officers.</p>
       </div>
       <div class="form-group">
         <label class="center-block">Effective Date:</label>
         <input type="date" class="form-control" formControlName="effDate">
       </div>
       <button class="btn btn-warning" type="submit" [disabled]="squadForm.invalid">
-          <fa name="save"></fa> Override All Officers
+        <fa name="exclamation-triangle"></fa> Override All Officers
       </button>
       <a class="btn btn-secondary float-right" routerLink="/officers">
         <fa name="undo"></fa> Return to Overview
@@ -29,6 +29,5 @@
     <div class="alert alert-info" *ngIf="message.info">
       {{ message.info }}
     </div>
-    <hr>
   </div>
 </div>

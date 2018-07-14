@@ -14,6 +14,7 @@ import { RemoveResponse } from '../../models/responses/remove.model';
   styleUrls: ['./officer.component.css']
 })
 export class OfficerComponent implements OnInit, OnDestroy {
+  allOfficers: Officer [];
   officers: Officer[];
   officer: Officer;
   ofcSubscription: Subscription;
@@ -28,7 +29,8 @@ export class OfficerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ofcSubscription = this.officerService.officers.subscribe(officers => {
       if (!officers[0].error) {
-        this.officers = officers.sort(this.sortOfficers);
+        this.allOfficers = officers.sort(this.sortOfficers);
+        this.onTabChange('All');
       } else if (<HttpErrorResponse>officers[0].name === 'HttpErrorResponse') {
         this.message.danger = 'Unable to connect to API';
         console.error(officers[0]);
@@ -57,6 +59,19 @@ export class OfficerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ofcSubscription.unsubscribe();
     this.response.unsubscribe();
+  }
+
+  onTabChange(tab) {
+    this.officers = this.allOfficers;
+    if (tab !== 'All') {
+      const filteredOfcList: Officer[] = [];
+      this.officers.forEach(ofc => {
+        if (ofc.division === tab) {
+          filteredOfcList.push(ofc);
+        }
+      });
+      this.officers = filteredOfcList;
+    }
   }
 
   deleteOfc(ofc: Officer) {

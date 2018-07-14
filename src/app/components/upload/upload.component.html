@@ -3,7 +3,6 @@
     <h3>
       <fa name="upload"></fa>
       Upload File
-      <fa name="upload"></fa>
     </h3>
     <button class="btn btn-secondary btn-sm" (click)="toggleInfo()">
       <div *ngIf="!showInfo">Click here for more information</div>
@@ -169,7 +168,7 @@
       <strong>Step 2:</strong> Upload
     </h5>
     <button class="btn btn-primary btn-block" [ngClass]="{'disabled': !file}" [disabled]="!file" (click)="upload()">
-      Upload
+      <fa name="upload"></fa> Upload
     </button>
 
     <div *ngFor="let message of messages">

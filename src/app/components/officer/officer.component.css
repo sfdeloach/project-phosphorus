@@ -2,6 +2,10 @@
   margin-top: 1rem;
 }
 
+.tabs {
+  padding-top: 1rem;
+}
+
 .table td {
     padding: 0.25rem;
     text-align: center;
@@ -28,9 +32,17 @@ th {
 }
 
 .included-true {
-  color: #28a745;
+  color: #18BC9C;
 }
 
 .included-false {
-  color: #dc3545;
+  color: #E74C3C;
+}
+
+h2.big-empty {
+  padding-top: 3rem;
+}
+
+.faded {
+  color: rgb(44, 62, 80, 0.5);
 }

@@ -1,3 +1,11 @@
 td {
   font-size: 1.1em;
 }
+
+h2.big-empty {
+  padding-top: 3rem;
+}
+
+.faded {
+  color: rgb(44, 62, 80, 0.5);
+}
