@@ -16,7 +16,6 @@
       <h4>
         <fa name="history"></fa>
         Background
-        <fa name="history"></fa>
       </h4>
       <hr>
       <p>The database in use by this application has two collections:</p>
@@ -28,12 +27,12 @@
           <code>Officers</code>
         </li>
       </ol>
-      <h6>
+      <h5>
         Episodes
         <fa name="angle-double-right"></fa>
         <fa name="angle-double-right"></fa>
         <fa name="angle-double-right"></fa>
-      </h6>
+      </h5>
       <p>
         The
         <code>Episodes</code> collection is built from two external sources: XCAD and Cafe. The sources must be provided in the
@@ -41,7 +40,7 @@
         the file will fail to upload. The application will also expect the user to first load XCAD data for a given span
         of time,
         <strong>then follow this with Cafe data for the same period
-        </strong>.
+        </strong>. Failure to follow this order will result in an inaccurate database.
       </p>
       <p>
         An
@@ -52,30 +51,29 @@
         <code>Report</code> object array.
       </p>
       <p>
-        In some cases, an
+        In many instances, an
         <code>Episodes</code> object will consist only of a
         <code>Call</code> object. This is usually the case when no report is generated from a XCAD event. Conversely, some
         <code>Episodes</code>
         will only consist of
         <code>Report</code> objects. This is typically observed in TC (traffic citation) report types. Nevertheless, the application
-        will attempt to take the data provided from two distinct sources and attempt to build an aggregate database.
+        will take the data provided from the two distinct sources and attempt to build an aggregate database, as long as the data is provided in the expected order.
       </p>
-      <h6>
+      <h5>
         Officers
         <fa name="angle-double-right"></fa>
         <fa name="angle-double-right"></fa>
         <fa name="angle-double-right"></fa>
-      </h6>
+      </h5>
       <p>
         The
         <code>Officers</code> collection is maintained by the user and is used to setup productivity reports. It is in this collection
         that a user can control the spelling of the officer's name, the squad they are assigned to, and the effective date
-        of their performance indicators. Officers may also be excluded from reports based on settings
+        that their productivity numbers should be applied from. Officers may also be excluded from reports based on a setting.
       </p>
       <h4>
         <fa name="question"></fa>
         How it's made
-        <fa name="question"></fa>
       </h4>
       <hr>
       <ol>
@@ -102,16 +100,14 @@
       <h4>
         <fa name="key"></fa>
         Models
-        <fa name="key"></fa>
       </h4>
       <hr>
       <pre><code>
   Episode &#123;
-  call: Call,
-  reports: Report[],
-  _id?: any,
-  &#125;
-      </code></pre>
+    call: Call,
+    reports: Report[],
+    _id?: any,
+  &#125;</code></pre>
       <pre><code>
   Call &#123;
     eventNbr: number,
@@ -121,27 +117,31 @@
     units: Officer[],
     primaryUnit: Officer
     disps: string[],
-  &#125;
-      </code></pre>
+  &#125;</code></pre>
       <pre><code>
   Report &#123;
     caseNbr: string,
     reportDate: Date,
     type: string,
+    people: People[], // TODO!
     offenses: Offense[],
     clearance: string,
     reportingOfc: Officer
-  &#125;
-      </code></pre>
+  &#125;</code></pre>
+      <pre><code>
+  People &#123; // TODO!
+    offenseNo: number,
+    type: string
+  &#125;</code></pre>
       <pre><code>
   Offense &#123;
+    offenseNo: number,
     statute: string,
     statuteDesc: string,
     ucrCode: string,
     ucrDesc: string,
     ncicLevel: string
-  &#125;
-      </code></pre>
+  &#125;</code></pre>
       <pre><code>
   Officer &#123;
     _id: any,       // key assigned by database
@@ -154,8 +154,7 @@
     effDate: Date,
     include: boolean,
     error?: any
-  &#125;
-      </code></pre>
+  &#125;</code></pre>
     </div>
 
     <hr>
@@ -175,25 +174,33 @@
     <div *ngFor="let message of messages">
       <div *ngIf="message.success">
         <div class="message-block alert alert-success">
-          <span class="dingbat"> <fa name="thumbs-up"></fa> </span>
+          <span class="dingbat">
+            <fa name="thumbs-up"></fa>
+          </span>
           <span class="message"> {{ message.success }} </span>
         </div>
       </div>
       <div *ngIf="message.danger">
         <div class="message-block alert alert-danger">
-          <span class="dingbat"> <fa name="times"></fa> </span>
+          <span class="dingbat">
+            <fa name="times"></fa>
+          </span>
           <span class="message"> {{ message.danger }} </span>
         </div>
       </div>
       <div *ngIf="message.info">
         <div class="message-block alert alert-info">
-          <span class="dingbat"> <fa name="cog" animation="spin"></fa> </span>
+          <span class="dingbat">
+            <fa name="cog" animation="spin"></fa>
+          </span>
           <span class="message"> {{ message.info }} </span>
         </div>
       </div>
       <div *ngIf="message.warning">
         <div class="message-block alert alert-warning">
-          <span class="dingbat"> <fa name="exclamation"></fa> </span>
+          <span class="dingbat">
+            <fa name="exclamation"></fa>
+          </span>
           <span class="message"> {{ message.warning }} </span>
         </div>
       </div>

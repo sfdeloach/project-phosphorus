@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private episodeService: EpisodeHttpService,
     private officerService: OfficerHttpService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.episodeCount = Number.NEGATIVE_INFINITY;
@@ -71,7 +71,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     let includedOfcs = 0;
 
     this.officers.forEach((officer: Officer) => {
-      if (officer.include) { includedOfcs += 1; }
+      if (officer.include) {
+        includedOfcs += 1;
+      }
     });
 
     this.officerIncludedCount = includedOfcs;
@@ -86,11 +88,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.episodes.forEach((episode: Episode) => {
       const date: Date = this.getCallDate(episode);
-      const evt: number = episode.call.eventNbr;
-      if (date < minDate) { minDate = date; }
-      if (date > maxDate) { maxDate = date; }
-      if (evt < firstEvt ) { firstEvt = evt; }
-      if (evt > lastEvt ) { lastEvt = evt; }
+      const evt: number = this.getEventNumber(episode);
+      if (date) {
+        if (date < minDate) {
+          minDate = date;
+        }
+        if (date > maxDate) {
+          maxDate = date;
+        }
+      }
+      if (evt) {
+        if (evt < firstEvt) {
+          firstEvt = evt;
+        }
+        if (evt > lastEvt) {
+          lastEvt = evt;
+        }
+      }
       if (episode.reports && episode.reports.length > 0) {
         reportCnt += episode.reports.length;
       }
@@ -105,6 +119,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // helper function
   getCallDate(episode: Episode): Date {
-    return new Date(episode.call.created);
+    if (episode.call) {
+      return new Date(episode.call.created);
+    } else {
+      return undefined;
+    }
+  }
+
+  getEventNumber(episode: Episode): number {
+    if (episode.call) {
+      return episode.call.eventNbr;
+    } else {
+      return undefined;
+    }
   }
 }

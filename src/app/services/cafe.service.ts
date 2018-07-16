@@ -11,7 +11,7 @@ import { Call } from '../models/call.model';
 export class CafeService {
   episodes: Episode[];
   officers: Officer[];
-  verbose = true; // used for debugging
+  verbose = false; // used for debugging
 
   constructor() {}
 
@@ -46,7 +46,7 @@ export class CafeService {
 
       if (episodeIndex === -1) {
         const report = this.createReport(row);
-        this.episodes.push(new Episode(new Call(0), [report]));
+        this.episodes.push(new Episode(undefined, [report]));
       } else if (this.newReport(row[0], episodeIndex)) {
         if (this.verbose) {
           console.log('%cNew report detected: ' + row[0], 'color: green');
@@ -57,7 +57,14 @@ export class CafeService {
         if (this.verbose) {
           console.log('%cOld report detected: ' + row[0], 'color: orange');
         }
-        const offense = new Offense(row[5], row[6], row[7], row[8], row[9]);
+        const offense = new Offense(
+          +row[4],
+          row[5],
+          row[6],
+          row[7],
+          row[8],
+          row[9]
+        );
         this.addNewOffense(row[0], offense, episodeIndex);
       }
     });
@@ -76,7 +83,7 @@ export class CafeService {
       row[0],
       new Date(row[2]),
       row[3],
-      [new Offense(row[5], row[6], row[7], row[8], row[9])],
+      [new Offense(+row[4], row[5], row[6], row[7], row[8], row[9])],
       row[10],
       +row[11]
     );
@@ -111,7 +118,9 @@ export class CafeService {
       return -1;
     }
     return this.episodes.findIndex(episode => {
-      return episode.call.eventNbr === eventNbr;
+      if (episode.call) {
+        return episode.call.eventNbr === eventNbr;
+      }
     });
   }
 }

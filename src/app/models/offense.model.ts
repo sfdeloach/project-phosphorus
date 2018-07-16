@@ -1,6 +1,7 @@
 export class Offense {
 
   constructor(
+    public offenseNo: number,
     public statute: string,
     public statuteDesc: string,
     public ucrCode: string,
