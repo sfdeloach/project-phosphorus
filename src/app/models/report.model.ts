@@ -9,7 +9,7 @@ export class Report {
     public type: string,
     public offenses: Offense[],
     public clearance: string,
-    public reportingOfc: Officer
+    public reportingOfc: number
   ) { }
 
 }

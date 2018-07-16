@@ -3,7 +3,8 @@ export class Department {
     Operations: ['Alpha', 'Bravo', 'Charlie', 'Delta'],
     'Special Operations': ['COPs', 'School Resource', 'Traffic', 'Uptown'],
     Investigations: ['CIS', 'SIS', 'Street Crimes'],
-    'Management Support': ['Emergency Management', 'Field Training', 'Training']
+    'Mgmt Support': ['Emergency Management', 'Field Training', 'Training'],
+    Unassigned: ['Field Training', 'Resigned', 'Retired']
   };
 
   getDivisions() {

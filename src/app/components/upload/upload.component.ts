@@ -77,9 +77,9 @@ export class UploadComponent implements OnInit, OnDestroy {
 
   upload() {
     this.clearMessages();
-    this.messages.push(
-      new Message(null, null, 'One moment please...processing file...')
-    );
+    const message = new Message();
+    message.info = 'One moment please...processing file...';
+    this.messages.push(message);
 
     const fileReader: FileReader = new FileReader();
     fileReader.readAsText(this.file);

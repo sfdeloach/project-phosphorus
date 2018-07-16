@@ -9,12 +9,20 @@ export class XCADService {
   episodes: Episode[];
   officers: Officer[];
   deptIDs: number[];
+  verbose = false; // used for debugging
 
-  constructor() { }
+  constructor() {}
 
   xcadToEpisodes(
-    tableArray: Array<Array<string>>, officers: Officer[]
+    tableArray: Array<Array<string>>,
+    officers: Officer[]
   ): Episode[] {
+    if (this.verbose) {
+      console.log(
+        '%c*** XCAD service verbose setting is on ***',
+        'color: blue'
+      );
+    }
 
     // initialize properties and create an updated department ID list
     this.setup(officers);
@@ -25,14 +33,25 @@ export class XCADService {
       // trim the leading 'A0' from the table
       const deptID: number = +record[4].trim().slice(2);
 
-      const officer: Officer = this.officerExists(deptID) ?
-        this.getOfficer(deptID) : undefined;
+      const officer: Officer = this.officerExists(deptID)
+        ? this.getOfficer(deptID)
+        : undefined;
 
       if (!officer) {
-        console.log(`%c! dept ID ${deptID} is not recognized`, 'color: orange');
+        if (this.verbose) {
+          console.log(
+            `%c! dept ID ${deptID} is not recognized`,
+            'color: orange'
+          );
+        }
       } else {
-        console.log(`%cdept ID ${deptID} is ` +
-          `${officer.name.first[0]}. ${officer.name.last}`, 'color: grey');
+        if (this.verbose) {
+          console.log(
+            `%cdept ID ${deptID} is ` +
+              `${officer.name.first[0]}. ${officer.name.last}`,
+            'color: grey'
+          );
+        }
         const eventNbr: number = +record[0].trim();
         const created: Date = new Date(record[1]);
         const eventType: string = record[2].trim();
@@ -41,7 +60,9 @@ export class XCADService {
         const disp: string = record[7].trim();
 
         if (this.isNewEpisode(eventNbr)) {
-          console.log(`%c* ${eventNbr} is new`, 'color: green');
+          if (this.verbose) {
+            console.log(`%c* ${eventNbr} is new`, 'color: green');
+          }
           const call: Call = new Call(
             eventNbr,
             created,
@@ -53,15 +74,17 @@ export class XCADService {
           );
           this.episodes.push(new Episode(call));
         } else {
-          console.log(`%c${eventNbr} is not new`, 'color: grey');
+          if (this.verbose) {
+            console.log(`%c${eventNbr} is not new`, 'color: grey');
+          }
           const episode: Episode = this.getEpisode(eventNbr);
           const index: number = this.getEpisodeIndex(eventNbr);
           let updateNeeded = false;
 
           // update units array, primary, and disp array if necessary
           if (!this.wasOfficerAdded(officer, episode)) {
-           episode.call.units.push(officer.deptID);
-           updateNeeded = true;
+            episode.call.units.push(officer.deptID);
+            updateNeeded = true;
           }
 
           if (primary === 1) {
@@ -76,13 +99,27 @@ export class XCADService {
 
           if (updateNeeded) {
             this.episodes[index] = episode;
-            console.log(`%cUpdate of ${episode.call.eventNbr} is needed`, 'color: blue');
+            if (this.verbose) {
+              console.log(
+                `%cUpdate of ${episode.call.eventNbr} is needed`,
+                'color: blue'
+              );
+            }
           } else {
-            console.log(`%cUpdate of ${episode.call.eventNbr} is not needed`, 'color: red');
+            if (this.verbose) {
+              console.log(
+                `%cUpdate of ${episode.call.eventNbr} is not needed`,
+                'color: red'
+              );
+            }
           }
         }
       }
     });
+
+    if (this.verbose) {
+      console.log(this.episodes);
+    }
 
     return this.episodes;
   }
@@ -98,59 +135,52 @@ export class XCADService {
   }
 
   isNewEpisode(eventNbr: number): boolean {
-    return this.episodes.find(
-      episode => {
-        return episode.call.eventNbr === eventNbr;
-      }
-    ) ? false : true;
+    return this.episodes.find(episode => {
+      return episode.call.eventNbr === eventNbr;
+    })
+      ? false
+      : true;
   }
 
   officerExists(deptID: number): boolean {
-    return this.officers.find(
-      officer => {
-        return officer.deptID === deptID;
-      }
-    ) ? true : false;
+    return this.officers.find(officer => {
+      return officer.deptID === deptID;
+    })
+      ? true
+      : false;
   }
 
   getOfficer(deptID: number): Officer {
-    return this.officers.find(
-      officer => {
-        return officer.deptID === deptID;
-      }
-    );
+    return this.officers.find(officer => {
+      return officer.deptID === deptID;
+    });
   }
 
   getEpisode(eventNbr: number): Episode {
-    return this.episodes.find(
-      episode => {
-        return episode.call.eventNbr === eventNbr;
-      }
-    );
+    return this.episodes.find(episode => {
+      return episode.call.eventNbr === eventNbr;
+    });
   }
 
   getEpisodeIndex(eventNbr: number): number {
-    return this.episodes.findIndex(
-      episode => {
-        return episode.call.eventNbr === eventNbr;
-      }
-    );
+    return this.episodes.findIndex(episode => {
+      return episode.call.eventNbr === eventNbr;
+    });
   }
 
   wasOfficerAdded(ofc: Officer, episode: Episode): boolean {
-    return episode.call.units.find(
-      unit => {
-        return unit === ofc.deptID;
-      }
-    ) ? true : false;
+    return episode.call.units.find(unit => {
+      return unit === ofc.deptID;
+    })
+      ? true
+      : false;
   }
 
   wasDispositionAdded(disposition: string, episode: Episode): boolean {
-    return episode.call.disps.find(
-      disp => {
-        return disp === disposition;
-      }
-    ) ? true : false;
+    return episode.call.disps.find(disp => {
+      return disp === disposition;
+    })
+      ? true
+      : false;
   }
-
 }

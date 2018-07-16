@@ -20,7 +20,7 @@ export class UploadService {
     private xcadService: XCADService,
     private cafeService: CafeService,
     private episodeHttpService: EpisodeHttpService
-  ) { }
+  ) {}
 
   upload(fileContents: string, officers: Officer[]) {
     const tableArray = this.csvService.toTableArray(fileContents);
@@ -28,10 +28,22 @@ export class UploadService {
     if (this.csvService.isValidFile('XCAD', tableArray[0])) {
       this.episodes = this.xcadService.xcadToEpisodes(tableArray, officers);
       this.episodeHttpService.insertEpisodes(this.episodes);
-    } else if (this.csvService.isValidFile('Cafe', tableArray[0])) {
-      // TODO!
+    } else if (
+      this.csvService.isValidFile('Cafe', tableArray[0]) &&
+      this.episodes.length > 0
+    ) {
+      this.episodes = this.cafeService.addCafeData(
+        this.episodes,
+        tableArray,
+        officers
+      );
+      this.episodeHttpService.updateEpisodes(this.episodes);
+    } else if (this.episodes.length === 0) {
+      const message = new Message();
+      message.warning = 'A XCAD file must be processed prior to a Cafe file.';
+      this.message.next(message);
     } else {
-      this.message.next(new Message(null, 'File is not a valid format'));
+      this.message.next(new Message(null, 'File is not a valid format.'));
     }
   }
 }
