@@ -13,9 +13,9 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/upload">Upload</a>
       </li>
-      <li class="nav-item dropdown" (click)="toggleSquads()" (mouseleave)="onExit()" (mouseenter)="onEnter()">
+      <li class="nav-item dropdown" (click)="toggleOfficerMenu()" (mouseleave)="onExit()" (mouseenter)="onEnter()">
         <a class="nav-link dropdown-toggle">Officers</a>
-        <div class="dropdown-menu" [ngClass]="{'show': showSquads}">
+        <div class="dropdown-menu" [ngClass]="{'show': showOfficerMenu}">
           <a class="dropdown-item" routerLink="/officers">Overview</a>
           <a class="dropdown-item" routerLink="/officers/new">New Officer</a>
         </div>
@@ -24,9 +24,14 @@
         <a class="nav-link" routerLink="/reports">Reports</a>
       </li>
     </ul>
-    <ul class="navbar-nav float-right">
+    <ul *ngIf="!loggedin" class="navbar-nav float-right">
       <li class="nav-item">
         <a class="nav-link" routerLink="/login">Login</a>
+      </li>
+    </ul>
+    <ul *ngIf="loggedin" class="navbar-nav float-right">
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()">Logout</a>
       </li>
     </ul>
   </div>

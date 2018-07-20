@@ -2,11 +2,6 @@ h5 {
   margin-top: 1.5rem;
 }
 
-.disabled {
-  opacity: .33;
-  cursor: not-allowed;
-}
-
 .message-block {
   margin-top: 0.5rem;
 }

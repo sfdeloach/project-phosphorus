@@ -18,6 +18,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { UploadComponent } from './components/upload/upload.component';
 import { WipeEpisodesComponent } from './components/upload/wipe-episodes/wipe-episodes.component';
 
+import { AuthService } from './services/auth.service';
 import { CsvService } from './services/csv.service';
 import { CafeService } from './services/cafe.service';
 import { XCADService } from './services/xcad.service';
@@ -26,6 +27,7 @@ import { OfficerHttpService } from './services/officer.http.service';
 import { EpisodeHttpService } from './services/episode.http.service';
 import { ApiUrlsList } from './services/lists/api.urls.list';
 import { OfficerTabsComponent } from './components/officer/officer-tabs/officer-tabs.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { OfficerTabsComponent } from './components/officer/officer-tabs/officer-
     PageNotFoundComponent,
     UploadComponent,
     WipeEpisodesComponent,
-    OfficerTabsComponent
+    OfficerTabsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { OfficerTabsComponent } from './components/officer/officer-tabs/officer-
     AngularFontAwesomeModule
   ],
   providers: [
+    AuthService,
     CsvService,
     CafeService,
     XCADService,

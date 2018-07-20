@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 import { OfficerComponent } from './components/officer/officer.component';
 import { OfficerNewComponent } from './components/officer/officer-new/officer-new.component';
 import { OfficerSquadComponent } from './components/officer/officer-squad/officer-squad.component';
@@ -13,11 +14,12 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'officers', component: OfficerComponent },
   { path: 'officers/new', component: OfficerNewComponent },
   { path: 'officers/squad', component: OfficerSquadComponent },
   { path: 'officers/effective-date', component: OfficerEffectiveDateComponent },
-  { path: 'officers/edit/:id', component: OfficerEditComponent},
+  { path: 'officers/edit/:id', component: OfficerEditComponent },
   { path: 'upload', component: UploadComponent },
   { path: 'upload/wipe-episodes', component: WipeEpisodesComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

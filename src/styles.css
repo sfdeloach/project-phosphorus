@@ -3,3 +3,12 @@
 strong {
     text-decoration: underline;
 }
+
+button.disabled {
+  opacity: .33;
+  cursor: not-allowed;
+}
+
+button {
+  cursor: pointer;
+}
