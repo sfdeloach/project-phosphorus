@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,26 +11,31 @@ import { Subscription } from 'rxjs/Subscription';
 export class NavbarComponent implements OnInit, OnDestroy {
   showOfficerMenu = false;
   timerID: any;
-  authSubscription: Subscription;
+  authSub: Subscription;
   loggedin = false;
+  user: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.authSubscription = this.authService.authorizedSubject.subscribe(
-      auth => {
-        this.loggedin = auth;
-      }
-    );
+    this.authSub = this.authService.authorized.subscribe(auth => {
+      this.loggedin = auth;
+      this.user = this.authService.user;
+    });
   }
 
   ngOnDestroy() {
-    this.authSubscription.unsubscribe();
+    this.authSub.unsubscribe();
   }
 
   logout() {
     this.authService.logout();
     this.loggedin = false;
+    this.user = undefined;
+
+    this.router.navigate(['/login'], {
+      fragment: 'loggedout'
+    });
   }
 
   toggleOfficerMenu() {
@@ -37,14 +43,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onExit() {
-    // start timer
     this.timerID = setTimeout(() => {
       this.showOfficerMenu = false;
     }, 2500);
   }
 
   onEnter() {
-    // stop timer
     clearTimeout(this.timerID);
   }
 }

@@ -1,6 +1,10 @@
 <div class="row justify-content-center">
   <div class="col-6">
     <h3>Login</h3>
+    <div *ngIf="!authService.guardApplication" class="alert alert-info">
+      ATTENTION: Currently in development mode!
+      <br>Username: test, Password: test
+    </div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
         <label class="center-block">Username:</label>
@@ -14,8 +18,11 @@
         <fa name="save"></fa> Save
       </button>
     </form>
-    <div class="alert alert-warning" *ngIf="submit && !getAuth()">
+    <div class="alert alert-warning" *ngIf="hasAttemptedLogin && !isLoggedin">
       Unrecognized username or incorrect password
+    </div>
+    <div class="alert alert-info" *ngIf="fragment === 'loggedout' && !hasAttemptedLogin">
+      You have been successfully logged out
     </div>
   </div>
 </div>

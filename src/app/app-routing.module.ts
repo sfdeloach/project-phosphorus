@@ -11,23 +11,44 @@ import { OfficerEditComponent } from './components/officer/officer-edit/officer-
 import { UploadComponent } from './components/upload/upload.component';
 import { WipeEpisodesComponent } from './components/upload/wipe-episodes/wipe-episodes.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthService] },
   { path: 'login', component: LoginComponent },
-  { path: 'officers', component: OfficerComponent },
-  { path: 'officers/new', component: OfficerNewComponent },
-  { path: 'officers/squad', component: OfficerSquadComponent },
-  { path: 'officers/effective-date', component: OfficerEffectiveDateComponent },
-  { path: 'officers/edit/:id', component: OfficerEditComponent },
-  { path: 'upload', component: UploadComponent },
-  { path: 'upload/wipe-episodes', component: WipeEpisodesComponent },
+  { path: 'officers', component: OfficerComponent, canActivate: [AuthService] },
+  {
+    path: 'officers/new',
+    component: OfficerNewComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'officers/squad',
+    component: OfficerSquadComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'officers/effective-date',
+    component: OfficerEffectiveDateComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'officers/edit/:id',
+    component: OfficerEditComponent,
+    canActivate: [AuthService]
+  },
+  { path: 'upload', component: UploadComponent, canActivate: [AuthService] },
+  {
+    path: 'upload/wipe-episodes',
+    component: WipeEpisodesComponent,
+    canActivate: [AuthService]
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

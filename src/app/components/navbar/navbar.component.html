@@ -31,7 +31,11 @@
     </ul>
     <ul *ngIf="loggedin" class="navbar-nav float-right">
       <li class="nav-item">
-        <a class="nav-link" (click)="logout()">Logout</a>
+        <a class="nav-link" (click)="logout()">
+          Logged in as
+          <strong>{{ user | titlecase }}</strong>
+          &nbsp;<fa name="power-off"></fa>
+        </a>
       </li>
     </ul>
   </div>
