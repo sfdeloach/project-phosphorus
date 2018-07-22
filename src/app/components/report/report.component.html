@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+  <div class="col-10">
+    <h3>
+      <fa name="file-text"></fa> Reports</h3>
+    <a class="btn btn-info" routerLink="/reports/new">
+      <fa name="plus"></fa> Create report
+    </a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="onHeaderClick('title')">Title</th>
+          <th class="sortable" (click)="onHeaderClick('created')">Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of reports">
+          <td>{{ report.title }}</td>
+          <td>{{ report.created }}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="reports && reports.length === 0">
+        <tr>
+          <td colspan="2">
+            <h2 class="big-empty faded">
+              <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
+            <h4 class="big-empty faded">Now kindly move along.</h4>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert alert-info" *ngIf="!reports">
+      Loading...
+    </div>
+  </div>
+</div>

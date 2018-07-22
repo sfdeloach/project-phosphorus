@@ -22,5 +22,12 @@ a.disabled {
 
 strong {
   text-decoration: none;
-  font-size: 110%;
+}
+
+fa.on {
+  color: #18BC9C;
+}
+
+fa.off {
+  color: #E74C3C;
 }

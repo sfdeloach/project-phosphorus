@@ -14,9 +14,9 @@ import { Officer } from '../../models/officer.model';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   episodes: Episode[];
-  episodeSubscription: Subscription;
+  episodeSub: Subscription;
   officers: Officer[];
-  officerSubscription: Subscription;
+  officerSub: Subscription;
 
   episodeCount: number;
   startingDate: Date;
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.officerCount = Number.NEGATIVE_INFINITY;
     this.officerIncludedCount = Number.NEGATIVE_INFINITY;
 
-    this.episodeSubscription = this.episodeService.episodes.subscribe(
+    this.episodeSub = this.episodeService.episodes.subscribe(
       (episodes: Episode[]) => {
         this.episodes = episodes;
         this.episodeCount = episodes.length;
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.officerSubscription = this.officerService.officers.subscribe(
+    this.officerSub = this.officerService.officers.subscribe(
       (officers: Officer[]) => {
         this.officers = officers;
         this.officerCount = officers.length;
@@ -63,8 +63,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.episodeSubscription.unsubscribe();
-    this.officerSubscription.unsubscribe();
+    this.episodeSub.unsubscribe();
+    this.officerSub.unsubscribe();
   }
 
   findOfficerRanges() {

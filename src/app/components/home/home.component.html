@@ -46,6 +46,15 @@
           </td>
         </tr>
       </tbody>
+      <tbody *ngIf="!episodes">
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <h2 class="big-empty faded">
+              <fa name="cog" animation="spin"></fa>Please be patient.</h2>
+            <h4 class="big-empty faded">I'm sorting through a ton of data!</h4>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>

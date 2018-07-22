@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { ReportComponent } from './components/report/report.component';
+import { ReportNewComponent } from './components/report/report-new/report-new.component';
+import { ReportViewComponent } from './components/report/report-view/report-view.component';
 import { OfficerComponent } from './components/officer/officer.component';
 import { OfficerNewComponent } from './components/officer/officer-new/officer-new.component';
 import { OfficerSquadComponent } from './components/officer/officer-squad/officer-squad.component';
@@ -16,6 +19,17 @@ import { AuthService } from './services/auth.service';
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthService] },
   { path: 'login', component: LoginComponent },
+  { path: 'reports', component: ReportComponent, canActivate: [AuthService] },
+  {
+    path: 'reports/new',
+    component: ReportNewComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'reports/view/:id',
+    component: ReportViewComponent,
+    canActivate: [AuthService]
+  },
   { path: 'officers', component: OfficerComponent, canActivate: [AuthService] },
   {
     path: 'officers/new',

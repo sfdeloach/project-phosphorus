@@ -28,6 +28,9 @@ import { EpisodeHttpService } from './services/episode.http.service';
 import { ApiUrlsList } from './services/lists/api.urls.list';
 import { OfficerTabsComponent } from './components/officer/officer-tabs/officer-tabs.component';
 import { LoginComponent } from './components/login/login.component';
+import { ReportComponent } from './components/report/report.component';
+import { ReportNewComponent } from './components/report/report-new/report-new.component';
+import { ReportViewComponent } from './components/report/report-view/report-view.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { LoginComponent } from './components/login/login.component';
     UploadComponent,
     WipeEpisodesComponent,
     OfficerTabsComponent,
-    LoginComponent
+    LoginComponent,
+    ReportComponent,
+    ReportNewComponent,
+    ReportViewComponent
   ],
   imports: [
     BrowserModule,

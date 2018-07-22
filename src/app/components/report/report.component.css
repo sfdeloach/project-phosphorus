@@ -1,0 +1,20 @@
+h2.big-empty {
+  padding-top: 3rem;
+}
+
+.faded {
+  color: rgb(44, 62, 80, 0.5);
+}
+
+.sortable {
+  cursor: pointer;
+}
+
+.table {
+  margin-top: 1rem;
+}
+
+.table td {
+  padding: 0.25rem;
+  text-align: center;
+}
