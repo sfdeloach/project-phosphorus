@@ -11,6 +11,7 @@ import { RemoveResponse } from '../models/responses/remove.model';
 
 @Injectable()
 export class EpisodeHttpService {
+  loadedEpisodes: Episode[] = [];
   episodes: Subject<Episode[]> = new Subject();
   message: Subject<Message> = new Subject();
   episodesUrl: string = this.url.episodeAPI;
@@ -23,6 +24,7 @@ export class EpisodeHttpService {
   getEpisodes() {
     this.http.get<Episode[]>(this.episodesUrl).subscribe(
       (episodes: Episode[]) => {
+        this.loadedEpisodes = episodes;
         this.episodes.next(episodes);
       },
       err => {
@@ -86,6 +88,8 @@ export class EpisodeHttpService {
         this.message.next(
           new Message('All episodes have been successfully wiped')
         );
+        this.loadedEpisodes = [];
+        this.episodes.next([]);
       });
   }
 }

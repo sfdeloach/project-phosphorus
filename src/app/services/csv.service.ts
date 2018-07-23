@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
 import { Episode } from '../models/episode.model';
 import { Call } from '../models/call.model';
 import { Element } from '@angular/compiler';
@@ -8,17 +7,32 @@ import { Element } from '@angular/compiler';
 @Injectable()
 export class CsvService {
   public cafeHeaders: Array<string> = [
-    'IncidentNbr', 'EventNbr', 'ReportDate', 'ReportType', 'OffenseNbr',
-    'StatuteNbr', 'ChargeDescription', 'UcrCode', 'UcrDescription',
-    'FelonyMisdemeanor', 'Clearance', 'ReportingOfficerNbr'
+    'IncidentNbr',
+    'EventNbr',
+    'ReportDate',
+    'ReportType',
+    'OffenseNbr',
+    'StatuteNbr',
+    'ChargeDescription',
+    'UcrCode',
+    'UcrDescription',
+    'FelonyMisdemeanor',
+    'Clearance',
+    'ReportingOfficerNbr'
   ];
 
   public xcadHeaders: Array<string> = [
-    'EventNbr', 'Init_DateTime', 'FinalEventType', 'SourceCall', 'BadgeNbr',
-    'UnitId', 'PrimaryUnit', 'DispCode'
+    'EventNbr',
+    'Init_DateTime',
+    'FinalEventType',
+    'SourceCall',
+    'BadgeNbr',
+    'UnitId',
+    'PrimaryUnit',
+    'DispCode'
   ];
 
-  constructor() { }
+  constructor() {}
 
   /*  Converts a CSV string to a table array of strings, for example:
    *  [
@@ -54,13 +68,14 @@ export class CsvService {
       let value = '';
       const valueArray: string[] = [];
       const charArray: string[] = element.split('');
+      let insideQuotes = false;
 
       charArray.forEach((character, index) => {
-        if (character === ',') {
+        if (!insideQuotes && character === ',') {
           valueArray.push(value);
           value = '';
         } else if (character === '"') {
-          // Do nothing, this removes the quote from the string literal
+          insideQuotes = !insideQuotes;
         } else if (index === charArray.length - 1) {
           value += character;
           valueArray.push(value);
@@ -94,5 +109,4 @@ export class CsvService {
     });
     return result;
   }
-
 }

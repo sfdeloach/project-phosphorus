@@ -6,6 +6,9 @@ import { OfficerHttpService } from '../../services/officer.http.service';
 
 import { Episode } from '../../models/episode.model';
 import { Officer } from '../../models/officer.model';
+import { Report } from '../../models/report.model';
+
+import { flattenDeep } from 'lodash';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   endingDate: Date;
   firstEvent: number;
   lastEvent: number;
-  reportCount: number;
+  reports: Report[];
   officerCount: number;
   officerIncludedCount: number;
 
@@ -33,14 +36,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.episodeCount = Number.NEGATIVE_INFINITY;
     this.startingDate = new Date('January 1, 1970');
     this.endingDate = new Date('January 1, 2170');
     this.firstEvent = Number.POSITIVE_INFINITY;
     this.lastEvent = Number.NEGATIVE_INFINITY;
-    this.reportCount = Number.NEGATIVE_INFINITY;
-    this.officerCount = Number.NEGATIVE_INFINITY;
-    this.officerIncludedCount = Number.NEGATIVE_INFINITY;
 
     this.episodeSub = this.episodeService.episodes.subscribe(
       (episodes: Episode[]) => {
@@ -58,7 +57,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.episodeService.getEpisodes();
+    // See if a copy of episodes already exists
+    if (this.episodeService.loadedEpisodes.length > 0) {
+      this.episodes = this.episodeService.loadedEpisodes;
+      this.findEpisodeRanges();
+    } else {
+      this.episodeService.getEpisodes();
+    }
+
     this.officerService.getOfficers();
   }
 
@@ -80,57 +86,52 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   findEpisodeRanges() {
-    let minDate: Date = this.endingDate;
-    let maxDate: Date = this.startingDate;
-    let firstEvt: number = this.firstEvent;
-    let lastEvt: number = this.lastEvent;
-    let reportCnt = 0;
+    const eventDateValues: number[] = this.episodes
+      .filter(evt => evt.call)
+      .map(evt => new Date(evt.call.created).getTime());
+    this.startingDate = new Date(Math.min(...eventDateValues));
+    this.endingDate = new Date(Math.max(...eventDateValues));
 
-    this.episodes.forEach((episode: Episode) => {
-      const date: Date = this.getCallDate(episode);
-      const evt: number = this.getEventNumber(episode);
-      if (date) {
-        if (date < minDate) {
-          minDate = date;
-        }
-        if (date > maxDate) {
-          maxDate = date;
-        }
-      }
-      if (evt) {
-        if (evt < firstEvt) {
-          firstEvt = evt;
-        }
-        if (evt > lastEvt) {
-          lastEvt = evt;
-        }
-      }
-      if (episode.reports && episode.reports.length > 0) {
-        reportCnt += episode.reports.length;
-      }
-    });
+    const eventNumbers: number[] = this.episodes
+      .filter(evt => evt.call)
+      .map(evt => evt.call.eventNbr);
+    this.firstEvent = Math.min(...eventNumbers);
+    this.lastEvent = Math.max(...eventNumbers);
 
-    this.startingDate = minDate;
-    this.endingDate = maxDate;
-    this.firstEvent = firstEvt;
-    this.lastEvent = lastEvt;
-    this.reportCount = reportCnt;
+    this.reports = flattenDeep(
+      this.episodes
+        .filter(episode => episode.reports)
+        .map(episode => episode.reports as Report[])
+    ) as Report[];
   }
 
-  // helper function
-  getCallDate(episode: Episode): Date {
-    if (episode.call) {
-      return new Date(episode.call.created);
-    } else {
-      return undefined;
-    }
+  getReportCount(type: string): number {
+    return this.reports.filter(report => report.type === type).length;
   }
 
-  getEventNumber(episode: Episode): number {
-    if (episode.call) {
-      return episode.call.eventNbr;
-    } else {
-      return undefined;
+  getCitationCount(type: string): number {
+    switch (type) {
+      case 'warning':
+        return this.reports.filter(
+          report =>
+            report.offenses[0].ucrCode === '7200' && report.type === 'TC'
+        ).length;
+      case 'utt':
+        return this.reports.filter(
+          report =>
+            report.offenses[0].ucrCode === '7100' &&
+            report.type === 'TC' &&
+            report.clearance === 'Inactive'
+        ).length;
+      case 'criminal':
+        return this.reports.filter(
+          report =>
+            report.offenses[0].ucrCode === '7100' &&
+            report.type === 'TC' &&
+            report.clearance === 'Cleared By Arrest'
+        ).length;
+      default:
+        return 0;
     }
   }
 }

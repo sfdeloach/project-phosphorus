@@ -9,3 +9,12 @@ h2.big-empty {
 .faded {
   color: rgb(44, 62, 80, 0.5);
 }
+
+.sub-report {
+  color: gray;
+  text-align: right;
+}
+
+.sub-total {
+  color: gray;
+}
