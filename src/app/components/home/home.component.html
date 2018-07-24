@@ -30,7 +30,7 @@
     <tbody *ngIf="episodes && episodes.length > 0">
       <tr>
         <td class="text-right">Total calls:</td>
-        <td>&nbsp;{{ episodes | total: 'call' | number }}</td>
+        <td>&nbsp;{{ episodes | isolate: 'call' | total | number }}</td>
       </tr>
     </tbody>
     <div *ngIf="episodes && episodes.length === 0">
@@ -50,7 +50,35 @@
     <tbody *ngIf="episodes && episodes.length > 0">
       <tr>
         <td class="text-right">Total reports:</td>
-        <td>&nbsp;{{ episodes | total: 'reports' | number }}</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Offenses:</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'OR' | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Citations/Warnings:</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'TC' | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">CJIS Reports:</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'CJ' | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Field Contacts:</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'FC' | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Trespasses:</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'TP' | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Crashes:</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'TA' | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Area Patrols:</td>
+        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'AP' | total | number }}</td>
       </tr>
     </tbody>
     <div *ngIf="episodes && episodes.length === 0">
@@ -71,6 +99,10 @@
       <tr>
         <td class="text-right">Total officers:</td>
         <td>&nbsp;{{ officers | total | number }}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Included officers:</td>
+        <td>&nbsp;{{ officers | total: "included" | number }}</td>
       </tr>
     </tbody>
     <div *ngIf="officers && officers.length === 0">
@@ -103,39 +135,6 @@
         <tr>
           <td>Last event number</td>
           <td>{{ lastEvent }}</td>
-        </tr>
-        <tr>
-          <td>Total Reports</td>
-          <td>{{ reports.length | number }}</td>
-          <td>{{ reports | total:reports | number }}</td>
-        </tr>
-        <tr>
-          <td class="sub-report">Offense</td>
-          <td class="sub-total">{{ getReportCount('OR') | number }}</td>
-        </tr>
-        <tr>
-          <td class="sub-report">CJIS</td>
-          <td class="sub-total">{{ getReportCount('CJ') | number }}</td>
-        </tr>
-        <tr>
-          <td class="sub-report">Field Contacts</td>
-          <td class="sub-total">{{ getReportCount('FC') | number }}</td>
-        </tr>
-        <tr>
-          <td class="sub-report">Warnings</td>
-          <td class="sub-total">{{ getCitationCount('warning') | number }}</td>
-        </tr>
-        <tr>
-          <td class="sub-report">UTTs</td>
-          <td class="sub-total">{{ getCitationCount('utt') | number }}</td>
-        </tr>
-        <tr>
-          <td class="sub-report">Criminal Citations</td>
-          <td class="sub-total">{{ getCitationCount('criminal') | number }}</td>
-        </tr>
-        <tr>
-          <td class="sub-report">Crashes</td>
-          <td class="sub-total">{{ getReportCount('TA') | number }}</td>
         </tr>
         <tr>
           <td>Officers</td>

@@ -32,6 +32,8 @@ import { ReportComponent } from './components/report/report.component';
 import { ReportNewComponent } from './components/report/report-new/report-new.component';
 import { ReportViewComponent } from './components/report/report-view/report-view.component';
 
+import { IsolatePipe } from './pipes/isolate.pipe';
+import { ReportPipe } from './pipes/report.pipe';
 import { TotalPipe } from './pipes/total.pipe';
 
 @NgModule({
@@ -52,6 +54,8 @@ import { TotalPipe } from './pipes/total.pipe';
     ReportComponent,
     ReportNewComponent,
     ReportViewComponent,
+    IsolatePipe,
+    ReportPipe,
     TotalPipe
   ],
   imports: [

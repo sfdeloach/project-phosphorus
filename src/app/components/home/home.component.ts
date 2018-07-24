@@ -103,10 +103,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     ) as Report[];
   }
 
-  getReportCount(type: string): number {
-    return this.reports.filter(report => report.type === type).length;
-  }
-
   getCitationCount(type: string): number {
     switch (type) {
       case 'warning':
