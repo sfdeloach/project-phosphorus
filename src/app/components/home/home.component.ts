@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   officers: Officer[];
   officerSub: Subscription;
 
-  episodeCount: number;
   startingDate: Date;
   endingDate: Date;
   firstEvent: number;
@@ -44,7 +43,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.episodeSub = this.episodeService.episodes.subscribe(
       (episodes: Episode[]) => {
         this.episodes = episodes;
-        this.episodeCount = episodes.length;
         this.findEpisodeRanges();
       }
     );

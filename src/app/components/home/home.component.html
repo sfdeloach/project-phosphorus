@@ -5,12 +5,12 @@
     </h3>
   </div>
 
-  <div class="col-5">
-    <h5>Episodes</h5>
+  <div class="col-5 section">
+    <h5 class="section-titles">Episodes</h5>
     <tbody *ngIf="episodes && episodes.length > 0">
       <tr>
-        <td>Total episodes:</td>
-        <td>{{ episodes | total | number }}</td>
+        <td class="text-right">Total episodes:</td>
+        <td>&nbsp;{{ episodes | total | number }}</td>
       </tr>
     </tbody>
     <div *ngIf="episodes && episodes.length === 0">
@@ -25,40 +25,69 @@
     </div>
   </div>
 
-  <div class="col-5">
-    <h5>Calls</h5>
+  <div class="col-5 section">
+    <h5 class="section-titles">Calls</h5>
     <tbody *ngIf="episodes && episodes.length > 0">
       <tr>
-        <td>Total calls:</td>
-        <td>{{ episodes | total: 'calls' | number }}</td>
+        <td class="text-right">Total calls:</td>
+        <td>&nbsp;{{ episodes | total: 'call' | number }}</td>
       </tr>
     </tbody>
+    <div *ngIf="episodes && episodes.length === 0">
+      <h5 class="big-empty faded">
+        <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
+      <p class="big-empty faded">Now kindly move along.</p>
+    </div>
+    <div *ngIf="!episodes">
+      <h5 class="big-empty faded">
+        <fa name="cog" animation="spin"></fa>Please be patient.</h5>
+      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+    </div>
   </div>
-  <div class="col-5">
-    <h5>Reports</h5>
+
+  <div class="col-5 section">
+    <h5 class="section-titles">Reports</h5>
     <tbody *ngIf="episodes && episodes.length > 0">
       <tr>
-        <td>Total reports:</td>
-        <td>{{ episodes | total: 'reports' | number }}</td>
+        <td class="text-right">Total reports:</td>
+        <td>&nbsp;{{ episodes | total: 'reports' | number }}</td>
       </tr>
     </tbody>
+    <div *ngIf="episodes && episodes.length === 0">
+      <h5 class="big-empty faded">
+        <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
+      <p class="big-empty faded">Now kindly move along.</p>
+    </div>
+    <div *ngIf="!episodes">
+      <h5 class="big-empty faded">
+        <fa name="cog" animation="spin"></fa>Please be patient.</h5>
+      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+    </div>
   </div>
-  <div class="col-5">
-    <h5>Officers</h5>
+
+  <div class="col-5 section">
+    <h5 class="section-titles">Officers</h5>
+    <tbody *ngIf="officers && officers.length > 0">
+      <tr>
+        <td class="text-right">Total officers:</td>
+        <td>&nbsp;{{ officers | total | number }}</td>
+      </tr>
+    </tbody>
+    <div *ngIf="officers && officers.length === 0">
+      <h5 class="big-empty faded">
+        <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
+      <p class="big-empty faded">Now kindly move along.</p>
+    </div>
+    <div *ngIf="!officers">
+      <h5 class="big-empty faded">
+        <fa name="cog" animation="spin"></fa>Please be patient.</h5>
+      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+    </div>
   </div>
 </div>
 
 <!-- <table class="table">
       <tbody *ngIf="episodes && episodes.length > 0">
-        <tr>
-          <td>Total Episodes</td>
-          <td>{{ episodeCount | number }}</td>
-          <td>{{ episodes | total | number }}</td>
-        </tr>
-        <tr>
-          <td>Total Calls</td>
-          <td>{{ episodes | total:calls | number }}</td>
-        </tr>
         <tr>
           <td>Starting date</td>
           <td>{{ startingDate | date:'MMMM d, yyyy - h:mm:ss a' }}</td>

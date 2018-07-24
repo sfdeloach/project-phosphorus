@@ -1,24 +1,23 @@
-td {
-  font-size: 1.1em;
-}
-
 h2.big-empty {
   padding-top: 3rem;
 }
 
 .faded {
   color: rgb(44, 62, 80, 0.5);
-}
-
-.sub-report {
-  color: gray;
-  text-align: right;
-}
-
-.sub-total {
-  color: gray;
-}
-
-h5 {
   text-align: center;
+}
+
+.section-titles {
+  text-align: left;
+  border-bottom: 1px rgb(44, 62, 80, 0.5) solid;
+}
+
+.section {
+  padding-top: 1em;
+  padding-bottom: 5em;
+  margin-bottom: 3em;
+}
+
+.text-right {
+  width: 12rem;
 }
