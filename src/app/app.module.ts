@@ -33,7 +33,8 @@ import { ReportNewComponent } from './components/report/report-new/report-new.co
 import { ReportViewComponent } from './components/report/report-view/report-view.component';
 
 import { IsolatePipe } from './pipes/isolate.pipe';
-import { ReportPipe } from './pipes/report.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
+import { FindDatePipe } from './pipes/find.date.pipe';
 import { TotalPipe } from './pipes/total.pipe';
 
 @NgModule({
@@ -55,7 +56,8 @@ import { TotalPipe } from './pipes/total.pipe';
     ReportNewComponent,
     ReportViewComponent,
     IsolatePipe,
-    ReportPipe,
+    FilterPipe,
+    FindDatePipe,
     TotalPipe
   ],
   imports: [

@@ -1,18 +1,16 @@
 <div class="row justify-content-center">
   <div class="col-10">
     <h3>
-      <fa name="home"></fa> Summary
+      <fa name="home"></fa> Home
     </h3>
   </div>
 
   <div class="col-5 section">
     <h5 class="section-titles">Episodes</h5>
-    <tbody *ngIf="episodes && episodes.length > 0">
-      <tr>
-        <td class="text-right">Total episodes:</td>
-        <td>&nbsp;{{ episodes | total | number }}</td>
-      </tr>
-    </tbody>
+    <div class="row" *ngIf="episodes && episodes.length > 0">
+      <div class="col-6 text-right">Total episodes:</div>
+      <div class="col-6">{{ episodes | total | number }}</div>
+    </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
         <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
@@ -27,12 +25,14 @@
 
   <div class="col-5 section">
     <h5 class="section-titles">Calls</h5>
-    <tbody *ngIf="episodes && episodes.length > 0">
-      <tr>
-        <td class="text-right">Total calls:</td>
-        <td>&nbsp;{{ episodes | isolate: 'call' | total | number }}</td>
-      </tr>
-    </tbody>
+    <div class="row" *ngIf="episodes && episodes.length > 0">
+      <div class="col-6 text-right">Total Calls:</div>
+      <div class="col-6">{{ episodes | isolate:'call' | total | number }}</div>
+      <div class="col-6 text-right">Earliest Date:</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'min' | date:'MMMM d, yyyy - h:mm a' }}</div>
+      <div class="col-6 text-right">Latest Date:</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'max' | date:'MMMM d, yyyy - h:mm a' }}</div>
+    </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
         <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
@@ -47,40 +47,24 @@
 
   <div class="col-5 section">
     <h5 class="section-titles">Reports</h5>
-    <tbody *ngIf="episodes && episodes.length > 0">
-      <tr>
-        <td class="text-right">Total reports:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">Offenses:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'OR' | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">Citations/Warnings:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'TC' | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">CJIS Reports:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'CJ' | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">Field Contacts:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'FC' | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">Trespasses:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'TP' | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">Crashes:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'TA' | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">Area Patrols:</td>
-        <td>&nbsp;{{ episodes | isolate: 'reports' | report: 'AP' | total | number }}</td>
-      </tr>
-    </tbody>
+    <div class="row" *ngIf="episodes && episodes.length > 0">
+      <div class="col-6 text-right">Total reports:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | total | number }}</div>
+      <div class="col-6 text-right">Offenses:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'OR' | total | number }}</div>
+      <div class="col-6 text-right">Citations/Warnings:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'TC' | total | number }}</div>
+      <div class="col-6 text-right">CJIS Reports:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'CJ' | total | number }}</div>
+      <div class="col-6 text-right">Field Contacts:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'FC' | total | number }}</div>
+      <div class="col-6 text-right">Trespasses:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'TP' | total | number }}</div>
+      <div class="col-6 text-right">Crashes:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'TA' | total | number }}</div>
+      <div class="col-6 text-right">Area Patrol:</div>
+      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'AP' | total | number }}</div>
+    </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
         <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
@@ -95,16 +79,12 @@
 
   <div class="col-5 section">
     <h5 class="section-titles">Officers</h5>
-    <tbody *ngIf="officers && officers.length > 0">
-      <tr>
-        <td class="text-right">Total officers:</td>
-        <td>&nbsp;{{ officers | total | number }}</td>
-      </tr>
-      <tr>
-        <td class="text-right">Included officers:</td>
-        <td>&nbsp;{{ officers | total: "included" | number }}</td>
-      </tr>
-    </tbody>
+    <div class="row" *ngIf="officers && officers.length > 0">
+      <div class="col-6 text-right">Total Officers:</div>
+      <div class="col-6">{{ officers | total | number }}</div>
+      <div class="col-6 text-right">Included Officers:</div>
+      <div class="col-6">{{ officers | filter: 'include':true | total | number }}</div>
+    </div>
     <div *ngIf="officers && officers.length === 0">
       <h5 class="big-empty faded">
         <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
@@ -121,14 +101,6 @@
 <!-- <table class="table">
       <tbody *ngIf="episodes && episodes.length > 0">
         <tr>
-          <td>Starting date</td>
-          <td>{{ startingDate | date:'MMMM d, yyyy - h:mm:ss a' }}</td>
-        </tr>
-        <tr>
-          <td>Ending date</td>
-          <td>{{ endingDate | date:'MMMM d, yyyy - h:mm:ss a' }}</td>
-        </tr>
-        <tr>
           <td>First event number</td>
           <td>{{ firstEvent }}</td>
         </tr>
@@ -136,33 +108,5 @@
           <td>Last event number</td>
           <td>{{ lastEvent }}</td>
         </tr>
-        <tr>
-          <td>Officers</td>
-          <td>{{ officerCount | number }}</td>
-        </tr>
-        <tr>
-          <td>Included officers</td>
-          <td>{{ officerIncludedCount | number }} , or about {{ officerIncludedCount/officerCount | percent}}</td>
-        </tr>
       </tbody>
-      <tbody *ngIf="episodes && episodes.length === 0">
-        <tr>
-          <td colspan="2" style="text-align: center">
-            <h2 class="big-empty faded">
-              <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
-            <h4 class="big-empty faded">Now kindly move along.</h4>
-          </td>
-        </tr>
-      </tbody>
-      <tbody *ngIf="!episodes">
-        <tr>
-          <td colspan="2" style="text-align: center">
-            <h2 class="big-empty faded">
-              <fa name="cog" animation="spin"></fa>Please be patient.</h2>
-            <h4 class="big-empty faded">I'm sorting through a ton of data!</h4>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
+    </table> -->

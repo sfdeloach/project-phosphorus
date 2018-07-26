@@ -21,13 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   officers: Officer[];
   officerSub: Subscription;
 
-  startingDate: Date;
-  endingDate: Date;
   firstEvent: number;
   lastEvent: number;
-  reports: Report[];
-  officerCount: number;
-  officerIncludedCount: number;
 
   constructor(
     private episodeService: EpisodeHttpService,
@@ -35,8 +30,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.startingDate = new Date('January 1, 1970');
-    this.endingDate = new Date('January 1, 2170');
     this.firstEvent = Number.POSITIVE_INFINITY;
     this.lastEvent = Number.NEGATIVE_INFINITY;
 
@@ -50,8 +43,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.officerSub = this.officerService.officers.subscribe(
       (officers: Officer[]) => {
         this.officers = officers;
-        this.officerCount = officers.length;
-        this.findOfficerRanges();
       }
     );
 
@@ -71,61 +62,38 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.officerSub.unsubscribe();
   }
 
-  findOfficerRanges() {
-    let includedOfcs = 0;
-
-    this.officers.forEach((officer: Officer) => {
-      if (officer.include) {
-        includedOfcs += 1;
-      }
-    });
-
-    this.officerIncludedCount = includedOfcs;
-  }
-
   findEpisodeRanges() {
-    const eventDateValues: number[] = this.episodes
-      .filter(evt => evt.call)
-      .map(evt => new Date(evt.call.created).getTime());
-    this.startingDate = new Date(Math.min(...eventDateValues));
-    this.endingDate = new Date(Math.max(...eventDateValues));
-
     const eventNumbers: number[] = this.episodes
       .filter(evt => evt.call)
       .map(evt => evt.call.eventNbr);
     this.firstEvent = Math.min(...eventNumbers);
     this.lastEvent = Math.max(...eventNumbers);
 
-    this.reports = flattenDeep(
-      this.episodes
-        .filter(episode => episode.reports)
-        .map(episode => episode.reports as Report[])
-    ) as Report[];
   }
 
-  getCitationCount(type: string): number {
-    switch (type) {
-      case 'warning':
-        return this.reports.filter(
-          report =>
-            report.offenses[0].ucrCode === '7200' && report.type === 'TC'
-        ).length;
-      case 'utt':
-        return this.reports.filter(
-          report =>
-            report.offenses[0].ucrCode === '7100' &&
-            report.type === 'TC' &&
-            report.clearance === 'Inactive'
-        ).length;
-      case 'criminal':
-        return this.reports.filter(
-          report =>
-            report.offenses[0].ucrCode === '7100' &&
-            report.type === 'TC' &&
-            report.clearance === 'Cleared By Arrest'
-        ).length;
-      default:
-        return 0;
-    }
-  }
+  // getCitationCount(type: string): number {
+  //   switch (type) {
+  //     case 'warning':
+  //       return this.reports.filter(
+  //         report =>
+  //           report.offenses[0].ucrCode === '7200' && report.type === 'TC'
+  //       ).length;
+  //     case 'utt':
+  //       return this.reports.filter(
+  //         report =>
+  //           report.offenses[0].ucrCode === '7100' &&
+  //           report.type === 'TC' &&
+  //           report.clearance === 'Inactive'
+  //       ).length;
+  //     case 'criminal':
+  //       return this.reports.filter(
+  //         report =>
+  //           report.offenses[0].ucrCode === '7100' &&
+  //           report.type === 'TC' &&
+  //           report.clearance === 'Cleared By Arrest'
+  //       ).length;
+  //     default:
+  //       return 0;
+  //   }
+  // }
 }
