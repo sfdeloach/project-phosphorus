@@ -13,6 +13,7 @@ import { UpdateResponse } from '../models/responses/update.model';
 
 @Injectable()
 export class OfficerHttpService {
+  loadedOfficers: Officer[] = [];
   officer: Subject<Officer> = new Subject();
   officers: Subject<Officer[]> = new Subject();
   response: Subject<any> = new Subject(); // TODO: type?
@@ -45,9 +46,11 @@ export class OfficerHttpService {
     ).subscribe(
       (ofcs: Officer[]) => {
         if (Array.isArray(ofcs)) {
+          this.loadedOfficers = ofcs;
           this.officers.next(ofcs);
         } else {
-          // most likely an error from the server
+          // an unexpected non-array return from server
+          this.loadedOfficers = [ofcs];
           this.officers.next([ofcs]);
         }
       },

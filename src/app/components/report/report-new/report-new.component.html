@@ -1,3 +1,29 @@
-<p>
-  report-new works!
-</p>
+<div class="row justify-content-center">
+  <div class="col-6">
+    <h3>New report</h3>
+    <form [formGroup]="newReportForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label class="center-block">Title:</label>
+        <input type="text" class="form-control" formControlName="title">
+      </div>
+      <div class="alert alert-danger" *ngIf="newReportForm.controls['title'].touched && newReportForm.controls['title'].invalid">
+        Please enter a title for the new report.
+      </div>
+      <div class="form-group">
+        <label class="center-block">Report Type:</label>
+        <select class="form-control" formControlName="reportType">
+          <option *ngFor="let reportType of reportTypes" [value]="reportType">{{ reportType }}</option>
+        </select>
+      </div>
+      <button class="btn btn-success" type="submit" [disabled]="newReportForm.invalid">
+        <fa name="save"></fa> Save
+      </button>
+      <button class="btn btn-info" type="reset" [disabled]="newReportForm.pristine" (click)="resetForm()">
+        <fa name="eraser"></fa> Clear Form
+      </button>
+      <a class="btn btn-secondary float-right" routerLink="/reports">
+        <fa name="undo"></fa> Return to Overview
+      </a>
+    </form>
+  </div>
+</div>

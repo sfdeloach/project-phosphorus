@@ -29,9 +29,13 @@
       <div class="col-6 text-right">Total Calls:</div>
       <div class="col-6">{{ episodes | isolate:'call' | total | number }}</div>
       <div class="col-6 text-right">Earliest Date:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'min' | date:'MMMM d, yyyy - h:mm a' }}</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'min' | date:'MMM d, yyyy - h:mm a' }}</div>
       <div class="col-6 text-right">Latest Date:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'max' | date:'MMMM d, yyyy - h:mm a' }}</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'max' | date:'MMM d, yyyy - h:mm a' }}</div>
+      <div class="col-6 text-right">First Event Number:</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'eventNbr' | findNumber:'min' }}</div>
+      <div class="col-6 text-right">Last Event Number:</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'eventNbr' | findNumber:'max' }}</div>
     </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
@@ -97,16 +101,3 @@
     </div>
   </div>
 </div>
-
-<!-- <table class="table">
-      <tbody *ngIf="episodes && episodes.length > 0">
-        <tr>
-          <td>First event number</td>
-          <td>{{ firstEvent }}</td>
-        </tr>
-        <tr>
-          <td>Last event number</td>
-          <td>{{ lastEvent }}</td>
-        </tr>
-      </tbody>
-    </table> -->

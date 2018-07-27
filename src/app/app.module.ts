@@ -17,24 +17,28 @@ import { OfficerSquadComponent } from './components/officer/officer-squad/office
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { WipeEpisodesComponent } from './components/upload/wipe-episodes/wipe-episodes.component';
-
-import { AuthService } from './services/auth.service';
-import { CsvService } from './services/csv.service';
-import { CafeService } from './services/cafe.service';
-import { XCADService } from './services/xcad.service';
-import { UploadService } from './services/upload.service';
-import { OfficerHttpService } from './services/officer.http.service';
-import { EpisodeHttpService } from './services/episode.http.service';
-import { ApiUrlsList } from './services/lists/api.urls.list';
 import { OfficerTabsComponent } from './components/officer/officer-tabs/officer-tabs.component';
 import { LoginComponent } from './components/login/login.component';
 import { ReportComponent } from './components/report/report.component';
 import { ReportNewComponent } from './components/report/report-new/report-new.component';
 import { ReportViewComponent } from './components/report/report-view/report-view.component';
 
-import { IsolatePipe } from './pipes/isolate.pipe';
+import { AuthService } from './services/auth.service';
+import { CafeService } from './services/cafe.service';
+import { CsvService } from './services/csv.service';
+import { EpisodeHttpService } from './services/episode.http.service';
+import { OfficerHttpService } from './services/officer.http.service';
+import { ReportService } from './services/report.service';
+import { XCADService } from './services/xcad.service';
+import { UploadService } from './services/upload.service';
+
+import { ApiUrlsList } from './services/lists/api.urls.list';
+import { ReportTypesList } from './services/lists/report.types.list';
+
 import { FilterPipe } from './pipes/filter.pipe';
 import { FindDatePipe } from './pipes/find.date.pipe';
+import { FindNumberPipe } from './pipes/find.number.pipe';
+import { IsolatePipe } from './pipes/isolate.pipe';
 import { TotalPipe } from './pipes/total.pipe';
 
 @NgModule({
@@ -58,6 +62,7 @@ import { TotalPipe } from './pipes/total.pipe';
     IsolatePipe,
     FilterPipe,
     FindDatePipe,
+    FindNumberPipe,
     TotalPipe
   ],
   imports: [
@@ -69,13 +74,15 @@ import { TotalPipe } from './pipes/total.pipe';
   ],
   providers: [
     AuthService,
-    CsvService,
     CafeService,
-    XCADService,
-    UploadService,
-    OfficerHttpService,
+    CsvService,
     EpisodeHttpService,
-    ApiUrlsList
+    OfficerHttpService,
+    ReportService,
+    UploadService,
+    XCADService,
+    ApiUrlsList,
+    ReportTypesList
   ],
   bootstrap: [AppComponent]
 })

@@ -17,7 +17,7 @@ import { InsertManyResponse } from '../../../models/responses/insert.many.model'
 export class OfficerNewComponent implements OnInit, OnDestroy {
   newOfficerForm: FormGroup;
   officer: Officer;
-  message: Message;
+  message: Message = new Message();
   response: Subscription;
   department = new Department();
   divisions: string[] = [];
@@ -63,7 +63,6 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
     );
 
     this.divisions = this.department.getDivisions().sort();
-    this.message = new Message();
   }
 
   ngOnDestroy() {

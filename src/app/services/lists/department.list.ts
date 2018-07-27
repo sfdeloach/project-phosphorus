@@ -1,9 +1,18 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
 export class Department {
   private structure = {
     Operations: ['Alpha', 'Bravo', 'Charlie', 'Delta', 'CSO'],
     'Special Operations': ['COPs', 'School Resource', 'Traffic', 'Uptown'],
     Investigations: ['CIS', 'SIS', 'Street Crimes'],
-    'Mgmt Support': ['Emergency Management', 'Field Training', 'Records', 'Support', 'Training'],
+    'Mgmt Support': [
+      'Emergency Management',
+      'Field Training',
+      'Records',
+      'Support',
+      'Training'
+    ],
     Unassigned: ['OIT', 'OIT (CSO)', 'Resigned', 'Retired']
   };
 

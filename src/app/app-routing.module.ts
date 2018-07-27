@@ -26,7 +26,7 @@ const routes: Routes = [
     canActivate: [AuthService]
   },
   {
-    path: 'reports/view/:id',
+    path: 'reports/view',
     component: ReportViewComponent,
     canActivate: [AuthService]
   },

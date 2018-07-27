@@ -17,12 +17,9 @@ import { flattenDeep } from 'lodash';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   episodes: Episode[];
-  episodeSub: Subscription;
   officers: Officer[];
-  officerSub: Subscription;
-
-  firstEvent: number;
-  lastEvent: number;
+  episodeSubscription: Subscription;
+  officerSubscription: Subscription;
 
   constructor(
     private episodeService: EpisodeHttpService,
@@ -30,45 +27,35 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.firstEvent = Number.POSITIVE_INFINITY;
-    this.lastEvent = Number.NEGATIVE_INFINITY;
-
-    this.episodeSub = this.episodeService.episodes.subscribe(
+    this.episodeSubscription = this.episodeService.episodes.subscribe(
       (episodes: Episode[]) => {
         this.episodes = episodes;
-        this.findEpisodeRanges();
       }
     );
 
-    this.officerSub = this.officerService.officers.subscribe(
+    this.officerSubscription = this.officerService.officers.subscribe(
       (officers: Officer[]) => {
         this.officers = officers;
       }
     );
 
-    // See if a copy of episodes already exists
+    // Copies may already exist
     if (this.episodeService.loadedEpisodes.length > 0) {
       this.episodes = this.episodeService.loadedEpisodes;
-      this.findEpisodeRanges();
     } else {
       this.episodeService.getEpisodes();
     }
 
-    this.officerService.getOfficers();
+    if (this.officerService.loadedOfficers.length > 0) {
+      this.officers = this.officerService.loadedOfficers;
+    } else {
+      this.officerService.getOfficers();
+    }
   }
 
   ngOnDestroy() {
-    this.episodeSub.unsubscribe();
-    this.officerSub.unsubscribe();
-  }
-
-  findEpisodeRanges() {
-    const eventNumbers: number[] = this.episodes
-      .filter(evt => evt.call)
-      .map(evt => evt.call.eventNbr);
-    this.firstEvent = Math.min(...eventNumbers);
-    this.lastEvent = Math.max(...eventNumbers);
-
+    this.episodeSubscription.unsubscribe();
+    this.officerSubscription.unsubscribe();
   }
 
   // getCitationCount(type: string): number {
