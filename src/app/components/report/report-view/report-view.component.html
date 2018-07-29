@@ -1,8 +1,43 @@
-<div *ngFor="let episode of episodes">
-  <p>{{ episode.call.primaryUnit }}</p>
-  <div *ngIf="episode.reports">
-    <p *ngFor="let report of episode.reports">
-      &nbsp;&nbsp;&nbsp;&nbsp;{{ report.caseNbr }}
-    </p>
+<div class="row justify-content-center">
+  <div class="col-12">
+    <div *ngIf="reportData && reportData.length === 0">
+      <h2 class="big-empty faded">
+        <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
+      <h4 class="big-empty faded">Now kindly move along.</h4>
+    </div>
+    <div *ngIf="!reportData">
+      <h2 class="big-empty faded">
+        <fa name="cog" animation="spin"></fa>Please be patient.</h2>
+      <h4 class="big-empty faded">I'm sorting through a ton of data!</h4>
+    </div>
+    <div *ngIf="reportData && reportData.length > 0">
+      <h2>{{ reportMetaData.reportType }}</h2>
+      <h4>{{ reportMetaData.title }}</h4>
+      <p>from {{ reportMetaData.startDate | date }} to {{ reportMetaData.endDate | date }}</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="sortable" (click)="onHeaderClick('officer','deptID')">ID No.</th>
+            <th class="sortable" (click)="onHeaderClick('officer','name','last')">Officer</th>
+            <th class="sortable" (click)="onHeaderClick('officer','squad')">Squad</th>
+            <th class="sortable" (click)="onHeaderClick(name)" *ngFor="let name of reportColumnNames">{{ name }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of reportData">
+            <td>{{ report.officer.deptID }}</td>
+            <td>{{ report.officer.name.last }}, {{ report.officer.name.first }}</td>
+            <td>{{ report.officer.squad }}</td>
+            <td *ngFor="let name of reportColumnNames">{{ report[name] }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-right">
+        <em>created on {{ reportMetaData.created | date }}</em>
+      </p>
+      <button class="btn btn-success" *ngIf="reportData.length > 0">Save Report</button>
+      <a class="btn btn-danger" *ngIf="reportData.length > 0" routerLink="/reports">Discard Report</a>
+      <hr>
+    </div>
   </div>
 </div>

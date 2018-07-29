@@ -6,13 +6,15 @@ Pull event data from a third party that provides a back-end connection to a MS S
 
 * **Overall initiated contacts**
 
- - excludes some event types (10-13, S-15, etc)
- - should have 'ONV' source with a report number
+ - 'ONV' on a limited list of event types
+ - 'ONV' with a report of some type generated
  - traffic stops
 
 * **Classic initiated w/ disposition (10-15, 10-50, FCCs)**
 
- - initiated arrests
+ - initiated felony arrests
+ - initiated misdemeanor arrests
+ - DUI arrests
  - criminal UTTs
  - UTTs
  - written warnings
@@ -24,7 +26,9 @@ Pull event data from a third party that provides a back-end connection to a MS S
 
  - non-initiated arrests
  - non-initiated offense reports
- - non-initiated calls
+ - non-initiated non-offense reports
+ - crash investigations
+ - total calls for service (some event types excluded)
 
 * **Days worked**
 

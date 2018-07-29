@@ -15,8 +15,18 @@
           <option *ngFor="let reportType of reportTypes" [value]="reportType">{{ reportType }}</option>
         </select>
       </div>
+
+      <div class="form-group">
+        <label class="center-block">Starting Date:</label>
+        <input type="date" class="form-control" formControlName="startDate">
+      </div>
+      <div class="form-group">
+        <label class="center-block">Ending Date:</label>
+        <input type="date" class="form-control" formControlName="endDate">
+      </div>
+
       <button class="btn btn-success" type="submit" [disabled]="newReportForm.invalid">
-        <fa name="save"></fa> Save
+        <fa name="save"></fa> Create Report
       </button>
       <button class="btn btn-info" type="reset" [disabled]="newReportForm.pristine" (click)="resetForm()">
         <fa name="eraser"></fa> Clear Form

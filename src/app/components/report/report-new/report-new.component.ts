@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReportTypesList } from '../../../services/lists/report.types.list';
 import { ReportService } from '../../../services/report.service';
 import { Router } from '@angular/router';
+import { InitiatedDispo } from '../../../models/productivity-reports/initiated-dispo.model';
+import { NonInitiated } from '../../../models/productivity-reports/non-initiated.model';
+import { OverallInitiated } from '../../../models/productivity-reports/overall-initiated.model';
 
 @Component({
   selector: 'app-report-new',
@@ -23,7 +26,9 @@ export class ReportNewComponent implements OnInit {
   ngOnInit() {
     this.newReportForm = this.formBuilder.group({
       title: ['', Validators.required],
-      reportType: ['', Validators.required]
+      reportType: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required]
     });
 
     this.reportTypes = this.reportList.reportTypes.sort();
@@ -31,7 +36,17 @@ export class ReportNewComponent implements OnInit {
 
   onSubmit() {
     this.newReportForm.value.created = new Date();
-    this.reportService.newReport = this.newReportForm.value;
+
+    this.newReportForm.value.startDate = new Date(
+      this.newReportForm.value.startDate + 'T00:00:00.000'
+    );
+
+    this.newReportForm.value.endDate = new Date(
+      this.newReportForm.value.endDate + 'T23:59:59.999'
+    );
+
+    this.reportService.reportMetadata = this.newReportForm.value;
+
     this.router.navigate(['/reports/view']);
   }
 
