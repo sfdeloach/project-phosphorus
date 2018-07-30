@@ -37,16 +37,98 @@ export class ReportService {
     }
   }
 
+  // public 'Felony': number;
+  // public 'Misdemeanor': number;
+  // public 'DUI': number;
+  // public 'Warrant': number;
+  // public 'Capias': number;
+  // public 'Reports': number;
+  // public 'Criminal UTTs': number;
+  // public 'UTTs': number;
+  // public 'Warnings': number;
+
   buildInitiatedDispoReport(): InitiatedDispo[] {
     const results: InitiatedDispo[] = [];
 
     this.includedOfcs.forEach(ofc => results.push(new InitiatedDispo(ofc)));
 
     this.episodes.forEach(episode => {
-      // TODO
+      // First conditional only looks at episodes with call information, i.e.
+      // UTTs will be found in this first block
+      // TODO: what about warrants??? CJIS ucrCode: '6001'
+      if (
+        episode.call &&
+        this.reportMetadata.startDate <= new Date(episode.call.created) &&
+        new Date(episode.call.created) <= this.reportMetadata.endDate &&
+        this.ofcIDs.includes(episode.call.primaryUnit)
+      ) {
+        if (
+          episode.reports &&
+          episode.call.src === 'ONV' &&
+          this.isFound(episode.reports, 'type', 'OR', 'CJ') &&
+          this.isFound(
+            episode.reports,
+            'clearance',
+            'Cleared By Arrest',
+            'Transferred to Other Agency',
+            'Transferred to SAO (Capias)'
+          )
+        ) {
+          episode.reports.forEach(report => {
+            if (
+              (report.type === 'OR' || report.type === 'CJ') &&
+              (report.clearance === 'Cleared By Arrest' ||
+                report.clearance === 'Transferred to Other Agency')
+            ) {
+              // Test print
+              if (report.type === 'CJ') {
+                console.log(report);
+              }
+
+              if (this.isFound(report.offenses, 'ncicLevel', 'F')) {
+                const index = results.findIndex(
+                  result => result.officer.deptID === report.reportingOfc
+                );
+                if (index > 0) {
+                  ++results[index]['Felony'];
+                }
+              } else if (this.isFound(report.offenses, 'ncicLevel', 'M', 'N')) {
+                const index = results.findIndex(
+                  result => result.officer.deptID === report.reportingOfc
+                );
+                if (index > 0) {
+                  ++results[index]['Misdemeanor'];
+                }
+              } else {
+                console.log(report); // TODO RAT
+              }
+            }
+          });
+        }
+      }
     });
 
     return results;
+  }
+
+  isFound(
+    array: any[],
+    key: string,
+    value1: any,
+    value2?: any,
+    value3?: any
+  ): boolean {
+    let result = false;
+    array.forEach(element => {
+      if (
+        element[key] === value1 ||
+        element[key] === value2 ||
+        element[key] === value3
+      ) {
+        result = true;
+      }
+    });
+    return result;
   }
 
   buildNonInitiatedReport(): NonInitiated[] {
