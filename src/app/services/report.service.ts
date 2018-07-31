@@ -41,7 +41,6 @@ export class ReportService {
   // public 'Misdemeanor': number;
   // public 'DUI': number;
   // public 'Warrant': number;
-  // public 'Capias': number;
   // public 'Reports': number;
   // public 'Criminal UTTs': number;
   // public 'UTTs': number;
@@ -59,67 +58,60 @@ export class ReportService {
       if (
         episode.reports &&
         episode.call &&
-        episode.call.src === 'ONV' &&
-        this.isFound(episode.reports, 'type', ['OR', 'CJ']) &&
         this.reportMetadata.startDate <= new Date(episode.call.created) &&
         new Date(episode.call.created) <= this.reportMetadata.endDate
       ) {
         episode.reports.forEach(report => {
-          // Test print
-          console.log(report);
+          const index = results.findIndex(
+            result => result.officer.deptID === report.reportingOfc
+          );
 
-          if (this.isFound(report.offenses, 'ncicLevel', ['F'])) {
-            const index = results.findIndex(
-              result => result.officer.deptID === report.reportingOfc
-            );
-            if (index > 0) {
-              ++results[index]['Felony'];
-              console.log('...is a felony'); // TODO RAT
-            } else {
-              console.log('...is a felony but not included'); // TODO RAT
-            }
-          } else if (this.isFound(report.offenses, 'ncicLevel', ['M'])) {
-            const index = results.findIndex(
-              result => result.officer.deptID === report.reportingOfc
-            );
-            if (index > 0) {
-              ++results[index]['Misdemeanor'];
-              console.log('...is a misdemeanor'); // TODO RAT
-            } else {
-              console.log('...is a misdemeanor but not included'); // TODO RAT
-            }
-          } else {
-            console.log('...could not find a home'); // TODO RAT
-          }
-        });
-      }
-
-      // DUIs are double counted as misdemeanors and DUIs in the report
-      if (
-        episode.reports &&
-        episode.call &&
-        this.isFound(episode.reports, 'type', ['OR']) &&
-        this.reportMetadata.startDate <= new Date(episode.call.created) &&
-        new Date(episode.call.created) <= this.reportMetadata.endDate
-      ) {
-        episode.reports.forEach(report => {
-          // Test print
-          console.log(report);
-
-          if (this.isFound(report.offenses, 'ucrCode', ['5400'])) {
-            const index = results.findIndex(
-              result => result.officer.deptID === report.reportingOfc
-            );
-            if (index > 0) {
+          if (index > 0) {
+            if (
+              this.isFound(report.offenses, 'ucrCode', ['5400']) &&
+              (report.clearance === 'Cleared By Arrest' ||
+                report.clearance === 'Transferred to SAO (Capias)')
+            ) {
               ++results[index]['DUI'];
-              console.log('...is a DUI'); // TODO RAT
-            } else {
-              console.log('...is a DUI but not included'); // TODO RAT
             }
+
+            if (
+              episode.call.src === 'ONV' &&
+              report.type === 'OR' &&
+              (report.clearance === 'Cleared By Arrest' ||
+                report.clearance === 'Transferred to SAO (Capias)')
+            ) {
+              if (this.isFound(report.offenses, 'ncicLevel', ['F'])) {
+                ++results[index]['Felony'];
+              } else {
+                ++results[index]['Misdemeanor'];
+              }
+            }
+
+            if (this.isFound(report.offenses, 'ucrCode', ['6001'])) {
+              // TODO: Research any other ucrCodes that may apply to a warrant
+              ++results[index]['Warrant'];
+            }
+
+            // if() {}
+          } else {
+            console.log(report.reportingOfc + ' was not found.');
           }
         });
       }
     });
+
+    // Sum the total arrests
+    results.forEach(result => {
+      result['Total Arrests'] =
+        result['Felony'] +
+        result['Misdemeanor'] +
+        result['DUI'] +
+        result['Warrant'];
+    });
+
+    // TODO: create new property in model 'Score' that provides an aggregate
+    //       score for all properties listed in the model
 
     return results;
   }
@@ -140,6 +132,16 @@ export class ReportService {
       }
     }
     return result;
+  }
+
+  buildNonInitiatedReport(): NonInitiated[] {
+    const results: NonInitiated[] = [];
+
+    this.includedOfcs.forEach(ofc => results.push(new NonInitiated(ofc)));
+
+    // TODO!
+
+    return results;
   }
 
   buildOverallInitiatedReport(): OverallInitiated[] {

@@ -6,7 +6,7 @@ export class InitiatedDispo {
   public 'Misdemeanor': number;
   public 'DUI': number;
   public 'Warrant': number;
-  public 'Capias': number;
+  public 'Total Arrests': number; // includes capias requests
   public 'Reports': number;
   public 'Criminal UTTs': number;
   public 'UTTs': number;
@@ -18,7 +18,7 @@ export class InitiatedDispo {
     misdArrests?: number,
     duiArrests?: number,
     warrant?: number,
-    capias?: number,
+    totalArrests?: number,
     reports?: number,
     criminalUTTs?: number,
     utts?: number,
@@ -31,7 +31,9 @@ export class InitiatedDispo {
       : (this['Misdemeanor'] = 0);
     duiArrests ? (this['DUI'] = duiArrests) : (this['DUI'] = 0);
     warrant ? (this['Warrant'] = warrant) : (this['Warrant'] = 0);
-    capias ? (this['Capias'] = capias) : (this['Capias'] = 0);
+    totalArrests
+      ? (this['Total Arrests'] = totalArrests)
+      : (this['Total Arrests'] = 0);
     reports ? (this['Reports'] = reports) : (this['Reports'] = 0);
     criminalUTTs
       ? (this['Criminal UTTs'] = criminalUTTs)
