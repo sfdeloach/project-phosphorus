@@ -54,93 +54,92 @@ export class ReportService {
 
     this.episodes.forEach(episode => {
       // First conditional only looks at episodes with call information, i.e.
-      // UTTs will be found in this first block
+      // UTTs will not be found in this first block of code
       // TODO: what about warrants??? CJIS ucrCode: '6001'
       if (
+        episode.reports &&
         episode.call &&
+        episode.call.src === 'ONV' &&
+        this.isFound(episode.reports, 'type', ['OR', 'CJ']) &&
         this.reportMetadata.startDate <= new Date(episode.call.created) &&
-        new Date(episode.call.created) <= this.reportMetadata.endDate &&
-        this.ofcIDs.includes(episode.call.primaryUnit)
+        new Date(episode.call.created) <= this.reportMetadata.endDate
       ) {
-        if (
-          episode.reports &&
-          episode.call.src === 'ONV' &&
-          this.isFound(episode.reports, 'type', 'OR', 'CJ') &&
-          this.isFound(
-            episode.reports,
-            'clearance',
-            'Cleared By Arrest',
-            'Transferred to Other Agency',
-            'Transferred to SAO (Capias)'
-          )
-        ) {
-          episode.reports.forEach(report => {
-            if (
-              (report.type === 'OR' || report.type === 'CJ') &&
-              (report.clearance === 'Cleared By Arrest' ||
-                report.clearance === 'Transferred to Other Agency')
-            ) {
-              // Test print
-              if (report.type === 'CJ') {
-                console.log(report);
-              }
+        episode.reports.forEach(report => {
+          // Test print
+          console.log(report);
 
-              if (this.isFound(report.offenses, 'ncicLevel', 'F')) {
-                const index = results.findIndex(
-                  result => result.officer.deptID === report.reportingOfc
-                );
-                if (index > 0) {
-                  ++results[index]['Felony'];
-                }
-              } else if (this.isFound(report.offenses, 'ncicLevel', 'M', 'N')) {
-                const index = results.findIndex(
-                  result => result.officer.deptID === report.reportingOfc
-                );
-                if (index > 0) {
-                  ++results[index]['Misdemeanor'];
-                }
-              } else {
-                console.log(report); // TODO RAT
-              }
+          if (this.isFound(report.offenses, 'ncicLevel', ['F'])) {
+            const index = results.findIndex(
+              result => result.officer.deptID === report.reportingOfc
+            );
+            if (index > 0) {
+              ++results[index]['Felony'];
+              console.log('...is a felony'); // TODO RAT
+            } else {
+              console.log('...is a felony but not included'); // TODO RAT
             }
-          });
+          } else if (this.isFound(report.offenses, 'ncicLevel', ['M'])) {
+            const index = results.findIndex(
+              result => result.officer.deptID === report.reportingOfc
+            );
+            if (index > 0) {
+              ++results[index]['Misdemeanor'];
+              console.log('...is a misdemeanor'); // TODO RAT
+            } else {
+              console.log('...is a misdemeanor but not included'); // TODO RAT
+            }
+          } else {
+            console.log('...could not find a home'); // TODO RAT
+          }
+        });
+      }
+
+      // DUIs are double counted as misdemeanors and DUIs in the report
+      if (
+        episode.reports &&
+        episode.call &&
+        this.isFound(episode.reports, 'type', ['OR']) &&
+        this.reportMetadata.startDate <= new Date(episode.call.created) &&
+        new Date(episode.call.created) <= this.reportMetadata.endDate
+      ) {
+        episode.reports.forEach(report => {
+          // Test print
+          console.log(report);
+
+          if (this.isFound(report.offenses, 'ucrCode', ['5400'])) {
+            const index = results.findIndex(
+              result => result.officer.deptID === report.reportingOfc
+            );
+            if (index > 0) {
+              ++results[index]['DUI'];
+              console.log('...is a DUI'); // TODO RAT
+            } else {
+              console.log('...is a DUI but not included'); // TODO RAT
+            }
+          }
+        });
+      }
+    });
+
+    return results;
+  }
+
+  // searches an array of objects for a key containing
+  // any value found in the value array
+  isFound(array: any[], key: string, values: string[]): boolean {
+    let result = false;
+    for (let i = 0; i < array.length; i++) {
+      for (let j = 0; j < values.length; j++) {
+        if (array[i][key] === values[j]) {
+          result = true;
+          break;
         }
       }
-    });
-
-    return results;
-  }
-
-  isFound(
-    array: any[],
-    key: string,
-    value1: any,
-    value2?: any,
-    value3?: any
-  ): boolean {
-    let result = false;
-    array.forEach(element => {
-      if (
-        element[key] === value1 ||
-        element[key] === value2 ||
-        element[key] === value3
-      ) {
-        result = true;
+      if (result) {
+        break;
       }
-    });
+    }
     return result;
-  }
-
-  buildNonInitiatedReport(): NonInitiated[] {
-    const results: NonInitiated[] = [];
-
-    this.includedOfcs.forEach(ofc => results.push(new NonInitiated(ofc)));
-
-    this.episodes.forEach(episode => {
-      // TODO
-    });
-
-    return results;
   }
 
   buildOverallInitiatedReport(): OverallInitiated[] {
