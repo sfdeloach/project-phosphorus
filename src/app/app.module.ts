@@ -35,6 +35,7 @@ import { UploadService } from './services/upload.service';
 import { ApiUrlsList } from './services/lists/api.urls.list';
 import { ReportTypesList } from './services/lists/report.types.list';
 
+import { EpisodeInfoPipe } from './pipes/episode.info.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
 import { FindDatePipe } from './pipes/find.date.pipe';
 import { FindNumberPipe } from './pipes/find.number.pipe';
@@ -59,6 +60,7 @@ import { TotalPipe } from './pipes/total.pipe';
     ReportComponent,
     ReportNewComponent,
     ReportViewComponent,
+    EpisodeInfoPipe,
     IsolatePipe,
     FilterPipe,
     FindDatePipe,

@@ -14,7 +14,7 @@ export class ReportService {
   ofcIDs: number[];
   episodes: Episode[];
 
-  constructor() {}
+  constructor() { }
 
   buildReport(): InitiatedDispo[] | NonInitiated[] | OverallInitiated[] {
     this.ofcIDs = this.includedOfcs.map(ofc => ofc.deptID);
@@ -54,7 +54,6 @@ export class ReportService {
     this.episodes.forEach(episode => {
       // First conditional only looks at episodes with call information, i.e.
       // UTTs will not be found in this first block of code
-      // TODO: what about warrants??? CJIS ucrCode: '6001'
       if (
         episode.reports &&
         episode.call &&
@@ -67,12 +66,15 @@ export class ReportService {
           );
 
           if (index > 0) {
+            let statCounter = 0;
+
             if (
               this.isFound(report.offenses, 'ucrCode', ['5400']) &&
               (report.clearance === 'Cleared By Arrest' ||
                 report.clearance === 'Transferred to SAO (Capias)')
             ) {
               ++results[index]['DUI'];
+              statCounter++;
             }
 
             if (
@@ -83,19 +85,64 @@ export class ReportService {
             ) {
               if (this.isFound(report.offenses, 'ncicLevel', ['F'])) {
                 ++results[index]['Felony'];
+                statCounter++;
               } else {
                 ++results[index]['Misdemeanor'];
+                statCounter++;
               }
             }
 
             if (this.isFound(report.offenses, 'ucrCode', ['6001'])) {
               // TODO: Research any other ucrCodes that may apply to a warrant
               ++results[index]['Warrant'];
+              statCounter++;
             }
 
-            // if() {}
-          } else {
-            console.log(report.reportingOfc + ' was not found.');
+            if (episode.call.src === 'ONV' && report.type !== 'OR') {
+              ++results[index]['Reports'];
+              statCounter++;
+            }
+
+            if (episode.call.src === 'ONV' && statCounter < 1) {
+              report.offenses.forEach((offense) => {
+                console.warn(`ONV report ${report.caseNbr}-${offense.statuteDesc} was NEVER counted`);
+              });
+            }
+          }
+        });
+        // This next block will look for UTT stats
+      } else if (
+        !episode.call &&
+        episode.reports &&
+        this.reportMetadata.startDate <= new Date(episode.reports[0].reportDate) &&
+        new Date(episode.reports[0].reportDate) <= this.reportMetadata.endDate
+      ) {
+        episode.reports.forEach(report => {
+          const index = results.findIndex(
+            result => result.officer.deptID === report.reportingOfc
+          );
+
+          if (index > 0) {
+            let statCounter = 0;
+
+            if (report.type === 'TC') {
+              report.offenses.forEach(offense => {
+                if (report.clearance === 'Cleared By Arrest' && offense.ucrCode === '7100') {
+                  ++results[index]['Criminal UTTs'];
+                  statCounter++;
+                } else if (report.clearance !== 'Cleared By Arrest' && offense.ucrCode === '7100') {
+                  ++results[index]['UTTs'];
+                  statCounter++;
+                } else if (offense.ucrCode === '7200') {
+                  ++results[index]['Warnings'];
+                  statCounter++;
+                } else {
+                  console.warn(`TC report ${report.caseNbr} was NEVER counted`);
+                }
+              });
+            } else {
+              console.warn(episode.reports[0].caseNbr + ' was not counted');
+            }
           }
         });
       }

@@ -10,6 +10,14 @@
     <div class="row" *ngIf="episodes && episodes.length > 0">
       <div class="col-6 text-right">Total episodes:</div>
       <div class="col-6">{{ episodes | total | number }}</div>
+      <div class="col-6 text-right">Call Data Only:</div>
+      <div class="col-6">{{ episodes | episodeInfo:'calls-only' | total | number }}</div>
+      <div class="col-6 text-right">Report Data Only:</div>
+      <div class="col-6">{{ episodes | episodeInfo:'reports-only' | total | number }}</div>
+      <div class="col-6 text-right">Call and Report Data:</div>
+      <div class="col-6">{{ episodes | episodeInfo:'calls-and-reports' | total | number }}</div>
+      <div class="col-6 text-right">Empty Episodes:</div>
+      <div class="col-6">{{ episodes | episodeInfo:'empty-episodes' | total | number }}</div>
     </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
