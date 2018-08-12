@@ -37,15 +37,6 @@ export class ReportService {
     }
   }
 
-  // public 'Felony': number;
-  // public 'Misdemeanor': number;
-  // public 'DUI': number;
-  // public 'Warrant': number;
-  // public 'Reports': number;
-  // public 'Criminal UTTs': number;
-  // public 'UTTs': number;
-  // public 'Warnings': number;
-
   buildInitiatedDispoReport(): InitiatedDispo[] {
     const results: InitiatedDispo[] = [];
 
@@ -65,7 +56,7 @@ export class ReportService {
             result => result.officer.deptID === report.reportingOfc
           );
 
-          if (index > 0) {
+          if (index !== -1) {
             let statCounter = 0;
 
             if (
@@ -122,7 +113,7 @@ export class ReportService {
             result => result.officer.deptID === report.reportingOfc
           );
 
-          if (index > 0) {
+          if (index !== -1) {
             let statCounter = 0;
 
             if (report.type === 'TC') {
@@ -148,37 +139,28 @@ export class ReportService {
       }
     });
 
-    // Sum the total arrests
     results.forEach(result => {
+      // Sum the total arrests
       result['Total Arrests'] =
         result['Felony'] +
         result['Misdemeanor'] +
         result['DUI'] +
         result['Warrant'];
+
+      // Calculate performance rating
+      result['Performance Rating'] =
+        Number((
+          0.10 * result['Felony'] +
+          0.06 * result['Misdemeanor'] +
+          0.09 * result['DUI'] +
+          0.04 * result['Warrant'] +
+          0.03 * result['Reports'] +
+          0.03 * result['Criminal UTTs'] +
+          0.02 * result['UTTs'] +
+          0.01 * result['Warnings']).toFixed(1));
     });
 
-    // TODO: create new property in model 'Score' that provides an aggregate
-    //       score for all properties listed in the model
-
     return results;
-  }
-
-  // searches an array of objects for a key containing
-  // any value found in the value array
-  isFound(array: any[], key: string, values: string[]): boolean {
-    let result = false;
-    for (let i = 0; i < array.length; i++) {
-      for (let j = 0; j < values.length; j++) {
-        if (array[i][key] === values[j]) {
-          result = true;
-          break;
-        }
-      }
-      if (result) {
-        break;
-      }
-    }
-    return result;
   }
 
   buildNonInitiatedReport(): NonInitiated[] {
@@ -186,7 +168,57 @@ export class ReportService {
 
     this.includedOfcs.forEach(ofc => results.push(new NonInitiated(ofc)));
 
-    // TODO!
+    this.episodes.forEach(episode => {
+      if (
+        episode.reports &&
+        episode.call &&
+        episode.call.src !== 'ONV' &&
+        this.reportMetadata.startDate <= new Date(episode.call.created) &&
+        new Date(episode.call.created) <= this.reportMetadata.endDate
+      ) {
+        // RAT - TODO eliminate some calls from this count?
+        console.log(episode.call.eventType);
+
+        const callIndex = results.findIndex(
+          result => result.officer.deptID === episode.call.primaryUnit
+        );
+
+        if (callIndex !== -1) {
+          ++results[callIndex]['Calls'];
+        }
+
+        episode.reports.forEach(report => {
+          const reportIndex = results.findIndex(
+            result => result.officer.deptID === report.reportingOfc
+          );
+
+          if (reportIndex !== -1) {
+            if (report.clearance === 'Cleared By Arrest') {
+              ++results[reportIndex]['Arrests'];
+            }
+
+            if (report.type === 'TA') {
+              ++results[reportIndex]['Crashes'];
+            } else if (report.type === 'OR') {
+              ++results[reportIndex]['Offense'];
+            } else {
+              ++results[reportIndex]['Non-Offense'];
+            }
+          }
+        });
+      }
+    });
+
+    results.forEach(result => {
+      // Calculate performance rating
+      result['Performance Rating'] =
+        Number((
+          0.08 * result['Arrests'] +
+          0.05 * result['Offense'] +
+          0.03 * result['Non-Offense'] +
+          0.02 * result['Crashes'] +
+          0.01 * result['Calls']).toFixed(1));
+    });
 
     return results;
   }
@@ -238,6 +270,33 @@ export class ReportService {
       }
     });
 
+    results.forEach(result => {
+      // Calculate performance rating
+      result['Performance Rating'] =
+        Number((
+          0.04 * result['On View'] +
+          0.06 * result['On View w/ Report'] +
+          0.03 * result['Traffic Stops']).toFixed(1));
+    });
+
     return results;
+  }
+
+  // HELPER FUNCTION: searches an array of objects for a
+  // key containing any value found in the value array
+  isFound(array: any[], key: string, values: string[]): boolean {
+    let result = false;
+    for (let i = 0; i < array.length; i++) {
+      for (let j = 0; j < values.length; j++) {
+        if (array[i][key] === values[j]) {
+          result = true;
+          break;
+        }
+      }
+      if (result) {
+        break;
+      }
+    }
+    return result;
   }
 }

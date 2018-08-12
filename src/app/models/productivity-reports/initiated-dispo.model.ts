@@ -11,6 +11,7 @@ export class InitiatedDispo {
   public 'Criminal UTTs': number;
   public 'UTTs': number;
   public 'Warnings': number;
+  public 'Performance Rating': number;
 
   constructor(
     officer: Officer,
@@ -22,7 +23,8 @@ export class InitiatedDispo {
     reports?: number,
     criminalUTTs?: number,
     utts?: number,
-    warnings?: number
+    warnings?: number,
+    perfRating?: number
   ) {
     this.officer = officer;
     felonyArrests ? (this['Felony'] = felonyArrests) : (this['Felony'] = 0);
@@ -40,5 +42,6 @@ export class InitiatedDispo {
       : (this['Criminal UTTs'] = 0);
     utts ? (this['UTTs'] = utts) : (this['UTTs'] = 0);
     warnings ? (this['Warnings'] = warnings) : (this['Warnings'] = 0);
+    perfRating ? (this['Performance Rating'] = perfRating) : (this['Performance Rating'] = 0);
   }
 }
