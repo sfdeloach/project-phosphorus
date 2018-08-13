@@ -35,7 +35,7 @@
       <p class="text-right">
         <em>created on {{ reportMetaData.created | date }}</em>
       </p>
-      <button class="btn btn-success" *ngIf="reportData.length > 0">Save Report</button>
+      <button class="btn btn-success" *ngIf="reportData.length > 0" (click)="saveReport()">Save Report</button>
       <a class="btn btn-danger" *ngIf="reportData.length > 0" routerLink="/reports">Discard Report</a>
       <hr>
     </div>

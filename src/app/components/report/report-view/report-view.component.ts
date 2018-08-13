@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { zip } from 'rxjs/observable/zip';
 import { ReportService } from '../../../services/report.service';
+import { ReportHttpService } from '../../../services/report.http.service';
 import { OfficerHttpService } from '../../../services/officer.http.service';
 import { EpisodeHttpService } from '../../../services/episode.http.service';
 import { ReportMetaData } from '../../../models/productivity-reports/report.metadata.model';
 import { Officer } from '../../../models/officer.model';
 import { Episode } from '../../../models/episode.model';
-import { InitiatedDispo } from '../../../models/productivity-reports/initiated-dispo.model';
-import { NonInitiated } from '../../../models/productivity-reports/non-initiated.model';
-import { OverallInitiated } from '../../../models/productivity-reports/overall-initiated.model';
+import { ProductivityReport } from '../../../models/productivity-reports/productivity-report.model';
 
 @Component({
   selector: 'app-report-view',
@@ -19,14 +19,15 @@ export class ReportViewComponent implements OnInit {
   reportMetaData: ReportMetaData;
   reportColumnNames: string[] = [];
   reportData: any[];
-  // reportData: InitiatedDispo[] | NonInitiated[] | OverallInitiated[];
   sortToggle = 1;
 
   constructor(
     private reportService: ReportService,
+    private reportHttpService: ReportHttpService,
     private officerService: OfficerHttpService,
-    private episodeService: EpisodeHttpService
-  ) {}
+    private episodeService: EpisodeHttpService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.reportMetaData = this.reportService.reportMetadata;
@@ -74,6 +75,12 @@ export class ReportViewComponent implements OnInit {
     } else {
       this.reportData = [];
     }
+  }
+
+  saveReport() {
+    this.reportHttpService
+      .insertReport(new ProductivityReport(this.reportMetaData, this.reportData));
+    this.router.navigate(['/reports']);
   }
 
   onHeaderClick(parent: string, childOne?: string, childTwo?: string) {

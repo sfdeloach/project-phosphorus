@@ -5,7 +5,7 @@ import { OverallInitiated } from '../models/productivity-reports/overall-initiat
 import { ReportMetaData } from '../models/productivity-reports/report.metadata.model';
 import { Officer } from '../models/officer.model';
 import { Episode } from '../models/episode.model';
-import { allowedInitiatedEvts } from '../services/functions/allowed.initiated.events.function';
+import { allowedInitiatedEvts } from './functions/allowed.initiated.events.function';
 
 @Injectable()
 export class ReportService {
@@ -176,9 +176,6 @@ export class ReportService {
         this.reportMetadata.startDate <= new Date(episode.call.created) &&
         new Date(episode.call.created) <= this.reportMetadata.endDate
       ) {
-        // RAT - TODO eliminate some calls from this count?
-        console.log(episode.call.eventType);
-
         const callIndex = results.findIndex(
           result => result.officer.deptID === episode.call.primaryUnit
         );

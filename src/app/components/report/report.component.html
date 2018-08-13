@@ -9,13 +9,15 @@
       <thead>
         <tr>
           <th class="sortable" (click)="onHeaderClick('title')">Title</th>
+          <th class="sortable" (click)="onHeaderClick('reportType')">Report Type</th>
           <th class="sortable" (click)="onHeaderClick('created')">Created</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let report of reports">
-          <td>{{ report.title }}</td>
-          <td>{{ report.created }}</td>
+          <td>{{ report.meta.title }}</td>
+          <td>{{ report.meta.reportType }}</td>
+          <td>{{ report.meta.created }}</td>
         </tr>
       </tbody>
       <tbody *ngIf="reports && reports.length === 0">

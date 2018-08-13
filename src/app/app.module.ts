@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -28,6 +28,7 @@ import { CafeService } from './services/cafe.service';
 import { CsvService } from './services/csv.service';
 import { EpisodeHttpService } from './services/episode.http.service';
 import { OfficerHttpService } from './services/officer.http.service';
+import { ReportHttpService } from './services/report.http.service';
 import { ReportService } from './services/report.service';
 import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
@@ -80,6 +81,7 @@ import { TotalPipe } from './pipes/total.pipe';
     CsvService,
     EpisodeHttpService,
     OfficerHttpService,
+    ReportHttpService,
     ReportService,
     UploadService,
     XCADService,
