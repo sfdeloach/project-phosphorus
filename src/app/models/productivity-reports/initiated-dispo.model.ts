@@ -11,7 +11,7 @@ export class InitiatedDispo {
   public 'Criminal UTTs': number;
   public 'UTTs': number;
   public 'Warnings': number;
-  public 'Performance Rating': number;
+  public 'Rating': number;
 
   constructor(
     officer: Officer,
@@ -24,24 +24,18 @@ export class InitiatedDispo {
     criminalUTTs?: number,
     utts?: number,
     warnings?: number,
-    perfRating?: number
+    rating?: number
   ) {
     this.officer = officer;
     felonyArrests ? (this['Felony'] = felonyArrests) : (this['Felony'] = 0);
-    misdArrests
-      ? (this['Misdemeanor'] = misdArrests)
-      : (this['Misdemeanor'] = 0);
+    misdArrests ? (this['Misdemeanor'] = misdArrests) : (this['Misdemeanor'] = 0);
     duiArrests ? (this['DUI'] = duiArrests) : (this['DUI'] = 0);
     warrant ? (this['Warrant'] = warrant) : (this['Warrant'] = 0);
-    totalArrests
-      ? (this['Total Arrests'] = totalArrests)
-      : (this['Total Arrests'] = 0);
+    totalArrests ? (this['Total Arrests'] = totalArrests) : (this['Total Arrests'] = 0);
     reports ? (this['Reports'] = reports) : (this['Reports'] = 0);
-    criminalUTTs
-      ? (this['Criminal UTTs'] = criminalUTTs)
-      : (this['Criminal UTTs'] = 0);
+    criminalUTTs ? (this['Criminal UTTs'] = criminalUTTs) : (this['Criminal UTTs'] = 0);
     utts ? (this['UTTs'] = utts) : (this['UTTs'] = 0);
     warnings ? (this['Warnings'] = warnings) : (this['Warnings'] = 0);
-    perfRating ? (this['Performance Rating'] = perfRating) : (this['Performance Rating'] = 0);
+    rating ? (this['Rating'] = rating) : (this['Rating'] = 0);
   }
 }

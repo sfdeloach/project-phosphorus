@@ -5,25 +5,19 @@ export class OverallInitiated {
   public 'On View': number;
   public 'On View w/ Report': number;
   public 'Traffic Stops': number;
-  public 'Performance Rating': number;
+  public 'Rating': number;
 
   constructor(
     officer: Officer,
     onView?: number,
     onViewReport?: number,
     trafficStops?: number,
-    perfRating?: number
+    rating?: number
   ) {
     this.officer = officer;
     onView ? (this['On View'] = onView) : (this['On View'] = 0);
-    onViewReport
-      ? (this['On View w/ Report'] = onViewReport)
-      : (this['On View w/ Report'] = 0);
-    trafficStops
-      ? (this['Traffic Stops'] = trafficStops)
-      : (this['Traffic Stops'] = 0);
-    perfRating
-      ? (this['Performance Rating'] = perfRating)
-      : (this['Performance Rating'] = 0);
+    onViewReport ? (this['On View w/ Report'] = onViewReport) : (this['On View w/ Report'] = 0);
+    trafficStops ? (this['Traffic Stops'] = trafficStops) : (this['Traffic Stops'] = 0);
+    rating ? (this['Rating'] = rating) : (this['Rating'] = 0);
   }
 }

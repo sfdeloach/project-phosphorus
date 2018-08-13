@@ -16,7 +16,7 @@ export class OfficerHttpService {
   loadedOfficers: Officer[] = [];
   officer: Subject<Officer> = new Subject();
   officers: Subject<Officer[]> = new Subject();
-  response: Subject<any> = new Subject(); // TODO: type?
+  response: Subject<any> = new Subject();
   officersUrl: string = this.url.officerAPI;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

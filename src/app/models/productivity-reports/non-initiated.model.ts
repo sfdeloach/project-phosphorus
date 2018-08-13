@@ -7,7 +7,7 @@ export class NonInitiated {
   public 'Non-Offense': number;
   public 'Crashes': number;
   public 'Calls': number;
-  public 'Performance Rating': number;
+  public 'Rating': number;
 
   constructor(
     officer: Officer,
@@ -16,20 +16,14 @@ export class NonInitiated {
     nonOffense?: number,
     crashes?: number,
     calls?: number,
-    perfRating?: number
+    rating?: number
   ) {
     this.officer = officer;
     arrests ? (this['Arrests'] = arrests) : (this['Arrests'] = 0);
-    offense
-      ? (this['Offense'] = offense)
-      : (this['Offense'] = 0);
-    nonOffense
-      ? (this['Non-Offense'] = nonOffense)
-      : (this['Non-Offense'] = 0);
+    offense ? (this['Offense'] = offense) : (this['Offense'] = 0);
+    nonOffense ? (this['Non-Offense'] = nonOffense) : (this['Non-Offense'] = 0);
     crashes ? (this['Crashes'] = crashes) : (this['Crashes'] = 0);
     calls ? (this['Calls'] = calls) : (this['Calls'] = 0);
-    perfRating
-      ? (this['Performance Rating'] = perfRating)
-      : (this['Performance Rating'] = 0);
+    rating ? (this['Rating'] = rating) : (this['Rating'] = 0);
   }
 }

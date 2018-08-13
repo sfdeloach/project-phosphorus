@@ -1,42 +1,39 @@
 import { Injectable } from '@angular/core';
-import { ProductivityReport } from '../models/productivity-reports/productivity-report.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs/Subject';
+import { ProductivityReport } from '../models/productivity-reports/productivity-report.model';
+import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { ApiUrlsList } from './lists/api.urls.list';
 
 @Injectable()
 export class ReportHttpService {
   reportsUrl: string = this.url.reportAPI;
+  response: Subject<any> = new Subject();
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(
-    private http: HttpClient,
-    private url: ApiUrlsList
-  ) { }
+  constructor(private http: HttpClient, private url: ApiUrlsList) {}
 
   getReports() {
     // TODO!!!
   }
 
   insertReport(report: ProductivityReport) {
-    console.log(report);
-    // Note: the below code is ready for testing once API is built
-    //
-    // this.http.post(
-    //   this.reportsUrl,
-    //   { 'report': report },
-    //   this.httpOptions
-    // ).subscribe(
-    //   res => {
-    //     console.log('Success saving report');
-    //     console.log(res);
-    //   },
-    //   error => {
-    //     console.error('Error occurred saving report');
-    //     console.error(error);
-    //   }
-    // );
+    this.http
+      .post<InsertManyResponse<ProductivityReport>>(
+        this.reportsUrl,
+        { reports: [report] },
+        this.httpOptions
+      )
+      .subscribe(
+        (res: InsertManyResponse<ProductivityReport>) => {
+          this.response.next(res);
+        },
+        error => {
+          console.error(error);
+          this.response.next(error);
+        }
+      );
   }
-
 }
