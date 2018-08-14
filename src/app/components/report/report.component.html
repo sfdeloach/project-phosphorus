@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-10">
     <h3>
-      <fa name="file-text"></fa> Reports</h3>
+      <fa name="file-text"></fa> Productivity Reports</h3>
     <a class="btn btn-info" routerLink="/reports/new">
       <fa name="plus"></fa> Create report
     </a>
@@ -10,28 +10,45 @@
         <tr>
           <th class="sortable" (click)="onHeaderClick('title')">Title</th>
           <th class="sortable" (click)="onHeaderClick('reportType')">Report Type</th>
+          <th class="sortable" (click)="onHeaderClick('startDate')">From</th>
+          <th class="sortable" (click)="onHeaderClick('endDate')">To</th>
+          <th class="sortable" (click)="onHeaderClick('numOfcs')">Officers</th>
           <th class="sortable" (click)="onHeaderClick('created')">Created</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let report of reports">
-          <td>{{ report.meta.title }}</td>
-          <td>{{ report.meta.reportType }}</td>
-          <td>{{ report.meta.created }}</td>
-        </tr>
-      </tbody>
-      <tbody *ngIf="reports && reports.length === 0">
-        <tr>
-          <td colspan="2">
-            <h2 class="big-empty faded">
-              <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
-            <h4 class="big-empty faded">Now kindly move along.</h4>
+          <td>
+            <a class="link" routerLink="">{{ report.meta.title }}</a>
           </td>
+          <td>{{ report.meta.reportType }}</td>
+          <td>{{ report.meta.startDate | date:'shortDate' }}</td>
+          <td>{{ report.meta.endDate | date:'shortDate' }}</td>
+          <td>{{ report.report.length }}</td>
+          <td>{{ report.meta.created | date:'short' }}</td>
         </tr>
       </tbody>
     </table>
-    <div class="alert alert-info" *ngIf="!reports">
-      Loading...
+    <div *ngIf="reports && reports.length === 0">
+      <h2 class="big-empty faded">
+        <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
+      <p class="big-empty faded">Now kindly move along.</p>
     </div>
+    <div *ngIf="!reports">
+      <h2 class="big-empty faded">
+        <fa name="cog" animation="spin"></fa>Please be patient.</h2>
+      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+    </div>
+    <!-- Delete from here -->
+    <div style="color: royalblue; border: 1px solid royalblue; padding: 10px">
+      <h2>TODO:</h2>
+      <ul>
+        <li>This list does not update when a new report is created</li>
+        <li>Fix the router link for the title to show report</li>
+        <li>Add a delete button in the new view to remove report</li>
+        <li>Add delete to the API and http service</li>
+      </ul>
+    </div>
+    <!-- ...to here -->
   </div>
 </div>

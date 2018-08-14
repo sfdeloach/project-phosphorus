@@ -1,9 +1,10 @@
 h2.big-empty {
-  padding-top: 3rem;
+  padding-top: 1rem;
 }
 
 .faded {
   color: rgb(44, 62, 80, 0.5);
+  text-align: center;
 }
 
 .sortable {
@@ -14,7 +15,10 @@ h2.big-empty {
   margin-top: 1rem;
 }
 
-.table td {
-  padding: 0.25rem;
-  text-align: center;
+a.link {
+  color: #3498DB;
+}
+
+a.link:hover {
+  color: #2C3E50;
 }

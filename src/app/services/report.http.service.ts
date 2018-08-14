@@ -7,6 +7,7 @@ import { ApiUrlsList } from './lists/api.urls.list';
 
 @Injectable()
 export class ReportHttpService {
+  reports = new Subject<ProductivityReport[]>();
   reportsUrl: string = this.url.reportAPI;
   response: Subject<any> = new Subject();
   httpOptions = {
@@ -16,19 +17,29 @@ export class ReportHttpService {
   constructor(private http: HttpClient, private url: ApiUrlsList) {}
 
   getReports() {
-    // TODO!!!
+    this.http.get<ProductivityReport[]>(this.reportsUrl).subscribe(
+      (rpts: ProductivityReport[]) => {
+        this.reports.next(rpts);
+        console.log('getReports');
+      },
+      err => {
+        console.error(err);
+        this.reports.next([err]);
+      }
+    );
   }
 
   insertReport(report: ProductivityReport) {
     this.http
-      .post<InsertManyResponse<ProductivityReport>>(
-        this.reportsUrl,
-        { reports: [report] },
-        this.httpOptions
-      )
-      .subscribe(
-        (res: InsertManyResponse<ProductivityReport>) => {
-          this.response.next(res);
+    .post<InsertManyResponse<ProductivityReport>>(
+      this.reportsUrl,
+      { reports: [report] },
+      this.httpOptions
+    )
+    .subscribe(
+      (res: InsertManyResponse<ProductivityReport>) => {
+        this.response.next(res);
+        console.log('insertReport');
         },
         error => {
           console.error(error);

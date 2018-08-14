@@ -40,9 +40,10 @@ th {
 }
 
 h2.big-empty {
-  padding-top: 3rem;
+  padding-top: 1rem;
 }
 
 .faded {
   color: rgb(44, 62, 80, 0.5);
+  text-align: center;
 }

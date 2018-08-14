@@ -37,18 +37,4 @@ export class NavbarComponent implements OnInit, OnDestroy {
       fragment: 'loggedout'
     });
   }
-
-  toggleOfficerMenu() {
-    this.showOfficerMenu = !this.showOfficerMenu;
-  }
-
-  onExit() {
-    this.timerID = setTimeout(() => {
-      this.showOfficerMenu = false;
-    }, 2500);
-  }
-
-  onEnter() {
-    clearTimeout(this.timerID);
-  }
 }

@@ -13,15 +13,11 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/upload">Upload</a>
       </li>
-      <li class="nav-item dropdown" (click)="toggleOfficerMenu()" (mouseleave)="onExit()" (mouseenter)="onEnter()">
-        <a class="nav-link dropdown-toggle">Officers</a>
-        <div class="dropdown-menu" [ngClass]="{'show': showOfficerMenu}">
-          <a class="dropdown-item" routerLink="/officers">Overview</a>
-          <a class="dropdown-item" routerLink="/officers/new">New Officer</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/officers">Officers</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/reports">Reports</a>
+        <a class="nav-link" routerLink="/reports">Productivity Reports</a>
       </li>
     </ul>
     <ul *ngIf="!loggedin" class="navbar-nav float-right">

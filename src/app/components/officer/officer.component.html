@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
   <div class="col-10">
-    <h3><fa name="user"></fa> Officer Overview</h3>
+    <h3><fa name="user"></fa> Officers</h3>
     <a class="btn btn-primary" routerLink="/officers/new">
       <fa name="user-plus"></fa> Add new officer
     </a>
@@ -58,17 +58,16 @@
           </td>
         </tr>
       </tbody>
-      <tbody *ngIf="officers && officers.length === 0">
-        <tr>
-          <td colspan="7">
-            <h2 class="big-empty faded"><fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
-            <h4 class="big-empty faded">Now kindly move along.</h4>
-          </td>
-        </tr>
-      </tbody>
     </table>
-    <div class="alert alert-info" *ngIf="!officers">
-      Loading...
+    <div *ngIf="officers && officers.length === 0">
+      <h2 class="big-empty faded">
+        <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
+      <p class="big-empty faded">Now kindly move along.</p>
+    </div>
+    <div *ngIf="!officers">
+      <h2 class="big-empty faded">
+        <fa name="cog" animation="spin"></fa>Please be patient.</h2>
+      <p class="big-empty faded">I'm sorting through a ton of data!</p>
     </div>
   </div>
 </div>
