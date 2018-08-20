@@ -1,6 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-10">
-    <h3><fa name="user"></fa> Officers</h3>
+    <h3>
+      <fa name="user"></fa> Officers</h3>
     <a class="btn btn-primary" routerLink="/officers/new">
       <fa name="user-plus"></fa> Add new officer
     </a>
@@ -47,12 +48,12 @@
           <td>{{ officer.deptID }}</td>
           <td>{{ officer.squad }}</td>
           <td>
-            <a class="btn btn-info btn-sm" routerLink="/officers/edit/{{ officer._id }}">
+            <a *ngIf="authLevel !== 'View Only'" class="btn btn-info btn-sm" routerLink="/officers/edit/{{ officer._id }}">
               <fa name="edit"></fa> edit
             </a>
           </td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">
+            <button *ngIf="authLevel !== 'View Only'" class="btn btn-danger btn-sm" (click)="deleteOfc(officer)">
               <fa name="trash"></fa> remove
             </button>
           </td>
@@ -69,5 +70,6 @@
         <fa name="cog" animation="spin"></fa>Please be patient.</h2>
       <p class="big-empty faded">I'm sorting through a ton of data!</p>
     </div>
+    <hr>
   </div>
 </div>

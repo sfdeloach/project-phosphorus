@@ -32,4 +32,8 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
   }
+
+  onHeaderClick() {
+    console.log('TODO!');
+  }
 }

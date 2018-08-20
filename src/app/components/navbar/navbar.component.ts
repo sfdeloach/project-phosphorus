@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { Subscription } from 'rxjs/Subscription';
 import { Router, NavigationExtras } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   timerID: any;
   authSub: Subscription;
   loggedin = false;
-  user: string;
+  user: User;
 
   constructor(private authService: AuthService, private router: Router) {}
 

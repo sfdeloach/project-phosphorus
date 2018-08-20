@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { OfficerHttpService } from '../../services/officer.http.service';
+import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
-
 import { Officer } from '../../models/officer.model';
 import { Message } from '../../models/message.model';
 import { HttpErrorResponse } from '../../models/responses/http.error.model';
@@ -21,12 +20,16 @@ export class OfficerComponent implements OnInit, OnDestroy {
   response: Subscription;
   message: Message = new Message();
   sortToggle = 1;
+  authLevel: string;
 
   constructor(
-    private officerService: OfficerHttpService
+    private officerService: OfficerHttpService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.authLevel = this.authService.user.authLevel;
+
     this.ofcSubscription = this.officerService.officers.subscribe(officers => {
       if (!officers[0].error) {
         this.allOfficers = officers.sort(this.sortOfficers);

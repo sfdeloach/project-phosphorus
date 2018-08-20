@@ -26,6 +26,9 @@ import { UserComponent } from './components/user/user.component';
 import { UserNewComponent } from './components/user/user-new/user-new.component';
 
 import { AuthService } from './services/auth.service';
+import { AuthAdminService } from './services/auth.admin.service';
+import { AuthAuthorService } from './services/auth.author.service';
+import { AuthViewOnlyService } from './services/auth.view-only.service';
 import { CafeService } from './services/cafe.service';
 import { CsvService } from './services/csv.service';
 import { EpisodeHttpService } from './services/episode.http.service';
@@ -47,6 +50,7 @@ import { FindNumberPipe } from './pipes/find.number.pipe';
 import { IsolatePipe } from './pipes/isolate.pipe';
 import { TotalPipe } from './pipes/total.pipe';
 import { UserViewComponent } from './components/user/user-view/user-view.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +78,8 @@ import { UserViewComponent } from './components/user/user-view/user-view.compone
     FindDatePipe,
     FindNumberPipe,
     TotalPipe,
-    UserViewComponent
+    UserViewComponent,
+    UnauthorizedComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +90,9 @@ import { UserViewComponent } from './components/user/user-view/user-view.compone
   ],
   providers: [
     AuthService,
+    AuthAdminService,
+    AuthAuthorService,
+    AuthViewOnlyService,
     CafeService,
     CsvService,
     EpisodeHttpService,
