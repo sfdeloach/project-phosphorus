@@ -1,5 +1,4 @@
 import { Offense } from './offense.model';
-import { Officer } from './officer.model';
 
 export class Report {
 

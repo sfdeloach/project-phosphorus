@@ -1,0 +1,92 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs/Subject';
+import { User } from '../models/user.model';
+import { InsertManyResponse } from '../models/responses/insert.many.model';
+import { RemoveResponse } from '../models/responses/remove.model';
+import { ApiUrlsList } from './lists/api.urls.list';
+
+@Injectable()
+export class UserHttpService {
+  users = new Subject<User[]>();
+  user = new Subject<User>();
+  usersUrl: string = this.url.userAPI;
+  response: Subject<any> = new Subject();
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
+  constructor(private http: HttpClient, private url: ApiUrlsList) {}
+
+  getUsers() {
+    this.http.get<User[]>(this.usersUrl).subscribe(
+      (users: User[]) => {
+        this.users.next(users);
+      },
+      err => {
+        console.error(err);
+        this.users.next([err]);
+      }
+    );
+  }
+
+  getUser(id: string) {
+    this.http.get<User>(`${this.usersUrl}/${id}`).subscribe(
+      (user: User) => {
+        this.user.next(user);
+      },
+      err => {
+        console.error(err);
+        this.user.next(err);
+      }
+    );
+  }
+
+  insertUser(user: User) {
+    this.http
+      .post<InsertManyResponse<User>>(this.usersUrl, { users: [user] }, this.httpOptions)
+      .subscribe(
+        (res: InsertManyResponse<User>) => {
+          this.response.next(res);
+        },
+        error => {
+          console.error(error);
+          this.response.next(error);
+        }
+      );
+  }
+
+  deleteUser(id: string) {
+    this.http.delete<RemoveResponse>(`${this.usersUrl}/${id}`, this.httpOptions).subscribe(
+      (res: RemoveResponse) => {
+        this.response.next(res);
+      },
+      error => {
+        console.error(error);
+        this.response.next(error);
+      }
+    );
+  }
+
+  replaceUser(id: string, user: User) {
+    this.http.delete<RemoveResponse>(`${this.usersUrl}/${id}`, this.httpOptions).subscribe(
+      (deleteRes: RemoveResponse) => {
+        this.http
+          .post<InsertManyResponse<User>>(this.usersUrl, { users: [user] }, this.httpOptions)
+          .subscribe(
+            (insertRes: InsertManyResponse<User>) => {
+              this.response.next(insertRes);
+            },
+            error => {
+              console.error(error);
+              this.response.next(error);
+            }
+          );
+      },
+      error => {
+        console.error(error);
+        this.response.next(error);
+      }
+    );
+  }
+}

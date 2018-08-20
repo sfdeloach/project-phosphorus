@@ -3,9 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReportTypesList } from '../../../services/lists/report.types.list';
 import { ReportService } from '../../../services/report.service';
 import { Router } from '@angular/router';
-import { InitiatedDispo } from '../../../models/productivity-reports/initiated-dispo.model';
-import { NonInitiated } from '../../../models/productivity-reports/non-initiated.model';
-import { OverallInitiated } from '../../../models/productivity-reports/overall-initiated.model';
 
 @Component({
   selector: 'app-report-new',

@@ -22,6 +22,8 @@ import { LoginComponent } from './components/login/login.component';
 import { ReportComponent } from './components/report/report.component';
 import { ReportNewComponent } from './components/report/report-new/report-new.component';
 import { ReportViewComponent } from './components/report/report-view/report-view.component';
+import { UserComponent } from './components/user/user.component';
+import { UserNewComponent } from './components/user/user-new/user-new.component';
 
 import { AuthService } from './services/auth.service';
 import { CafeService } from './services/cafe.service';
@@ -32,9 +34,11 @@ import { ReportHttpService } from './services/report.http.service';
 import { ReportService } from './services/report.service';
 import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
+import { UserHttpService } from './services/user.http.service';
 
 import { ApiUrlsList } from './services/lists/api.urls.list';
 import { ReportTypesList } from './services/lists/report.types.list';
+import { AuthTypesList } from './services/lists/auth.types.list';
 
 import { EpisodeInfoPipe } from './pipes/episode.info.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
@@ -42,6 +46,7 @@ import { FindDatePipe } from './pipes/find.date.pipe';
 import { FindNumberPipe } from './pipes/find.number.pipe';
 import { IsolatePipe } from './pipes/isolate.pipe';
 import { TotalPipe } from './pipes/total.pipe';
+import { UserViewComponent } from './components/user/user-view/user-view.component';
 
 @NgModule({
   declarations: [
@@ -61,12 +66,15 @@ import { TotalPipe } from './pipes/total.pipe';
     ReportComponent,
     ReportNewComponent,
     ReportViewComponent,
+    UserComponent,
+    UserNewComponent,
     EpisodeInfoPipe,
     IsolatePipe,
     FilterPipe,
     FindDatePipe,
     FindNumberPipe,
-    TotalPipe
+    TotalPipe,
+    UserViewComponent
   ],
   imports: [
     BrowserModule,
@@ -85,9 +93,11 @@ import { TotalPipe } from './pipes/total.pipe';
     ReportService,
     UploadService,
     XCADService,
+    UserHttpService,
     ApiUrlsList,
-    ReportTypesList
+    ReportTypesList,
+    AuthTypesList
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

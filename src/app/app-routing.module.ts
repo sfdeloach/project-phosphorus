@@ -14,6 +14,10 @@ import { OfficerEditComponent } from './components/officer/officer-edit/officer-
 import { UploadComponent } from './components/upload/upload.component';
 import { WipeEpisodesComponent } from './components/upload/wipe-episodes/wipe-episodes.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { UserComponent } from './components/user/user.component';
+import { UserNewComponent } from './components/user/user-new/user-new.component';
+import { UserViewComponent } from './components/user/user-view/user-view.component';
+
 import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
@@ -55,6 +59,21 @@ const routes: Routes = [
   {
     path: 'upload/wipe-episodes',
     component: WipeEpisodesComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'users',
+    component: UserComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'users/new',
+    component: UserNewComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'users/view/:id',
+    component: UserViewComponent,
     canActivate: [AuthService]
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

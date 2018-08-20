@@ -7,5 +7,6 @@ export class ProductivityReport {
     constructor(
         public meta: ReportMetaData,
         public report: InitiatedDispo[] | NonInitiated[] | OverallInitiated[],
+        public _id?
     ) { }
 }

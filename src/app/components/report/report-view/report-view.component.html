@@ -2,12 +2,14 @@
   <div class="col-12">
     <div *ngIf="reportData && reportData.length === 0">
       <h2 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.</h2>
+        <fa name="frown-o"></fa>Sorry, nothing to see here.
+      </h2>
       <h4 class="big-empty faded">Now kindly move along.</h4>
     </div>
     <div *ngIf="!reportData">
       <h2 class="big-empty faded">
-        <fa name="cog" animation="spin"></fa>Please be patient.</h2>
+        <fa name="cog" animation="spin"></fa>Please be patient.
+      </h2>
       <h4 class="big-empty faded">I'm sorting through a ton of data!</h4>
     </div>
     <div *ngIf="reportData && reportData.length > 0">
@@ -35,8 +37,11 @@
       <p class="text-right">
         <em>created on {{ reportMetaData.created | date }}</em>
       </p>
-      <button class="btn btn-success" *ngIf="reportData.length > 0" (click)="saveReport()">Save Report</button>
-      <a class="btn btn-danger" *ngIf="reportData.length > 0" routerLink="/reports">Discard Report</a>
+      <button class="btn btn-success" *ngIf="reportData.length > 0 && unsavedReport" (click)="saveReport()">Save Report</button>
+      <a class="btn btn-danger" *ngIf="reportData.length > 0 && unsavedReport" routerLink="/reports">Discard Report</a>
+      <button class="btn btn-danger" *ngIf="reportData.length > 0 && !unsavedReport" (click)="deleteReport()">Delete Report
+      </button>
+      <a class="btn btn-info" *ngIf="reportData.length > 0 && !unsavedReport" routerLink="/reports">Return to Overview</a>
       <hr>
     </div>
   </div>

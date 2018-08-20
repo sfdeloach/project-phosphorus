@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Login } from '../models/login.model';
-import { Subject } from 'rxjs/Subject';
 import { CanActivate, Router } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { Subject } from 'rxjs/Subject';
+import { User } from '../models/user.model';
+import { UserHttpService } from '../services/user.http.service';
+import { decrypt } from '../services/functions/encryption.function';
 
 @Injectable()
 export class AuthService implements CanActivate {
-  guardApplication = environment.production;
   authorized = new Subject<boolean>();
   user: string;
+  authorizedUsers: User[];
 
-  // To be replaced with a call to a db
-  authorizedUsers: Login[] = [
-    new Login('test', 'test')
-  ];
+  constructor(private router: Router, private userHttpService: UserHttpService) {}
 
-  constructor(private router: Router) {}
+  getUsers(): void {
+    this.userHttpService.getUsers();
+  }
 
-  auth(login: Login): void {
-    // To be replaced with a call to a db
+  auth(login: User): void {
     const lookupUser = this.authorizedUsers.find(user => {
-      return user.username === login.username;
+      return decrypt(user.username) === login.username;
     });
 
-    if (lookupUser && lookupUser.password === login.password) {
-      this.user = lookupUser.username;
+    if (lookupUser && decrypt(lookupUser.password) === login.password) {
+      this.user = `${lookupUser.firstname} ${lookupUser.lastname}`;
       this.authorized.next(true);
     } else {
       this.user = undefined;
@@ -33,7 +32,7 @@ export class AuthService implements CanActivate {
   }
 
   canActivate(): boolean {
-    if (this.user || !this.guardApplication) {
+    if (this.user || true) { // Remove for production
       return true;
     } else {
       this.router.navigate(['/login']);

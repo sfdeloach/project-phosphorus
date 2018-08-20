@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { ProductivityReport } from '../models/productivity-reports/productivity-report.model';
+import { Officer } from '../models/officer.model';
+import { Episode } from '../models/episode.model';
+import { ReportMetaData } from '../models/productivity-reports/report.metadata.model';
+
 import { InitiatedDispo } from '../models/productivity-reports/initiated-dispo.model';
 import { NonInitiated } from '../models/productivity-reports/non-initiated.model';
 import { OverallInitiated } from '../models/productivity-reports/overall-initiated.model';
-import { ReportMetaData } from '../models/productivity-reports/report.metadata.model';
-import { Officer } from '../models/officer.model';
-import { Episode } from '../models/episode.model';
+
 import { buildInitiatedDispoReport } from '../services/functions/build.initiated.dispo.function';
 import { buildNoninitiatedReport } from '../services/functions/build.noninitiated.function';
 import { buildOverallInitiatedReport } from '../services/functions/build.overall.initiated.function';
+import { ReportHttpService } from './report.http.service';
 
 @Injectable()
 export class ReportService {

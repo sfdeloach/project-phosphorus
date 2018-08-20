@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductivityReport } from '../../models/productivity-reports/productivity-report.model';
-import { ReportHttpService } from '../../services/report.http.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ReportHttpService } from '../../services/report.http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -13,10 +14,12 @@ export class ReportComponent implements OnInit, OnDestroy {
   reportsSubscription: Subscription;
   sortToggle = 1;
 
-  constructor(private reportHttpService: ReportHttpService) {}
+  constructor(
+    private reportHttpService: ReportHttpService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    console.log('ngOnInit report component');
     this.reportsSubscription = this.reportHttpService.reports.subscribe(
       (reports: ProductivityReport[]) => {
         this.reports = reports;
@@ -29,6 +32,10 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.reportsSubscription.unsubscribe();
+  }
+
+  viewReport(report: ProductivityReport) {
+    this.router.navigate(['/reports/view', { id: report._id }]);
   }
 
   onHeaderClick(property: string) {

@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+  <div class="col-10">
+    <h3>
+      <fa name="user"></fa> Users
+    </h3>
+    <a class="btn btn-primary" routerLink="/users/new">
+      <fa name="user-plus"></fa> Create new user
+    </a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="onHeaderClick('username')">Username</th>
+          <th class="sortable" (click)="onHeaderClick('deptID')">Dept ID</th>
+          <th class="sortable" (click)="onHeaderClick('lastname')">Last</th>
+          <th class="sortable" (click)="onHeaderClick('firstname')">First</th>
+          <th class="sortable" (click)="onHeaderClick('authLevel')">Authorization Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>
+            <a class="link" [routerLink]="'/users/view/' + user._id">{{ user.username }}</a>
+          </td>
+          <td>{{ user.deptID }}</td>
+          <td>{{ user.lastname }}</td>
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.authLevel }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="users && users.length === 0">
+      <h2 class="big-empty faded">
+        <fa name="frown-o"></fa>Sorry, nothing to see here.
+      </h2>
+      <p class="big-empty faded">Now kindly move along.</p>
+    </div>
+    <div *ngIf="!users">
+      <h2 class="big-empty faded">
+        <fa name="cog" animation="spin"></fa>Please be patient.
+      </h2>
+      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+    </div>
+  </div>
+</div>
