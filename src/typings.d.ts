@@ -4,4 +4,3 @@ interface NodeModule {
   id: string;
 }
 declare module 'aes-js';
-declare module '@rbtdev/node-cmd-bcrypt';

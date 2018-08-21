@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { User } from '../models/user.model';
-import { UserHttpService } from '../services/user.http.service';
-import { decrypt } from '../services/functions/encryption.function';
-import { environment } from '../../environments/environment';
+import { UserHttpService } from './user.http.service';
+import { decrypt } from './functions/encryption.function';
 
 @Injectable()
-export class AuthService /*implements CanActivate*/ {
+export class AuthService {
   authorized = new Subject<boolean>();
   user: User;
   authorizedUsers: User[];
@@ -32,15 +31,6 @@ export class AuthService /*implements CanActivate*/ {
       this.authorized.next(false);
     }
   }
-
-  // canActivate(): boolean {
-  //   if (this.user || !environment.production) { // Remove for production
-  //     return true;
-  //   } else {
-  //     this.router.navigate(['/login']);
-  //     return false;
-  //   }
-  // }
 
   logout(): void {
     this.user = undefined;

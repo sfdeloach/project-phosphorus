@@ -35,10 +35,10 @@
       </h5>
       <p>
         The
-        <code>Episodes</code> collection is built from two external sources: XCAD and Cafe. The sources must be provided in the
-        form of a comma-delimited CSV file. The order and name of each column must conform to a specified format, otherwise
-        the file will fail to upload. The application will also expect the user to first load XCAD data for a given span
-        of time,
+        <code>Episodes</code> collection is built from two external sources: XCAD and Cafe. The sources must be provided
+        in the form of a comma-delimited CSV file. The order and name of each column must conform to a specified format,
+        otherwise the file will fail to upload. The application will also expect the user to first load XCAD data for a given
+        span of time,
         <strong>then follow this with Cafe data for the same period
         </strong>. Failure to follow this order will result in an inaccurate database.
       </p>
@@ -54,10 +54,10 @@
         In many instances, an
         <code>Episodes</code> object will consist only of a
         <code>Call</code> object. This is usually the case when no report is generated from a XCAD event. Conversely, some
-        <code>Episodes</code>
-        will only consist of
-        <code>Report</code> objects. This is typically observed in TC (traffic citation) report types. Nevertheless, the application
-        will take the data provided from the two distinct sources and attempt to build an aggregate database, as long as the data is provided in the expected order.
+        <code>Episodes</code> will only consist of
+        <code>Report</code> objects. This is typically observed in TC (traffic citation) report types. Nevertheless, the
+        application will take the data provided from the two distinct sources and attempt to build an aggregate database,
+        as long as the data is provided in the expected order.
       </p>
       <h5>
         Officers
@@ -67,9 +67,10 @@
       </h5>
       <p>
         The
-        <code>Officers</code> collection is maintained by the user and is used to setup productivity reports. It is in this collection
-        that a user can control the spelling of the officer's name, the squad they are assigned to, and the effective date
-        that their productivity numbers should be applied from. Officers may also be excluded from reports based on a setting.
+        <code>Officers</code> collection is maintained by the user and is used to setup productivity reports. It is in this
+        collection that a user can control the spelling of the officer's name, the squad they are assigned to, and the effective
+        date that their productivity numbers should be applied from. Officers may also be excluded from reports based on
+        a setting.
       </p>
       <h4>
         <fa name="question"></fa>
@@ -80,21 +81,21 @@
         <li>
           The
           <code>Officers</code> collection is created and maintained by the user. This collection is independent of the
-          <code>Episodes</code>
-          collection and is used to assign a number of properties to an officer. Additional features include an ability to include/exclude
-          officers from reports as well as designating a start date from which productivity should be counted.
+          <code>Episodes</code> collection and is used to assign a number of properties to an officer. Additional features
+          include an ability to include/exclude officers from reports as well as designating a start date from which productivity
+          should be counted.
         </li>
         <li>
           The
-          <code>Episodes</code> collection is created via CSV files that have been created from a query seperate from this application.
-          The XCAD data does not contain information on any possible associations with
+          <code>Episodes</code> collection is created via CSV files that have been created from a query seperate from this
+          application. The XCAD data does not contain information on any possible associations with
           <code>Report</code> data. It will only check to see if an
           <code>&#123;eventNbr&#125;</code> property exists before creating a new record.
         </li>
         <li>
           A Cafe CSV file is next uploaded, which will update/populate the existing
-          <code>Episodes</code> collection, creating new documents for the collection when an event number is either not provided
-          in the CSV file or not found in the existing collection.
+          <code>Episodes</code> collection, creating new documents for the collection when an event number is either not
+          provided in the CSV file or not found in the existing collection.
         </li>
       </ol>
       <h4>
@@ -123,15 +124,9 @@
     caseNbr: string,
     reportDate: Date,
     type: string,
-    people: People[], // TODO!
     offenses: Offense[],
     clearance: string,
     reportingOfc: Officer
-  &#125;</code></pre>
-      <pre><code>
-  People &#123; // TODO!
-    offenseNo: number,
-    type: string
   &#125;</code></pre>
       <pre><code>
   Offense &#123;

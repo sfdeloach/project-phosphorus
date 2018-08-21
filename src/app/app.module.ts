@@ -24,24 +24,27 @@ import { ReportNewComponent } from './components/report/report-new/report-new.co
 import { ReportViewComponent } from './components/report/report-view/report-view.component';
 import { UserComponent } from './components/user/user.component';
 import { UserNewComponent } from './components/user/user-new/user-new.component';
+import { UserViewComponent } from './components/user/user-view/user-view.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 import { AuthService } from './services/auth.service';
-import { AuthAdminService } from './services/auth.admin.service';
-import { AuthAuthorService } from './services/auth.author.service';
-import { AuthViewOnlyService } from './services/auth.view-only.service';
 import { CafeService } from './services/cafe.service';
 import { CsvService } from './services/csv.service';
 import { EpisodeHttpService } from './services/episode.http.service';
 import { OfficerHttpService } from './services/officer.http.service';
 import { ReportHttpService } from './services/report.http.service';
 import { ReportService } from './services/report.service';
-import { XCADService } from './services/xcad.service';
 import { UploadService } from './services/upload.service';
 import { UserHttpService } from './services/user.http.service';
+import { XCADService } from './services/xcad.service';
+
+import { AuthAdminGuard } from './guards/auth.admin.guard';
+import { AuthAuthorGuard } from './guards/auth.author.guard';
+import { AuthViewOnlyGuard } from './guards/auth.view-only.guard';
 
 import { ApiUrlsList } from './services/lists/api.urls.list';
-import { ReportTypesList } from './services/lists/report.types.list';
 import { AuthTypesList } from './services/lists/auth.types.list';
+import { ReportTypesList } from './services/lists/report.types.list';
 
 import { EpisodeInfoPipe } from './pipes/episode.info.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
@@ -49,8 +52,6 @@ import { FindDatePipe } from './pipes/find.date.pipe';
 import { FindNumberPipe } from './pipes/find.number.pipe';
 import { IsolatePipe } from './pipes/isolate.pipe';
 import { TotalPipe } from './pipes/total.pipe';
-import { UserViewComponent } from './components/user/user-view/user-view.component';
-import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -90,9 +91,6 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
   ],
   providers: [
     AuthService,
-    AuthAdminService,
-    AuthAuthorService,
-    AuthViewOnlyService,
     CafeService,
     CsvService,
     EpisodeHttpService,
@@ -100,11 +98,14 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
     ReportHttpService,
     ReportService,
     UploadService,
-    XCADService,
     UserHttpService,
+    XCADService,
     ApiUrlsList,
+    AuthTypesList,
     ReportTypesList,
-    AuthTypesList
+    AuthAdminGuard,
+    AuthAuthorGuard,
+    AuthViewOnlyGuard
   ],
   bootstrap: [AppComponent]
 })

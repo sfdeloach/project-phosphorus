@@ -19,65 +19,65 @@ import { UserComponent } from './components/user/user.component';
 import { UserNewComponent } from './components/user/user-new/user-new.component';
 import { UserViewComponent } from './components/user/user-view/user-view.component';
 
-import { AuthAdminService } from './services/auth.admin.service';
-import { AuthAuthorService } from './services/auth.author.service';
-import { AuthViewOnlyService } from './services/auth.view-only.service';
+import { AuthAdminGuard } from './guards/auth.admin.guard';
+import { AuthAuthorGuard } from './guards/auth.author.guard';
+import { AuthViewOnlyGuard } from './guards/auth.view-only.guard';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, canActivate: [AuthViewOnlyService] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthViewOnlyGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'reports', component: ReportComponent, canActivate: [AuthViewOnlyService] },
+  { path: 'reports', component: ReportComponent, canActivate: [AuthViewOnlyGuard] },
   {
     path: 'reports/new',
     component: ReportNewComponent,
-    canActivate: [AuthAuthorService]
+    canActivate: [AuthAuthorGuard]
   },
   {
     path: 'reports/view',
     component: ReportViewComponent,
-    canActivate: [AuthViewOnlyService]
+    canActivate: [AuthViewOnlyGuard]
   },
-  { path: 'officers', component: OfficerComponent, canActivate: [AuthViewOnlyService] },
+  { path: 'officers', component: OfficerComponent, canActivate: [AuthViewOnlyGuard] },
   {
     path: 'officers/new',
     component: OfficerNewComponent,
-    canActivate: [AuthAuthorService]
+    canActivate: [AuthAuthorGuard]
   },
   {
     path: 'officers/squad',
     component: OfficerSquadComponent,
-    canActivate: [AuthAuthorService]
+    canActivate: [AuthAuthorGuard]
   },
   {
     path: 'officers/effective-date',
     component: OfficerEffectiveDateComponent,
-    canActivate: [AuthAuthorService]
+    canActivate: [AuthAuthorGuard]
   },
   {
     path: 'officers/edit/:id',
     component: OfficerEditComponent,
-    canActivate: [AuthAuthorService]
+    canActivate: [AuthAuthorGuard]
   },
-  { path: 'upload', component: UploadComponent, canActivate: [AuthAuthorService] },
+  { path: 'upload', component: UploadComponent, canActivate: [AuthAuthorGuard] },
   {
     path: 'upload/wipe-episodes',
     component: WipeEpisodesComponent,
-    canActivate: [AuthAuthorService]
+    canActivate: [AuthAuthorGuard]
   },
   {
     path: 'users',
     component: UserComponent,
-    canActivate: [AuthAdminService]
+    canActivate: [AuthAdminGuard]
   },
   {
     path: 'users/new',
     component: UserNewComponent,
-    canActivate: [AuthAdminService]
+    canActivate: [AuthAdminGuard]
   },
   {
     path: 'users/view/:id',
     component: UserViewComponent,
-    canActivate: [AuthAdminService]
+    canActivate: [AuthAdminGuard]
   },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
