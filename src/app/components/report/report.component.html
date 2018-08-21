@@ -3,7 +3,7 @@
     <h3>
       <fa name="file-text"></fa> Productivity Reports
     </h3>
-    <a class="btn btn-primary" routerLink="/reports/new">
+    <a *ngIf="authService.isAuthor()" class="btn btn-primary" routerLink="/reports/new">
       <fa name="plus"></fa> Create report
     </a>
     <table class="table">

@@ -7,19 +7,19 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
+      <li *ngIf="user && authService.isViewOnly()" class="nav-item">
         <a class="nav-link" routerLink="/home">Home</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="user && authService.isAuthor()" class="nav-item">
         <a class="nav-link" routerLink="/upload">Upload</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="user && authService.isAuthor()" class="nav-item">
         <a class="nav-link" routerLink="/officers">Officers</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="user && authService.isViewOnly()" class="nav-item">
         <a class="nav-link" routerLink="/reports">Productivity Reports</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="user && authService.isAdmin()" class="nav-item">
         <a class="nav-link" routerLink="/users">Users</a>
       </li>
     </ul>

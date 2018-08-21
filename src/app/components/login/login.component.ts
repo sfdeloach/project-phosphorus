@@ -12,12 +12,12 @@ import { UserHttpService } from '../../services/user.http.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
-  isLoggedin = false;
-  loginSub: Subscription;
-  usersSubscription: Subscription;
   fragment: string;
-  fragmentSub: Subscription;
+  isLoggedin = false;
   hasAttemptedLogin = false;
+  loginSubscription: Subscription;
+  usersSubscription: Subscription;
+  fragmentSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,30 +28,40 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.usersSubscription = this.userHttpService.users.subscribe(
-      users => (this.authService.authorizedUsers = users)
-    );
-
-    this.authService.getUsers();
-
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
 
-    this.loginSub = this.authService.authorized.subscribe(login => {
+    this.usersSubscription = this.userHttpService.users.subscribe(
+      users => {
+        if (users) {
+          // TODO: display a message that the application is working
+          this.authService.authorizedUsers = users;
+        } else {
+          // TODO: redirect to a one-time user registration that forces
+          //       an 'Administrator' account to be registered, once
+          //       completed, the application is logged out and redirected
+          //       to the login screen
+        }
+      }
+    );
+
+    this.loginSubscription = this.authService.authorized.subscribe(login => {
       this.isLoggedin = login;
       if (login) {
         this.router.navigate(['/home']);
       }
     });
 
-    this.fragmentSub = this.route.fragment.subscribe(frag => (this.fragment = frag));
+    this.fragmentSubscription = this.route.fragment.subscribe(frag => (this.fragment = frag));
+
+    this.authService.getUsers();
   }
 
   ngOnDestroy() {
-    this.loginSub.unsubscribe();
-    this.fragmentSub.unsubscribe();
+    this.loginSubscription.unsubscribe();
+    this.fragmentSubscription.unsubscribe();
   }
 
   onSubmit() {

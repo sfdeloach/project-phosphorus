@@ -6,6 +6,7 @@ import { ReportService } from '../../../services/report.service';
 import { ReportHttpService } from '../../../services/report.http.service';
 import { OfficerHttpService } from '../../../services/officer.http.service';
 import { EpisodeHttpService } from '../../../services/episode.http.service';
+import { AuthService } from '../../../services/auth.service';
 import { ReportMetaData } from '../../../models/productivity-reports/report.metadata.model';
 import { Officer } from '../../../models/officer.model';
 import { Episode } from '../../../models/episode.model';
@@ -32,7 +33,8 @@ export class ReportViewComponent implements OnInit, OnDestroy {
     private officerService: OfficerHttpService,
     private episodeService: EpisodeHttpService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {

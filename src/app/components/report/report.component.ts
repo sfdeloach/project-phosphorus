@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ProductivityReport } from '../../models/productivity-reports/productivity-report.model';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ReportHttpService } from '../../services/report.http.service';
-import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ProductivityReport } from '../../models/productivity-reports/productivity-report.model';
 
 @Component({
   selector: 'app-report',
@@ -16,7 +17,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   constructor(
     private reportHttpService: ReportHttpService,
-    private router: Router
+    private router: Router,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {

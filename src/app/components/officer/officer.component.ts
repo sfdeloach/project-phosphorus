@@ -20,16 +20,13 @@ export class OfficerComponent implements OnInit, OnDestroy {
   response: Subscription;
   message: Message = new Message();
   sortToggle = 1;
-  authLevel: string;
 
   constructor(
     private officerService: OfficerHttpService,
-    private authService: AuthService
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.authLevel = this.authService.user.authLevel;
-
     this.ofcSubscription = this.officerService.officers.subscribe(officers => {
       if (!officers[0].error) {
         this.allOfficers = officers.sort(this.sortOfficers);

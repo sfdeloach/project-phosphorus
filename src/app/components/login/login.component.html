@@ -1,10 +1,6 @@
 <div class="row justify-content-center">
   <div class="col-6">
     <h3>Login</h3>
-    <div *ngIf="!authService.guardApplication" class="alert alert-info">
-      ATTENTION: Currently in development mode!
-      <br>Username: test, Password: test
-    </div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
         <label class="center-block">Username:</label>

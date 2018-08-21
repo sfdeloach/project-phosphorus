@@ -8,12 +8,7 @@ export class AuthViewOnlyGuard implements CanActivate {
 
   canActivate(): Promise<boolean> {
     return new Promise(resolve => {
-      if (
-        this.authService.user &&
-        (this.authService.user.authLevel === 'View Only' ||
-          this.authService.user.authLevel === 'Author' ||
-          this.authService.user.authLevel === 'Administrator')
-      ) {
+      if (this.authService.user && this.authService.isViewOnly()) {
         resolve(true);
       } else {
         this.router.navigate(['/unauthorized']);

@@ -39,7 +39,7 @@
       </p>
       <button class="btn btn-success" *ngIf="reportData.length > 0 && unsavedReport" (click)="saveReport()">Save Report</button>
       <a class="btn btn-danger" *ngIf="reportData.length > 0 && unsavedReport" routerLink="/reports">Discard Report</a>
-      <button class="btn btn-danger" *ngIf="reportData.length > 0 && !unsavedReport" (click)="deleteReport()">Delete Report
+      <button class="btn btn-danger" *ngIf="reportData.length > 0 && !unsavedReport && authService.isAdmin()" (click)="deleteReport()">Delete Report
       </button>
       <a class="btn btn-info" *ngIf="reportData.length > 0 && !unsavedReport" routerLink="/reports">Return to Overview</a>
     </div>

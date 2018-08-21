@@ -13,6 +13,24 @@ export class AuthService {
 
   constructor(private router: Router, private userHttpService: UserHttpService) {}
 
+  isAdmin(): boolean {
+    return this.user ? this.user.authLevel === 'Administrator' : false;
+  }
+
+  isAuthor(): boolean {
+    return this.user
+      ? this.user.authLevel === 'Administrator' || this.user.authLevel === 'Author'
+      : false;
+  }
+
+  isViewOnly(): boolean {
+    return this.user
+      ? this.user.authLevel === 'Administrator' ||
+          this.user.authLevel === 'Author' ||
+          this.user.authLevel === 'View Only'
+      : false;
+  }
+
   getUsers(): void {
     this.userHttpService.getUsers();
   }
@@ -22,6 +40,7 @@ export class AuthService {
       return decrypt(user.username) === login.username;
     });
 
+    // For development purposes, authorization override can be made here
     if (lookupUser && decrypt(lookupUser.password) === login.password) {
       lookupUser.username = decrypt(lookupUser.username);
       this.user = lookupUser;
