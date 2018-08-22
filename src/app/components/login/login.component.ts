@@ -17,7 +17,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   hasAttemptedLogin = false;
   loginSubscription: Subscription;
   usersSubscription: Subscription;
+  userSubscription: Subscription;
   fragmentSubscription: Subscription;
+  connected = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,19 +35,28 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', Validators.required]
     });
 
-    this.usersSubscription = this.userHttpService.users.subscribe(
-      users => {
-        if (users) {
-          // TODO: display a message that the application is working
-          this.authService.authorizedUsers = users;
-        } else {
-          // TODO: redirect to a one-time user registration that forces
-          //       an 'Administrator' account to be registered, once
-          //       completed, the application is logged out and redirected
-          //       to the login screen
-        }
+    this.fragmentSubscription = this.route.fragment.subscribe(frag => (this.fragment = frag));
+
+    this.usersSubscription = this.userHttpService.users.subscribe(users => {
+      if (!users) {
+        this.connected = false;
+      } else {
+        // TODO: redirect to a one-time user registration that forces
+        //       an 'Administrator' account to be registered, once
+        //       completed, the application is logged out and redirected
+        //       to the login screen
       }
-    );
+    });
+
+    this.userSubscription = this.userHttpService.user.subscribe(user => {
+      if (user) {
+        this.authService.user = user;
+        this.authService.authorized.next(true);
+      } else {
+        this.authService.user = undefined;
+        this.authService.authorized.next(false);
+      }
+    });
 
     this.loginSubscription = this.authService.authorized.subscribe(login => {
       this.isLoggedin = login;
@@ -54,18 +65,19 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.fragmentSubscription = this.route.fragment.subscribe(frag => (this.fragment = frag));
-
-    this.authService.getUsers();
+    this.userHttpService.getUsers();
   }
 
   ngOnDestroy() {
-    this.loginSubscription.unsubscribe();
     this.fragmentSubscription.unsubscribe();
+    this.usersSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+    this.loginSubscription.unsubscribe();
   }
 
   onSubmit() {
-    this.authService.auth(this.loginForm.value);
+    // this.authService.auth(this.loginForm.value);
+    this.userHttpService.loginUser(this.loginForm.value);
     this.hasAttemptedLogin = true;
   }
 }

@@ -10,13 +10,35 @@ import { ApiUrlsList } from './lists/api.urls.list';
 export class UserHttpService {
   users = new Subject<User[]>();
   user = new Subject<User>();
-  usersUrl: string = this.url.userAPI;
   response: Subject<any> = new Subject();
+  usersUrl: string = this.url.userAPI;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(private http: HttpClient, private url: ApiUrlsList) {}
+
+  loginUser(userAttemptingLogin: User) {
+    this.http
+      .post<User>(
+        `${this.usersUrl}/login/${userAttemptingLogin.username}`,
+        userAttemptingLogin,
+        this.httpOptions
+      )
+      .subscribe(
+      this.http.get<User>(`${this.usersUrl}/${id}`).subscribe(
+        (user: User) => {
+          this.user.next(user);
+        },
+        err => {
+          console.error(err);
+          this.user.next(err);
+        }
+      );
+      ),
+      err => {
+      };
+  }
 
   getUsers() {
     this.http.get<User[]>(this.usersUrl).subscribe(
