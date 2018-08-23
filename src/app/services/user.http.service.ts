@@ -5,6 +5,7 @@ import { User } from '../models/user.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { RemoveResponse } from '../models/responses/remove.model';
 import { ApiUrlsList } from './lists/api.urls.list';
+import { encrypt } from './functions/encryption.function';
 
 @Injectable()
 export class UserHttpService {
@@ -18,26 +19,20 @@ export class UserHttpService {
 
   constructor(private http: HttpClient, private url: ApiUrlsList) {}
 
-  loginUser(userAttemptingLogin: User) {
+  loginUser(userAttempt: User) {
+    userAttempt.username = encrypt(userAttempt.username);
+    userAttempt.password = encrypt(userAttempt.password);
     this.http
-      .post<User>(
-        `${this.usersUrl}/login/${userAttemptingLogin.username}`,
-        userAttemptingLogin,
-        this.httpOptions
-      )
+      .post<User>(`${this.usersUrl}/login/${userAttempt.username}`, userAttempt, this.httpOptions)
       .subscribe(
-      this.http.get<User>(`${this.usersUrl}/${id}`).subscribe(
         (user: User) => {
           this.user.next(user);
         },
         err => {
           console.error(err);
-          this.user.next(err);
+          this.response.next(err);
         }
       );
-      ),
-      err => {
-      };
   }
 
   getUsers() {
@@ -59,7 +54,7 @@ export class UserHttpService {
       },
       err => {
         console.error(err);
-        this.user.next(err);
+        this.response.next(err);
       }
     );
   }

@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserHttpService } from '../../services/user.http.service';
+import { decrypt } from '../../services/functions/encryption.function';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.usersSubscription = this.userHttpService.users.subscribe(users => {
       if (!users) {
         this.connected = false;
-      } else {
+      } else if (users.length === 0) {
         // TODO: redirect to a one-time user registration that forces
         //       an 'Administrator' account to be registered, once
         //       completed, the application is logged out and redirected
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.userSubscription = this.userHttpService.user.subscribe(user => {
       if (user) {
+        user.username = decrypt(user.username);
         this.authService.user = user;
         this.authService.authorized.next(true);
       } else {
