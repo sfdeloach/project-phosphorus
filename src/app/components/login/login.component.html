@@ -10,12 +10,12 @@
         <label class="center-block">Password:</label>
         <input type="password" class="form-control" formControlName="password">
       </div>
-      <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid || noRegisteredUsers">
+      <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid">
         <fa name="flag"></fa> Login
       </button>
     </form>
     <div class="alert alert-danger" *ngIf="!connected">
-      App is unable to connect...
+      App is unable to connect to API and/or database!
     </div>
     <div class="alert alert-warning" *ngIf="hasAttemptedLogin && !isLoggedin && !isCheckingAuth">
       Unrecognized username and/or incorrect password

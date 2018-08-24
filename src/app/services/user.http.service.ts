@@ -61,7 +61,7 @@ export class UserHttpService {
 
   insertUser(user: User) {
     this.http
-      .post<InsertManyResponse<User>>(this.usersUrl, { users: [user] }, this.httpOptions)
+      .post<InsertManyResponse<User>>(this.usersUrl, { user: user }, this.httpOptions)
       .subscribe(
         (res: InsertManyResponse<User>) => {
           this.response.next(res);

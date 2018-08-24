@@ -41,12 +41,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.fragmentSubscription = this.route.fragment.subscribe(frag => (this.fragment = frag));
 
     this.usersSubscription = this.userHttpService.users.subscribe((users: User[]) => {
-      if (users[0].error) {
+      if (users.length === 0) {
+        this.authService.user = new User('Administrator', '[guest]');
+        this.authService.authorized.next(true);
+      } else if (users[0].error) {
         this.connected = false;
         console.error(users[0].error);
-      } else if (users.length === 0) {
-        this.authService.user = new User('Administrator', '(Guest)');
-        this.authService.authorized.next(true);
       }
     });
 
