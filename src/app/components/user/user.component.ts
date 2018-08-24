@@ -33,7 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
-  onHeaderClick() {
-    console.log('TODO!');
+  onHeaderClick(column: string) {
+    console.log('TODO! - sort ' + column);
   }
 }
