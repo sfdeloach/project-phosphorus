@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserHttpService } from '../../services/user.http.service';
 import { decrypt } from '../../services/functions/encryption.function';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   fragment: string;
   isLoggedin = false;
+  isCheckingAuth = false;
   hasAttemptedLogin = false;
   loginSubscription: Subscription;
   usersSubscription: Subscription;
@@ -38,14 +40,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.fragmentSubscription = this.route.fragment.subscribe(frag => (this.fragment = frag));
 
-    this.usersSubscription = this.userHttpService.users.subscribe(users => {
-      if (!users) {
+    this.usersSubscription = this.userHttpService.users.subscribe((users: User[]) => {
+      if (users[0].error) {
         this.connected = false;
+        console.error(users[0].error);
       } else if (users.length === 0) {
-        // TODO: redirect to a one-time user registration that forces
-        //       an 'Administrator' account to be registered, once
-        //       completed, the application is logged out and redirected
-        //       to the login screen
+        this.authService.user = new User('Administrator', '(Guest)');
+        this.authService.authorized.next(true);
       }
     });
 
@@ -58,6 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.user = undefined;
         this.authService.authorized.next(false);
       }
+      this.isCheckingAuth = false;
     });
 
     this.loginSubscription = this.authService.authorized.subscribe(login => {
@@ -78,8 +80,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    // this.authService.auth(this.loginForm.value);
-    this.userHttpService.loginUser(this.loginForm.value);
+    this.isCheckingAuth = true;
     this.hasAttemptedLogin = true;
+    setTimeout(() => {
+      this.userHttpService.loginUser(this.loginForm.value);
+    }, 1000);
   }
 }

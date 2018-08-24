@@ -54,11 +54,11 @@ export class UserNewComponent implements OnInit, OnDestroy {
       this.passwordsMismatch = false;
       const newUser = new User(
         this.newUserForm.value.authLevel,
+        encrypt(this.newUserForm.value.username),
         this.newUserForm.value.deptID,
         this.newUserForm.value.firstname,
         this.newUserForm.value.lastname,
-        encrypt(this.newUserForm.value.password01),
-        encrypt(this.newUserForm.value.username)
+        encrypt(this.newUserForm.value.password01)
       );
       this.userHttpService.insertUser(newUser);
     }

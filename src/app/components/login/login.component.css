@@ -1,3 +1,7 @@
 .alert {
   margin-top: 1rem;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}

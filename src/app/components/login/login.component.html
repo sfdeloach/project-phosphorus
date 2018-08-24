@@ -10,18 +10,21 @@
         <label class="center-block">Password:</label>
         <input type="password" class="form-control" formControlName="password">
       </div>
-      <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid">
+      <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid || noRegisteredUsers">
         <fa name="flag"></fa> Login
       </button>
     </form>
     <div class="alert alert-danger" *ngIf="!connected">
-      App failed to connect to database
+      App is unable to connect...
     </div>
-    <div class="alert alert-warning" *ngIf="hasAttemptedLogin && !isLoggedin">
-      Unrecognized username or incorrect password
+    <div class="alert alert-warning" *ngIf="hasAttemptedLogin && !isLoggedin && !isCheckingAuth">
+      Unrecognized username and/or incorrect password
     </div>
     <div class="alert alert-info" *ngIf="fragment === 'loggedout' && !hasAttemptedLogin">
       You have been successfully logged out
+    </div>
+    <div class="alert alert-info" *ngIf="hasAttemptedLogin && isCheckingAuth">
+      <fa name="cog" animation="spin"></fa> Logging into app...
     </div>
   </div>
 </div>

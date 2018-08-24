@@ -81,11 +81,11 @@ export class UserViewComponent implements OnInit, OnDestroy {
     } else {
       const newUser = new User(
         this.userForm.value.authLevel,
+        encrypt(this.userForm.value.username),
         this.userForm.value.deptID,
         this.userForm.value.firstname,
         this.userForm.value.lastname,
-        encrypt(this.userForm.value.password01),
-        encrypt(this.userForm.value.username)
+        encrypt(this.userForm.value.password01)
       );
       this.userHttpService.replaceUser(this.route.snapshot.params.id, newUser);
     }

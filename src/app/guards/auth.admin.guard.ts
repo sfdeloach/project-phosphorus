@@ -8,7 +8,10 @@ export class AuthAdminGuard implements CanActivate {
 
   canActivate(): Promise<boolean> {
     return new Promise(resolve => {
-      if (this.authService.user && this.authService.isAdmin()) {
+      if (
+        (this.authService.user && this.authService.isAdmin()) ||
+        this.authService.noRegisteredUsers
+      ) {
         resolve(true);
       } else {
         this.router.navigate(['/unauthorized']);

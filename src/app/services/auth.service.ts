@@ -8,6 +8,7 @@ import { UserHttpService } from './user.http.service';
 export class AuthService {
   authorized = new Subject<boolean>();
   user: User;
+  noRegisteredUsers = false;
 
   constructor(private router: Router, private userHttpService: UserHttpService) {}
 
