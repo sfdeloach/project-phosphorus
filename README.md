@@ -13,4 +13,4 @@ Pull event data from a third party that provides a back-end connection to a MS S
 * MongoDB
 * Argon2 password encryption
 * AES-256 encryption of stored data
-* Web and dB servers hosted on Ubuntu Server
+
