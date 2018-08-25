@@ -1,7 +1,7 @@
-import { Officer } from '../../models/officer.model';
-import { Episode } from '../../models/episode.model';
-import { ReportMetaData } from '../../models/productivity-reports/report.metadata.model';
-import { NonInitiated } from '../../models/productivity-reports/non-initiated.model';
+import { Officer } from '../models/officer.model';
+import { Episode } from '../models/episode.model';
+import { ReportMetaData } from '../models/productivity-reports/report.metadata.model';
+import { NonInitiated } from '../models/productivity-reports/non-initiated.model';
 
 export function buildNoninitiatedReport(
   includedOfcs: Officer[],

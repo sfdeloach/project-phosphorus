@@ -1,7 +1,7 @@
-import { Officer } from '../../models/officer.model';
-import { Episode } from '../../models/episode.model';
-import { ReportMetaData } from '../../models/productivity-reports/report.metadata.model';
-import { OverallInitiated } from '../../models/productivity-reports/overall-initiated.model';
+import { Officer } from '../models/officer.model';
+import { Episode } from '../models/episode.model';
+import { ReportMetaData } from '../models/productivity-reports/report.metadata.model';
+import { OverallInitiated } from '../models/productivity-reports/overall-initiated.model';
 import { allowedInitiatedEvts } from './allowed.initiated.events.function';
 
 export function buildOverallInitiatedReport(

@@ -1,7 +1,7 @@
-import { Officer } from '../../models/officer.model';
-import { Episode } from '../../models/episode.model';
-import { ReportMetaData } from '../../models/productivity-reports/report.metadata.model';
-import { InitiatedDispo } from '../../models/productivity-reports/initiated-dispo.model';
+import { Officer } from '../models/officer.model';
+import { Episode } from '../models/episode.model';
+import { ReportMetaData } from '../models/productivity-reports/report.metadata.model';
+import { InitiatedDispo } from '../models/productivity-reports/initiated-dispo.model';
 import { isFound } from './isfound.function';
 
 export function buildInitiatedDispoReport(

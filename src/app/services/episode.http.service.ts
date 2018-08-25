@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
-import { ApiUrlsList } from './lists/api.urls.list';
+import { ApiUrlsList } from '../lists/api.urls.list';
 
 import { Episode } from '../models/episode.model';
 import { Message } from '../models/message.model';

@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Department } from '../../../services/lists/department.list';
+import { Department } from '../../../lists/department.list';
 
 @Component({
   selector: 'app-officer-tabs',
@@ -8,11 +8,12 @@ import { Department } from '../../../services/lists/department.list';
 })
 export class OfficerTabsComponent implements OnInit {
   department: Department = new Department();
-  tabs: string [];
+  tabs: string[];
   activeTab = 'All';
-  @Output() tabEmitter = new EventEmitter<string>();
+  @Output()
+  tabEmitter = new EventEmitter<string>();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.tabs = this.department.getDivisions().sort();

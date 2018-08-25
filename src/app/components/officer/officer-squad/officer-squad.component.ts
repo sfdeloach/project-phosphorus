@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, FormBuilder, Validators, NgControlStatusGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerHttpService } from '../../../services/officer.http.service';
-import { Department } from '../../../services/lists/department.list';
+import { Department } from '../../../lists/department.list';
 
-import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';
 import { UpdateResponse } from '../../../models/responses/update.model';
 
@@ -26,7 +25,7 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private ofcService: OfficerHttpService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.squads = this.department.getStructureArray();
@@ -38,24 +37,22 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
 
     this.divisionForm = this.formBuilder.group(form);
 
-    this.response = this.ofcService.response.subscribe(
-      (res: UpdateResponse) => {
-        this.message.info = undefined;
-        if (res.keg) {
-          this.message.danger = 'API is working, but unable to connect to database';
-          console.error(res);
-        } else if (res.message) {
-          this.message.danger = 'Unable to connect to the API';
-          console.error(res);
-        } else if (res.ok) {
-          this.router.navigate(['/officers']);
-        } else {
-          this.message.warning = 'Something weird just happened...';
-          console.log('We received something unexpected from the server.');
-          console.error(res);
-        }
+    this.response = this.ofcService.response.subscribe((res: UpdateResponse) => {
+      this.message.info = undefined;
+      if (res.keg) {
+        this.message.danger = 'API is working, but unable to connect to database';
+        console.error(res);
+      } else if (res.message) {
+        this.message.danger = 'Unable to connect to the API';
+        console.error(res);
+      } else if (res.ok) {
+        this.router.navigate(['/officers']);
+      } else {
+        this.message.warning = 'Something weird just happened...';
+        console.warn('We received something unexpected from the server.');
+        console.error(res);
       }
-    );
+    });
 
     this.message = new Message();
   }
@@ -75,7 +72,7 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
     }
 
     this.ofcService.updateSquadAssignments({
-      '$or': ((query.length === 0) ? null : query)
+      $or: query.length === 0 ? null : query
     });
   }
 
@@ -87,5 +84,4 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
 
     this.divisionForm.setValue(form);
   }
-
 }

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-
 import { Episode } from '../models/episode.model';
 import { Officer } from '../models/officer.model';
 import { Report } from '../models/report.model';
 import { Offense } from '../models/offense.model';
-import { Call } from '../models/call.model';
 
 @Injectable()
 export class CafeService {

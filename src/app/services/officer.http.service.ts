@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-
-import { ApiUrlsList } from './lists/api.urls.list';
-
+import { ApiUrlsList } from '../lists/api.urls.list';
 import { Officer } from '../models/officer.model';
 import { ReplaceOneResponse } from '../models/responses/replace.one.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';

@@ -42,9 +42,9 @@ import { AuthAdminGuard } from './guards/auth.admin.guard';
 import { AuthAuthorGuard } from './guards/auth.author.guard';
 import { AuthViewOnlyGuard } from './guards/auth.view-only.guard';
 
-import { ApiUrlsList } from './services/lists/api.urls.list';
-import { AuthTypesList } from './services/lists/auth.types.list';
-import { ReportTypesList } from './services/lists/report.types.list';
+import { ApiUrlsList } from './lists/api.urls.list';
+import { AuthTypesList } from './lists/auth.types.list';
+import { ReportTypesList } from './lists/report.types.list';
 
 import { EpisodeInfoPipe } from './pipes/episode.info.pipe';
 import { FilterPipe } from './pipes/filter.pipe';

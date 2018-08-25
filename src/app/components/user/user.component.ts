@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../models/user.model';
 import { UserHttpService } from '../../services/user.http.service';
 import { Subscription } from 'rxjs/Subscription';
-import { decrypt } from '../../services/functions/encryption.function';
+import { decrypt } from '../../functions/encryption.function';
 
 @Component({
   selector: 'app-user',
@@ -12,6 +12,7 @@ import { decrypt } from '../../services/functions/encryption.function';
 export class UserComponent implements OnInit, OnDestroy {
   users: User[];
   userSubscription: Subscription;
+  sortToggle = 1;
 
   constructor(private userHttpService: UserHttpService) {}
 
@@ -33,7 +34,20 @@ export class UserComponent implements OnInit, OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
-  onHeaderClick(column: string) {
-    console.log('TODO! - sort ' + column);
+  onHeaderClick(property: string) {
+    this.sortToggle = this.sortToggle * -1;
+    this.users.sort(this.sortByProperty(property));
+  }
+
+  sortByProperty(property: string) {
+    return (a: User, b: User): number => {
+      if (a[property] < b[property]) {
+        return -1 * this.sortToggle;
+      }
+      if (a[property] > b[property]) {
+        return 1 * this.sortToggle;
+      }
+      return 0;
+    };
   }
 }

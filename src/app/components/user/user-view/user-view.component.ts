@@ -3,9 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { UserHttpService } from '../../../services/user.http.service';
-import { AuthTypesList } from '../../../services/lists/auth.types.list';
+import { AuthTypesList } from '../../../lists/auth.types.list';
 import { User } from '../../../models/user.model';
-import { encrypt, decrypt } from '../../../services/functions/encryption.function';
+import { encrypt, decrypt } from '../../../functions/encryption.function';
 
 @Component({
   selector: 'app-user-view',

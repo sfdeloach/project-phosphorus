@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerHttpService } from '../../../services/officer.http.service';
-import { Department } from '../../../services/lists/department.list';
+import { Department } from '../../../lists/department.list';
 
 import { Officer } from '../../../models/officer.model';
 import { Message } from '../../../models/message.model';

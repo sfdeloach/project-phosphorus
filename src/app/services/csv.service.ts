@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { Episode } from '../models/episode.model';
-import { Call } from '../models/call.model';
-import { Element } from '@angular/compiler';
-
 @Injectable()
 export class CsvService {
   public cafeHeaders: Array<string> = [

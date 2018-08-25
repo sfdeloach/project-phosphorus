@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
 import { OfficerHttpService } from '../../../services/officer.http.service';
@@ -43,7 +43,7 @@ export class OfficerEffectiveDateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/officers']);
         } else {
           this.message.warning = 'Something weird just happened...';
-          console.log('We received something unexpected from the server.');
+          console.warn('We received something unexpected from the server.');
           console.error(res);
         }
       }

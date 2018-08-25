@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserHttpService } from '../../services/user.http.service';
-import { decrypt } from '../../services/functions/encryption.function';
+import { decrypt } from '../../functions/encryption.function';
 import { User } from '../../models/user.model';
 
 @Component({

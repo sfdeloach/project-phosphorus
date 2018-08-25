@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { ProductivityReport } from '../models/productivity-reports/productivity-report.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { RemoveResponse } from '../models/responses/remove.model';
-import { ApiUrlsList } from './lists/api.urls.list';
+import { ApiUrlsList } from '../lists/api.urls.list';
 
 @Injectable()
 export class ReportHttpService {

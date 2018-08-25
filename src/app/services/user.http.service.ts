@@ -4,8 +4,8 @@ import { Subject } from 'rxjs/Subject';
 import { User } from '../models/user.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { RemoveResponse } from '../models/responses/remove.model';
-import { ApiUrlsList } from './lists/api.urls.list';
-import { encrypt } from './functions/encryption.function';
+import { ApiUrlsList } from '../lists/api.urls.list';
+import { encrypt } from '../functions/encryption.function';
 
 @Injectable()
 export class UserHttpService {

@@ -3,9 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { UserHttpService } from '../../../services/user.http.service';
-import { AuthTypesList } from '../../../services/lists/auth.types.list';
+import { AuthTypesList } from '../../../lists/auth.types.list';
 import { User } from '../../../models/user.model';
-import { encrypt } from '../../../services/functions/encryption.function';
+import { encrypt } from '../../../functions/encryption.function';
 
 @Component({
   selector: 'app-user-new',

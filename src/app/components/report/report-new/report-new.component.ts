@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ReportTypesList } from '../../../services/lists/report.types.list';
+import { ReportTypesList } from '../../../lists/report.types.list';
 import { ReportService } from '../../../services/report.service';
 import { Router } from '@angular/router';
 
