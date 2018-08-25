@@ -37,19 +37,16 @@
           <option *ngFor="let authLevel of authLevels" [value]="authLevel">{{ authLevel }}</option>
         </select>
       </div>
-      <div *ngIf="showPasswords" class="form-group">
+      <div class="form-group">
         <label class="center-block">Password:</label>
         <input type="password" class="form-control" formControlName="password01">
       </div>
-      <div *ngIf="showPasswords" class="form-group">
+      <div class="form-group">
         <label class="center-block">Re-enter password:</label>
         <input type="password" class="form-control" formControlName="password02">
       </div>
       <button class="btn btn-success" type="submit" [disabled]="userForm.invalid">
         <fa name="save"></fa> Update User
-      </button>
-      <button class="btn btn-info" type="button" (click)="resetPassword()">
-        <fa name="lock"></fa> Reset Password
       </button>
       <button class="btn btn-danger float-right" type="button" (click)="deleteUser()">
         <fa name="trash"></fa> Delete User

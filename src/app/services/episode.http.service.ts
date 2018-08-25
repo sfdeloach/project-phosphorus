@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
-
-import { ApiUrlsList } from '../lists/api.urls.list';
-
 import { Episode } from '../models/episode.model';
 import { Message } from '../models/message.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { RemoveResponse } from '../models/responses/remove.model';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class EpisodeHttpService {
   loadedEpisodes: Episode[] = [];
   episodes: Subject<Episode[]> = new Subject();
   message: Subject<Message> = new Subject();
-  episodesUrl: string = this.url.episodeAPI;
+  episodesUrl: string = environment.apiUrl + 'episodes';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, private url: ApiUrlsList) {}
+  constructor(private http: HttpClient) {}
 
   getEpisodes() {
     this.http.get<Episode[]>(this.episodesUrl).subscribe(
@@ -44,8 +42,7 @@ export class EpisodeHttpService {
         (res: InsertManyResponse<Episode[]>) => {
           this.message.next(
             new Message(
-              res.insertedCount +
-                ' episodes created from XCAD data. Ready to receive Cafe file.'
+              res.insertedCount + ' episodes created from XCAD data. Ready to receive Cafe file.'
             )
           );
         },
@@ -56,40 +53,31 @@ export class EpisodeHttpService {
   }
 
   updateEpisodes(episodes: Episode[]) {
-    this.http
-      .delete<RemoveResponse>(this.episodesUrl)
-      .subscribe((removeRes: RemoveResponse) => {
-        this.http
-          .post<InsertManyResponse<Episode[]>>(
-            this.episodesUrl,
-            { episodes: episodes },
-            this.httpOptions
-          )
-          .subscribe(
-            (insertManyRes: InsertManyResponse<Episode[]>) => {
-              this.message.next(
-                new Message(
-                  insertManyRes.insertedCount +
-                    ' episodes updated with data from Cafe.'
-                )
-              );
-            },
-            error => {
-              console.error(error);
-            }
-          );
-      });
+    this.http.delete<RemoveResponse>(this.episodesUrl).subscribe((removeRes: RemoveResponse) => {
+      this.http
+        .post<InsertManyResponse<Episode[]>>(
+          this.episodesUrl,
+          { episodes: episodes },
+          this.httpOptions
+        )
+        .subscribe(
+          (insertManyRes: InsertManyResponse<Episode[]>) => {
+            this.message.next(
+              new Message(insertManyRes.insertedCount + ' episodes updated with data from Cafe.')
+            );
+          },
+          error => {
+            console.error(error);
+          }
+        );
+    });
   }
 
   wipeEpisodes() {
-    this.http
-      .delete<RemoveResponse>(this.episodesUrl)
-      .subscribe((res: RemoveResponse) => {
-        this.message.next(
-          new Message('All episodes have been successfully wiped')
-        );
-        this.loadedEpisodes = [];
-        this.episodes.next([]);
-      });
+    this.http.delete<RemoveResponse>(this.episodesUrl).subscribe((res: RemoveResponse) => {
+      this.message.next(new Message('All episodes have been successfully wiped'));
+      this.loadedEpisodes = [];
+      this.episodes.next([]);
+    });
   }
 }

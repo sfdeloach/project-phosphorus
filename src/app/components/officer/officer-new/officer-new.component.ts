@@ -18,7 +18,7 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
   newOfficerForm: FormGroup;
   officer: Officer;
   message: Message = new Message();
-  response: Subscription;
+  responseSubscription: Subscription;
   department = new Department();
   divisions: string[] = [];
   squads: string[] = [];
@@ -46,7 +46,7 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
       'include': [true, Validators.required]
     });
 
-    this.response = this.ofcService.response.subscribe(
+    this.responseSubscription = this.ofcService.response.subscribe(
       (res: InsertManyResponse<Officer>) => {
         this.message.info = undefined;
         if (res.error) {
@@ -66,7 +66,7 @@ export class OfficerNewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.response.unsubscribe();
+    this.responseSubscription.unsubscribe();
   }
 
   onDivisionSelect() {

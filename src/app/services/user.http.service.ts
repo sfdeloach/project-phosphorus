@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { User } from '../models/user.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { RemoveResponse } from '../models/responses/remove.model';
-import { ApiUrlsList } from '../lists/api.urls.list';
+import { environment } from '../../environments/environment';
 import { encrypt } from '../functions/encryption.function';
 
 @Injectable()
@@ -12,12 +12,12 @@ export class UserHttpService {
   users = new Subject<User[]>();
   user = new Subject<User>();
   response: Subject<any> = new Subject();
-  usersUrl: string = this.url.userAPI;
+  usersUrl: string = environment.apiUrl + 'users';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, private url: ApiUrlsList) {}
+  constructor(private http: HttpClient) {}
 
   loginUser(userAttempt: User) {
     userAttempt.username = encrypt(userAttempt.username);
@@ -89,7 +89,7 @@ export class UserHttpService {
     this.http.delete<RemoveResponse>(`${this.usersUrl}/${id}`, this.httpOptions).subscribe(
       (deleteRes: RemoveResponse) => {
         this.http
-          .post<InsertManyResponse<User>>(this.usersUrl, { users: [user] }, this.httpOptions)
+          .post<InsertManyResponse<User>>(this.usersUrl, { user: user }, this.httpOptions)
           .subscribe(
             (insertRes: InsertManyResponse<User>) => {
               this.response.next(insertRes);

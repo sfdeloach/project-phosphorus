@@ -42,7 +42,6 @@ import { AuthAdminGuard } from './guards/auth.admin.guard';
 import { AuthAuthorGuard } from './guards/auth.author.guard';
 import { AuthViewOnlyGuard } from './guards/auth.view-only.guard';
 
-import { ApiUrlsList } from './lists/api.urls.list';
 import { AuthTypesList } from './lists/auth.types.list';
 import { ReportTypesList } from './lists/report.types.list';
 
@@ -100,7 +99,6 @@ import { TotalPipe } from './pipes/total.pipe';
     UploadService,
     UserHttpService,
     XCADService,
-    ApiUrlsList,
     AuthTypesList,
     ReportTypesList,
     AuthAdminGuard,

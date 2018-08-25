@@ -19,7 +19,7 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
   department = new Department();
   squads = [];
   message: Message = new Message();
-  response: Subscription;
+  responseSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +37,7 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
 
     this.divisionForm = this.formBuilder.group(form);
 
-    this.response = this.ofcService.response.subscribe((res: UpdateResponse) => {
+    this.responseSubscription = this.ofcService.response.subscribe((res: UpdateResponse) => {
       this.message.info = undefined;
       if (res.keg) {
         this.message.danger = 'API is working, but unable to connect to database';
@@ -58,7 +58,7 @@ export class OfficerSquadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.response.unsubscribe();
+    this.responseSubscription.unsubscribe();
   }
 
   onSubmit() {

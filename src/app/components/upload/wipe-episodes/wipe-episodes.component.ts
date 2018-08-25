@@ -10,18 +10,18 @@ import { Message } from '../../../models/message.model';
 })
 export class WipeEpisodesComponent implements OnInit, OnDestroy {
   message: Message;
-  subMessage: Subscription;
+  messageSubscription: Subscription;
 
   constructor(private episodeHttpService: EpisodeHttpService) {}
 
   ngOnInit() {
-    this.subMessage = this.episodeHttpService.message.subscribe((message: Message) => {
+    this.messageSubscription = this.episodeHttpService.message.subscribe((message: Message) => {
       this.message = message;
     });
   }
 
   ngOnDestroy() {
-    this.subMessage.unsubscribe();
+    this.messageSubscription.unsubscribe();
   }
 
   wipeEpisodes() {

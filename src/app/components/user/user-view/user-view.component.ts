@@ -18,7 +18,6 @@ export class UserViewComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   authLevels: string[];
   passwordsMismatch = false;
-  showPasswords = false;
 
   constructor(
     private router: Router,
@@ -34,14 +33,15 @@ export class UserViewComponent implements OnInit, OnDestroy {
     });
 
     this.userSubscription = this.userHttpService.user.subscribe(user => {
+      console.log(user);
       this.userForm.setValue({
         username: decrypt(user[0].username),
         authLevel: user[0].authLevel,
         lastname: user[0].lastname,
         firstname: user[0].firstname,
         deptID: user[0].deptID,
-        password01: decrypt(user[0].password),
-        password02: decrypt(user[0].password)
+        password01: '',
+        password02: ''
       });
     });
 
@@ -61,14 +61,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.updateSubscription.unsubscribe();
-  }
-
-  resetPassword() {
-    this.showPasswords = true;
-    this.userForm.patchValue({
-      password01: '',
-      password02: ''
-    });
+    this.userSubscription.unsubscribe();
   }
 
   deleteUser() {

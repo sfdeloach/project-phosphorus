@@ -4,19 +4,19 @@ import { Subject } from 'rxjs/Subject';
 import { ProductivityReport } from '../models/productivity-reports/productivity-report.model';
 import { InsertManyResponse } from '../models/responses/insert.many.model';
 import { RemoveResponse } from '../models/responses/remove.model';
-import { ApiUrlsList } from '../lists/api.urls.list';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ReportHttpService {
   reports = new Subject<ProductivityReport[]>();
   report = new Subject<ProductivityReport>();
-  reportsUrl: string = this.url.reportAPI;
+  reportsUrl: string = environment.apiUrl + 'reports';
   response: Subject<any> = new Subject();
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, private url: ApiUrlsList) {}
+  constructor(private http: HttpClient) {}
 
   getReports() {
     this.http.get<ProductivityReport[]>(this.reportsUrl).subscribe(

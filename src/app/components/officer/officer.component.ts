@@ -17,7 +17,7 @@ export class OfficerComponent implements OnInit, OnDestroy {
   officers: Officer[];
   officer: Officer;
   ofcSubscription: Subscription;
-  response: Subscription;
+  responseSubscription: Subscription;
   message: Message = new Message();
   sortToggle = 1;
 
@@ -40,7 +40,7 @@ export class OfficerComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.response = this.officerService.response.subscribe((res: RemoveResponse) => {
+    this.responseSubscription = this.officerService.response.subscribe((res: RemoveResponse) => {
       if (res.n === 1 && res.ok === 1) {
         this.message.success = this.officer.name.last + ', '
           + this.officer.name.first + ' removed';
@@ -58,7 +58,7 @@ export class OfficerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.ofcSubscription.unsubscribe();
-    this.response.unsubscribe();
+    this.responseSubscription.unsubscribe();
   }
 
   onTabChange(tab) {
