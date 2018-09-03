@@ -17,3 +17,7 @@ h5.big-empty {
   padding-bottom: 2em;
   margin-bottom: 2em;
 }
+
+.danger {
+  color: #E74C3C;
+}

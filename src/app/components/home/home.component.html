@@ -18,15 +18,19 @@
       <div class="col-6">{{ episodes | episodeInfo:'calls-and-reports' | total | number }}</div>
       <div class="col-6 text-right">Empty Episodes:</div>
       <div class="col-6">{{ episodes | episodeInfo:'empty-episodes' | total | number }}</div>
+      <div class="col-6 text-right">Duplicate Event Numbers:</div>
+      <div class="col-6"> {{ episodes | episodeInfo:'duplicate-episodes' | half | number }}</div>
     </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
+        <fa name="frown-o"></fa>Sorry, nothing to see here.
+      </h5>
       <p class="big-empty faded">Now kindly move along.</p>
     </div>
     <div *ngIf="!episodes">
       <h5 class="big-empty faded">
-        <fa name="cog" animation="spin"></fa>Please be patient.</h5>
+        <fa name="cog" animation="spin"></fa>Please be patient.
+      </h5>
       <p class="big-empty faded">I'm sorting through a ton of data!</p>
     </div>
   </div>
@@ -37,9 +41,13 @@
       <div class="col-6 text-right">Total Calls:</div>
       <div class="col-6">{{ episodes | isolate:'call' | total | number }}</div>
       <div class="col-6 text-right">Earliest Date:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'min' | date:'MMM d, yyyy - h:mm a' }}</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'min' | date:'MMM d, yyyy - h:mm a'
+        }}
+      </div>
       <div class="col-6 text-right">Latest Date:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'max' | date:'MMM d, yyyy - h:mm a' }}</div>
+      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'max' | date:'MMM d, yyyy - h:mm a'
+        }}
+      </div>
       <div class="col-6 text-right">First Event Number:</div>
       <div class="col-6">{{ episodes | isolate:'call' | isolate:'eventNbr' | findNumber:'min' }}</div>
       <div class="col-6 text-right">Last Event Number:</div>
@@ -47,12 +55,14 @@
     </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
+        <fa name="frown-o"></fa>Sorry, nothing to see here.
+      </h5>
       <p class="big-empty faded">Now kindly move along.</p>
     </div>
     <div *ngIf="!episodes">
       <h5 class="big-empty faded">
-        <fa name="cog" animation="spin"></fa>Please be patient.</h5>
+        <fa name="cog" animation="spin"></fa>Please be patient.
+      </h5>
       <p class="big-empty faded">I'm sorting through a ton of data!</p>
     </div>
   </div>
@@ -79,12 +89,14 @@
     </div>
     <div *ngIf="episodes && episodes.length === 0">
       <h5 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
+        <fa name="frown-o"></fa>Sorry, nothing to see here.
+      </h5>
       <p class="big-empty faded">Now kindly move along.</p>
     </div>
     <div *ngIf="!episodes">
       <h5 class="big-empty faded">
-        <fa name="cog" animation="spin"></fa>Please be patient.</h5>
+        <fa name="cog" animation="spin"></fa>Please be patient.
+      </h5>
       <p class="big-empty faded">I'm sorting through a ton of data!</p>
     </div>
   </div>
@@ -99,12 +111,14 @@
     </div>
     <div *ngIf="officers && officers.length === 0">
       <h5 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.</h5>
+        <fa name="frown-o"></fa>Sorry, nothing to see here.
+      </h5>
       <p class="big-empty faded">Now kindly move along.</p>
     </div>
     <div *ngIf="!officers">
       <h5 class="big-empty faded">
-        <fa name="cog" animation="spin"></fa>Please be patient.</h5>
+        <fa name="cog" animation="spin"></fa>Please be patient.
+      </h5>
       <p class="big-empty faded">I'm sorting through a ton of data!</p>
     </div>
   </div>

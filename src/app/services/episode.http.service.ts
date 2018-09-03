@@ -22,7 +22,6 @@ export class EpisodeHttpService {
   getEpisodes() {
     this.http.get<Episode[]>(this.episodesUrl).subscribe(
       (episodes: Episode[]) => {
-        console.log('getEpisodes() called');
         this.loadedEpisodes = episodes;
         this.episodes.next(episodes);
       },
@@ -42,36 +41,13 @@ export class EpisodeHttpService {
       .subscribe(
         (res: InsertManyResponse<Episode[]>) => {
           this.message.next(
-            new Message(
-              res.insertedCount + ' episodes created from XCAD data. Ready to receive Cafe file.'
-            )
+            new Message(res.insertedCount + '  episodes uploaded to the database.')
           );
         },
         error => {
           console.error(error);
         }
       );
-  }
-
-  updateEpisodes(episodes: Episode[]) {
-    this.http.delete<RemoveResponse>(this.episodesUrl).subscribe((removeRes: RemoveResponse) => {
-      this.http
-        .post<InsertManyResponse<Episode[]>>(
-          this.episodesUrl,
-          { episodes: episodes },
-          this.httpOptions
-        )
-        .subscribe(
-          (insertManyRes: InsertManyResponse<Episode[]>) => {
-            this.message.next(
-              new Message(insertManyRes.insertedCount + ' episodes updated with data from Cafe.')
-            );
-          },
-          error => {
-            console.error(error);
-          }
-        );
-    });
   }
 
   wipeEpisodes() {

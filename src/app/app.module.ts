@@ -49,6 +49,7 @@ import { EpisodeInfoPipe } from './pipes/episode.info.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
 import { FindDatePipe } from './pipes/find.date.pipe';
 import { FindNumberPipe } from './pipes/find.number.pipe';
+import { HalfPipe } from './pipes/half.pipe';
 import { IsolatePipe } from './pipes/isolate.pipe';
 import { TotalPipe } from './pipes/total.pipe';
 
@@ -72,14 +73,16 @@ import { TotalPipe } from './pipes/total.pipe';
     ReportViewComponent,
     UserComponent,
     UserNewComponent,
+    UserViewComponent,
+    UnauthorizedComponent,
+    // Pipes
     EpisodeInfoPipe,
-    IsolatePipe,
     FilterPipe,
     FindDatePipe,
     FindNumberPipe,
-    TotalPipe,
-    UserViewComponent,
-    UnauthorizedComponent
+    HalfPipe,
+    IsolatePipe,
+    TotalPipe
   ],
   imports: [
     BrowserModule,
@@ -101,6 +104,7 @@ import { TotalPipe } from './pipes/total.pipe';
     XCADService,
     AuthTypesList,
     ReportTypesList,
+    // Guards
     AuthAdminGuard,
     AuthAuthorGuard,
     AuthViewOnlyGuard
