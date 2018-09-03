@@ -77,6 +77,7 @@ export class ReportViewComponent implements OnInit, OnDestroy {
         this.reportService.episodes = this.episodeService.loadedEpisodes;
         this.buildReport();
       } else {
+        console.log('officers and episodes === 0?'); // TODO: RAT
         this.officerService.getOfficers();
         this.episodeService.getEpisodes();
       }

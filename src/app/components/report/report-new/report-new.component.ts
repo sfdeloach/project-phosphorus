@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReportTypesList } from '../../../lists/report.types.list';
 import { ReportService } from '../../../services/report.service';
 import { Router } from '@angular/router';
+import { EpisodeHttpService } from '../../../services/episode.http.service';
+import { OfficerHttpService } from '../../../services/officer.http.service';
 
 @Component({
   selector: 'app-report-new',
@@ -15,9 +17,11 @@ export class ReportNewComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private router: Router,
+    private episodeHttpService: EpisodeHttpService,
+    private officerHttpService: OfficerHttpService,
     private reportList: ReportTypesList,
-    private reportService: ReportService,
-    private router: Router
+    private reportService: ReportService
   ) {}
 
   ngOnInit() {
@@ -29,6 +33,10 @@ export class ReportNewComponent implements OnInit {
     });
 
     this.reportTypes = this.reportList.reportTypes.sort();
+
+    // Refresh the list of episodes and officers
+    this.episodeHttpService.getEpisodes();
+    this.officerHttpService.getOfficers();
   }
 
   onSubmit() {

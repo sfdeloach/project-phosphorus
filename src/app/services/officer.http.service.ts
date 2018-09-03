@@ -37,13 +37,16 @@ export class OfficerHttpService {
     this.http.get<Officer[]>(this.officersUrl).subscribe(
       (ofcs: Officer[]) => {
         if (Array.isArray(ofcs)) {
+          console.log('getOfficers() called and is an array');
           this.loadedOfficers = ofcs;
           this.officers.next(ofcs);
-        } else {
+        } // else {
+          // TODO: Remove - this block would never be executed
           // an unexpected non-array return from server
-          this.loadedOfficers = [ofcs];
-          this.officers.next([ofcs]);
-        }
+          // console.log('getOfficers() called and is NOT an array');
+          // this.loadedOfficers = [ofcs];
+          // this.officers.next([ofcs]);
+        // }
       },
       err => {
         console.error(err);

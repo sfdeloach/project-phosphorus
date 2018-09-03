@@ -36,18 +36,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
 
-    // Copies may already exist
-    if (this.episodeService.loadedEpisodes.length > 0) {
-      this.episodes = this.episodeService.loadedEpisodes;
-    } else {
-      this.episodeService.getEpisodes();
-    }
+    this.episodeService.getEpisodes();
+    this.officerService.getOfficers();
 
-    if (this.officerService.loadedOfficers.length > 0) {
-      this.officers = this.officerService.loadedOfficers;
-    } else {
-      this.officerService.getOfficers();
-    }
+    // TODO: Remove this effort to save loading???
+    // Copies may already exist
+    // if (this.episodeService.loadedEpisodes.length > 0) {
+    //   this.episodes = this.episodeService.loadedEpisodes;
+    // } else {
+    //   this.episodeService.getEpisodes();
+    // }
+
+    // if (this.officerService.loadedOfficers.length > 0) {
+    //   this.officers = this.officerService.loadedOfficers;
+    // } else {
+    //   this.officerService.getOfficers();
+    // }
   }
 
   ngOnDestroy() {

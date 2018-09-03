@@ -22,6 +22,7 @@ export class EpisodeHttpService {
   getEpisodes() {
     this.http.get<Episode[]>(this.episodesUrl).subscribe(
       (episodes: Episode[]) => {
+        console.log('getEpisodes() called');
         this.loadedEpisodes = episodes;
         this.episodes.next(episodes);
       },
