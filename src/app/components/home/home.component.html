@@ -12,17 +12,17 @@
     <h5 class="section-titles">Episodes</h5>
     <div class="row" *ngIf="episodeStats">
       <div class="col-6 text-right">Total episodes:</div>
-      <div class="col-6">{{episodeStats.episodes.total}}</div>
+      <div class="col-6">{{episodeStats.episodes.total | number}}</div>
       <div class="col-6 text-right">Call Data Only:</div>
-      <div class="col-6">{{episodeStats.episodes.callOnly}}</div>
+      <div class="col-6">{{episodeStats.episodes.callOnly | number}}</div>
       <div class="col-6 text-right">Report Data Only:</div>
-      <div class="col-6">{{episodeStats.episodes.reportOnly}}</div>
+      <div class="col-6">{{episodeStats.episodes.reportOnly | number}}</div>
       <div class="col-6 text-right">Call and Report Data:</div>
-      <div class="col-6">{{episodeStats.episodes.callAndReport}}</div>
+      <div class="col-6">{{episodeStats.episodes.callAndReport | number}}</div>
       <div class="col-6 text-right">Empty Episodes:</div>
-      <div class="col-6">{{episodeStats.episodes.empty}}</div>
+      <div class="col-6">{{episodeStats.episodes.empty | number}}</div>
       <div class="col-6 text-right">Duplicate Event Numbers:</div>
-      <div class="col-6">{{episodeStats.episodes.duplicates}}</div>
+      <div class="col-6">{{episodeStats.episodes.duplicates | number}}</div>
     </div>
     <div *ngIf="!episodeStats">
       <h5 class="big-empty faded">
@@ -36,7 +36,7 @@
     <h5 class="section-titles">Calls</h5>
     <div class="row" *ngIf="episodeStats">
       <div class="col-6 text-right">Total Calls:</div>
-      <div class="col-6">{{episodeStats.calls.total}}</div>
+      <div class="col-6">{{episodeStats.calls.total | number}}</div>
       <div class="col-6 text-right">Earliest Date:</div>
       <div class="col-6">{{episodeStats.calls.earliest | date:'medium'}}</div>
       <div class="col-6 text-right">Latest Date:</div>
@@ -58,21 +58,21 @@
     <h5 class="section-titles">Reports</h5>
     <div class="row" *ngIf="episodeStats">
       <div class="col-6 text-right">Total reports:</div>
-      <div class="col-6">{{episodeStats.reports.total}}</div>
+      <div class="col-6">{{episodeStats.reports.total | number}}</div>
       <div class="col-6 text-right">Offenses:</div>
-      <div class="col-6">{{episodeStats.reports.offense}}</div>
+      <div class="col-6">{{episodeStats.reports.offense | number}}</div>
       <div class="col-6 text-right">Citations/Warnings:</div>
-      <div class="col-6">{{episodeStats.reports.uttAndWarnings}}</div>
+      <div class="col-6">{{episodeStats.reports.uttAndWarnings | number}}</div>
       <div class="col-6 text-right">CJIS Reports:</div>
-      <div class="col-6">{{episodeStats.reports.cjis}}</div>
+      <div class="col-6">{{episodeStats.reports.cjis | number}}</div>
       <div class="col-6 text-right">Field Contacts:</div>
-      <div class="col-6">{{episodeStats.reports.fcc}}</div>
+      <div class="col-6">{{episodeStats.reports.fcc | number}}</div>
       <div class="col-6 text-right">Trespasses:</div>
-      <div class="col-6">{{episodeStats.reports.trespass}}</div>
+      <div class="col-6">{{episodeStats.reports.trespass | number}}</div>
       <div class="col-6 text-right">Crashes:</div>
-      <div class="col-6">{{episodeStats.reports.crash}}</div>
+      <div class="col-6">{{episodeStats.reports.crash | number}}</div>
       <div class="col-6 text-right">Area Patrol:</div>
-      <div class="col-6">{{episodeStats.reports.ap}}</div>
+      <div class="col-6">{{episodeStats.reports.ap | number}}</div>
     </div>
     <div *ngIf="!episodeStats">
       <h5 class="big-empty faded">

@@ -19,18 +19,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private episodeStatsService: EpisodeStatsService,
     private officerService: OfficerHttpService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.episodeStatsSubscription = this.episodeStatsService.stats.subscribe((stats: EpisodeStatistics) => {
-      this.episodeStats = stats;
-    });
+    this.episodeStatsSubscription = this.episodeStatsService.stats.subscribe(
+      (stats: EpisodeStatistics) => {
+        this.episodeStats = stats;
+      }
+    );
 
     this.officerSubscription = this.officerService.officers.subscribe((officers: Officer[]) => {
       this.officers = officers;
     });
 
-    this.officerService.getOfficers();
+    if (this.episodeStatsService.currentStats) {
+      this.episodeStats = this.episodeStatsService.currentStats;
+    } else {
+      this.episodeStatsService.calcStats();
+    }
+
+    if (this.officerService.loadedOfficers.length > 0) {
+      this.officers = this.officerService.loadedOfficers;
+    } else {
+      this.officerService.getOfficers();
+    }
   }
 
   ngOnDestroy() {
@@ -39,6 +51,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   refreshStats() {
+    this.episodeStats = undefined;
     this.episodeStatsService.calcStats();
+    this.officers = undefined;
+    this.officerService.getOfficers();
   }
 }
