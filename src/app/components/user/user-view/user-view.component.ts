@@ -33,7 +33,6 @@ export class UserViewComponent implements OnInit, OnDestroy {
     });
 
     this.userSubscription = this.userHttpService.user.subscribe(user => {
-      console.log(user);
       this.userForm.setValue({
         username: decrypt(user[0].username),
         authLevel: user[0].authLevel,

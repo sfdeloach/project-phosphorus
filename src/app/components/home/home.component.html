@@ -3,101 +3,82 @@
     <h3>
       <fa name="home"></fa> Home
     </h3>
+    <button class="btn btn-primary" (click)="refreshStats()">
+      <fa name="undo"></fa> Refresh Stats
+    </button>
   </div>
 
   <div class="col-5 section">
     <h5 class="section-titles">Episodes</h5>
-    <div class="row" *ngIf="episodes && episodes.length > 0">
+    <div class="row" *ngIf="episodeStats">
       <div class="col-6 text-right">Total episodes:</div>
-      <div class="col-6">{{ episodes | total | number }}</div>
+      <div class="col-6">{{episodeStats.episodes.total}}</div>
       <div class="col-6 text-right">Call Data Only:</div>
-      <div class="col-6">{{ episodes | episodeInfo:'calls-only' | total | number }}</div>
+      <div class="col-6">{{episodeStats.episodes.callOnly}}</div>
       <div class="col-6 text-right">Report Data Only:</div>
-      <div class="col-6">{{ episodes | episodeInfo:'reports-only' | total | number }}</div>
+      <div class="col-6">{{episodeStats.episodes.reportOnly}}</div>
       <div class="col-6 text-right">Call and Report Data:</div>
-      <div class="col-6">{{ episodes | episodeInfo:'calls-and-reports' | total | number }}</div>
+      <div class="col-6">{{episodeStats.episodes.callAndReport}}</div>
       <div class="col-6 text-right">Empty Episodes:</div>
-      <div class="col-6">{{ episodes | episodeInfo:'empty-episodes' | total | number }}</div>
+      <div class="col-6">{{episodeStats.episodes.empty}}</div>
       <div class="col-6 text-right">Duplicate Event Numbers:</div>
-      <div class="col-6"> {{ episodes | episodeInfo:'duplicate-episodes' | half | number }}</div>
+      <div class="col-6">{{episodeStats.episodes.duplicates}}</div>
     </div>
-    <div *ngIf="episodes && episodes.length === 0">
-      <h5 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.
-      </h5>
-      <p class="big-empty faded">Now kindly move along.</p>
-    </div>
-    <div *ngIf="!episodes">
+    <div *ngIf="!episodeStats">
       <h5 class="big-empty faded">
         <fa name="cog" animation="spin"></fa>Please be patient.
       </h5>
-      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+      <p class="big-empty faded">I'm looking through a ton of data!</p>
     </div>
   </div>
 
   <div class="col-5 section">
     <h5 class="section-titles">Calls</h5>
-    <div class="row" *ngIf="episodes && episodes.length > 0">
+    <div class="row" *ngIf="episodeStats">
       <div class="col-6 text-right">Total Calls:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | total | number }}</div>
+      <div class="col-6">{{episodeStats.calls.total}}</div>
       <div class="col-6 text-right">Earliest Date:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'min' | date:'MMM d, yyyy - h:mm a'
-        }}
-      </div>
+      <div class="col-6">{{episodeStats.calls.earliest | date:'medium'}}</div>
       <div class="col-6 text-right">Latest Date:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'created' | findDate:'max' | date:'MMM d, yyyy - h:mm a'
-        }}
-      </div>
+      <div class="col-6">{{episodeStats.calls.latest | date:'medium'}}</div>
       <div class="col-6 text-right">First Event Number:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'eventNbr' | findNumber:'min' }}</div>
+      <div class="col-6">{{episodeStats.calls.first}}</div>
       <div class="col-6 text-right">Last Event Number:</div>
-      <div class="col-6">{{ episodes | isolate:'call' | isolate:'eventNbr' | findNumber:'max' }}</div>
+      <div class="col-6">{{episodeStats.calls.last}}</div>
     </div>
-    <div *ngIf="episodes && episodes.length === 0">
-      <h5 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.
-      </h5>
-      <p class="big-empty faded">Now kindly move along.</p>
-    </div>
-    <div *ngIf="!episodes">
+    <div *ngIf="!episodeStats">
       <h5 class="big-empty faded">
         <fa name="cog" animation="spin"></fa>Please be patient.
       </h5>
-      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+      <p class="big-empty faded">I'm looking through a ton of data!</p>
     </div>
   </div>
 
   <div class="col-5 section">
     <h5 class="section-titles">Reports</h5>
-    <div class="row" *ngIf="episodes && episodes.length > 0">
+    <div class="row" *ngIf="episodeStats">
       <div class="col-6 text-right">Total reports:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.total}}</div>
       <div class="col-6 text-right">Offenses:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'OR' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.offense}}</div>
       <div class="col-6 text-right">Citations/Warnings:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'TC' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.uttAndWarnings}}</div>
       <div class="col-6 text-right">CJIS Reports:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'CJ' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.cjis}}</div>
       <div class="col-6 text-right">Field Contacts:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'FC' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.fcc}}</div>
       <div class="col-6 text-right">Trespasses:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'TP' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.trespass}}</div>
       <div class="col-6 text-right">Crashes:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'TA' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.crash}}</div>
       <div class="col-6 text-right">Area Patrol:</div>
-      <div class="col-6">{{ episodes | isolate: 'reports' | filter:'type':'AP' | total | number }}</div>
+      <div class="col-6">{{episodeStats.reports.ap}}</div>
     </div>
-    <div *ngIf="episodes && episodes.length === 0">
-      <h5 class="big-empty faded">
-        <fa name="frown-o"></fa>Sorry, nothing to see here.
-      </h5>
-      <p class="big-empty faded">Now kindly move along.</p>
-    </div>
-    <div *ngIf="!episodes">
+    <div *ngIf="!episodeStats">
       <h5 class="big-empty faded">
         <fa name="cog" animation="spin"></fa>Please be patient.
       </h5>
-      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+      <p class="big-empty faded">I'm looking through a ton of data!</p>
     </div>
   </div>
 
@@ -119,7 +100,7 @@
       <h5 class="big-empty faded">
         <fa name="cog" animation="spin"></fa>Please be patient.
       </h5>
-      <p class="big-empty faded">I'm sorting through a ton of data!</p>
+      <p class="big-empty faded">I'm looking through a ton of data!</p>
     </div>
   </div>
 </div>

@@ -31,6 +31,7 @@ import { AuthService } from './services/auth.service';
 import { CafeService } from './services/cafe.service';
 import { CsvService } from './services/csv.service';
 import { EpisodeHttpService } from './services/episode.http.service';
+import { EpisodeStatsService } from './services/episode.stats.service';
 import { OfficerHttpService } from './services/officer.http.service';
 import { ReportHttpService } from './services/report.http.service';
 import { ReportService } from './services/report.service';
@@ -45,12 +46,7 @@ import { AuthViewOnlyGuard } from './guards/auth.view-only.guard';
 import { AuthTypesList } from './lists/auth.types.list';
 import { ReportTypesList } from './lists/report.types.list';
 
-import { EpisodeInfoPipe } from './pipes/episode.info.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
-import { FindDatePipe } from './pipes/find.date.pipe';
-import { FindNumberPipe } from './pipes/find.number.pipe';
-import { HalfPipe } from './pipes/half.pipe';
-import { IsolatePipe } from './pipes/isolate.pipe';
 import { TotalPipe } from './pipes/total.pipe';
 
 @NgModule({
@@ -76,12 +72,7 @@ import { TotalPipe } from './pipes/total.pipe';
     UserViewComponent,
     UnauthorizedComponent,
     // Pipes
-    EpisodeInfoPipe,
     FilterPipe,
-    FindDatePipe,
-    FindNumberPipe,
-    HalfPipe,
-    IsolatePipe,
     TotalPipe
   ],
   imports: [
@@ -96,6 +87,7 @@ import { TotalPipe } from './pipes/total.pipe';
     CafeService,
     CsvService,
     EpisodeHttpService,
+    EpisodeStatsService,
     OfficerHttpService,
     ReportHttpService,
     ReportService,
