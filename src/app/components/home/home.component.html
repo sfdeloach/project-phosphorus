@@ -21,8 +21,6 @@
       <div class="col-6">{{episodeStats.episodes.callAndReport | number}}</div>
       <div class="col-6 text-right">Empty Episodes:</div>
       <div class="col-6">{{episodeStats.episodes.empty | number}}</div>
-      <div class="col-6 text-right">Duplicate Event Numbers:</div>
-      <div class="col-6">{{episodeStats.episodes.duplicates | number}}</div>
     </div>
     <div *ngIf="!episodeStats">
       <h5 class="big-empty faded">

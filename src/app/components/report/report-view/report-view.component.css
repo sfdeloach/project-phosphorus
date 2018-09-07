@@ -16,3 +16,8 @@ h2.big-empty {
   text-align: center;
   padding: 0.25rem;
 }
+
+.edit-title {
+  cursor: pointer;
+  color: #7b8a8b;
+}

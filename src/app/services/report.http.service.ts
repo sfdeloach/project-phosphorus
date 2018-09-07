@@ -51,7 +51,7 @@ export class ReportHttpService {
       )
       .subscribe(
         (res: InsertManyResponse<ProductivityReport>) => {
-          this.response.next(res);
+          this.response.next('insert');
         },
         error => {
           console.error(error);
@@ -60,10 +60,22 @@ export class ReportHttpService {
       );
   }
 
+  updateReportTitle(newTitle: string, id: string) {
+    this.http.put(`${this.reportsUrl}/${id}`, {title: newTitle}, this.httpOptions).subscribe(
+      res => {
+        this.response.next('update');
+      },
+      error => {
+        console.error(error);
+        this.response.next(error);
+      }
+    );
+  }
+
   deleteReport(id: string) {
     this.http.delete<RemoveResponse>(`${this.reportsUrl}/${id}`, this.httpOptions).subscribe(
       (res: RemoveResponse) => {
-        this.response.next(res);
+        this.response.next('delete');
       },
       error => {
         console.error(error);

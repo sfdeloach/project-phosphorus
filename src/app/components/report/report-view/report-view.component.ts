@@ -26,6 +26,7 @@ export class ReportViewComponent implements OnInit, OnDestroy {
   responseSubscription: Subscription;
   sortToggle = 1;
   reportID: string;
+  showEditTitle = false;
 
   constructor(
     private reportService: ReportService,
@@ -40,9 +41,15 @@ export class ReportViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Response subscription to navigate to report overview page
     // when a report is either saved or deleted
-    this.responseSubscription = this.reportHttpService.response.subscribe(() =>
-      this.router.navigate(['/reports'])
-    );
+    this.responseSubscription = this.reportHttpService.response.subscribe(res => {
+      if (res === 'insert' || res === 'delete') {
+        this.router.navigate(['/reports']);
+      } else if (res === 'update') {
+        // do nothing
+      } else {
+        console.error(res);
+      }
+    });
 
     if (this.activatedRoute.snapshot.params['id']) {
       this.unsavedReport = false;
@@ -88,6 +95,16 @@ export class ReportViewComponent implements OnInit, OnDestroy {
     if (this.reportSubscription) {
       this.reportSubscription.unsubscribe();
     }
+  }
+
+  editTitle() {
+    this.showEditTitle = true;
+  }
+
+  saveTitle(newTitle: string) {
+    this.reportMetaData.title = newTitle;
+    this.showEditTitle = false;
+    this.reportHttpService.updateReportTitle(newTitle, this.reportID);
   }
 
   prepareIncludedOfficerList(officers: Officer[]): Officer[] {

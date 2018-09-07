@@ -14,7 +14,22 @@
     </div>
     <div *ngIf="reportData && reportData.length > 0">
       <h2>{{ reportMetaData.reportType }}</h2>
-      <h4>{{ reportMetaData.title }}</h4>
+      <h4 *ngIf="!showEditTitle">
+        {{ reportMetaData.title }}&emsp;
+        <span class="edit-title" (click)="editTitle()">
+          <fa name="edit"></fa>
+        </span>
+      </h4>
+      <div *ngIf="showEditTitle">
+        <div class="form-group row">
+          <div class="col-6">
+            <input type="text" class="form-control" [value]="reportMetaData.title" #editTitle>
+          </div>
+          <div class="col-1">
+             <button class="btn btn-outline-primary" (click)="saveTitle(editTitle.value)">Update</button>
+          </div>
+        </div>
+      </div>
       <p>from {{ reportMetaData.startDate | date }} to {{ reportMetaData.endDate | date }}</p>
       <table class="table">
         <thead>
@@ -39,7 +54,8 @@
       </p>
       <button class="btn btn-success" *ngIf="reportData.length > 0 && unsavedReport" (click)="saveReport()">Save Report</button>
       <a class="btn btn-danger" *ngIf="reportData.length > 0 && unsavedReport" routerLink="/reports">Discard Report</a>
-      <button class="btn btn-danger" *ngIf="reportData.length > 0 && !unsavedReport && authService.isAdmin()" (click)="deleteReport()">Delete Report
+      <button class="btn btn-danger" *ngIf="reportData.length > 0 && !unsavedReport && authService.isAdmin()" (click)="deleteReport()">Delete
+        Report
       </button>
       <a class="btn btn-info" *ngIf="reportData.length > 0 && !unsavedReport" routerLink="/reports">Return to Overview</a>
     </div>

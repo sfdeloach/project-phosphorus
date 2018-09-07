@@ -11,7 +11,7 @@ export class EpisodeStatsService {
   episodes: Episode[];
   eventNumbers: number[];
 
-  constructor(private episodeHttpService: EpisodeHttpService) { }
+  constructor(private episodeHttpService: EpisodeHttpService) {}
 
   calcStats() {
     this.episodeHttpService.episodes.subscribe((episodes: Episode[]) => {
@@ -28,8 +28,7 @@ export class EpisodeStatsService {
       callOnly: 0,
       reportOnly: 0,
       callAndReport: 0,
-      empty: 0,
-      duplicates: 0
+      empty: 0
     };
     const callResults = {
       total: 0,
@@ -63,7 +62,6 @@ export class EpisodeStatsService {
       // Call stat calculations
       if (episode.call) {
         callResults.total++;
-        // this.eventNumbers.push(episode.call.eventNbr); // used later to find dupes
         if (new Date(episode.call.created) > callResults.latest) {
           callResults.latest = new Date(episode.call.created);
         }
