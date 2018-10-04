@@ -14,3 +14,5 @@ Pull event data from a third party that provides a back-end connection to a MS S
 * Argon2 password encryption
 * AES-256 encryption of stored data
 
+Note: This branch is no longer under developement.
+
