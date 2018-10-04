@@ -14,5 +14,5 @@ Pull event data from a third party that provides a back-end connection to a MS S
 * Lambda
 * Route 53
 
-![Serverless Diagram](https://raw.githubusercontent.com/sfdeloach/project-phosphorus/mean-stack/project-phosphorus.png)
+![Serverless Diagram](https://raw.githubusercontent.com/sfdeloach/project-phosphorus/master/project-phosphorus.png)
 
