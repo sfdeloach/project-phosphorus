@@ -52,8 +52,7 @@ export function buildInitiatedDispoReport(
             }
           }
 
-          if (isFound(report.offenses, 'ucrCode', ['6001'])) {
-            // TODO: Research any other ucrCodes that may apply to a warrant
+          if (isFound(report.offenses, 'ucrCode', ['6000', '6001'])) {
             ++results[index]['Warrant'];
             statCounter++;
           }
@@ -83,6 +82,7 @@ export function buildInitiatedDispoReport(
         if (index !== -1) {
           let statCounter = 0;
 
+          // TODO: Must use whitelist from StatuteModel to determine criminal citations
           if (report.type === 'TC') {
             report.offenses.forEach(offense => {
               if (report.clearance === 'Cleared By Arrest' && offense.ucrCode === '7100') {
