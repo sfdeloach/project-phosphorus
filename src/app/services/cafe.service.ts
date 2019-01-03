@@ -12,16 +12,27 @@ export class CafeService {
 
   constructor() {}
 
-  addCafeData(
-    episodes: Episode[],
-    cafeArray: Array<Array<string>>,
-    officers: Officer[]
-  ) {
+  /*
+   * row reference table
+   *
+   * 0  - IncidentNbr
+   * 1  - EventNbr
+   * 2  - ReportDate
+   * 3  - ReportType
+   * 4  - OffenseNbr
+   * 5  - StatuteNbr
+   * 6  - StatuteSection      <-- new column
+   * 7  - ChargeDescription   <-- old #6
+   * 8  - UcrCode             <-- old #7
+   * 9  - UcrDescription      <-- old #8
+   * 10 - FelonyMisdemeanor   <-- old #9
+   * 11 - Clearance           <-- old #10
+   * 12 - ReportingOfficerNbr <-- old #11 (done)
+   */
+
+  addCafeData(episodes: Episode[], cafeArray: Array<Array<string>>, officers: Officer[]) {
     if (this.verbose) {
-      console.log(
-        '%c*** Cafe service verbose setting is on ***',
-        'color: blue'
-      );
+      console.log('%c*** Cafe service verbose setting is on ***', 'color: blue');
     }
 
     this.episodes = episodes;
@@ -54,14 +65,7 @@ export class CafeService {
         if (this.verbose) {
           console.log('%cOld report detected: ' + row[0], 'color: orange');
         }
-        const offense = new Offense(
-          +row[4],
-          row[5],
-          row[6],
-          row[7],
-          row[8],
-          row[9]
-        );
+        const offense = new Offense(+row[4], row[5], row[6], row[7], row[8], row[9], row[10]);
         this.addNewOffense(row[0], offense, episodeIndex);
       }
     });
@@ -80,9 +84,9 @@ export class CafeService {
       row[0],
       new Date(row[2]),
       row[3],
-      [new Offense(+row[4], row[5], row[6], row[7], row[8], row[9])],
-      row[10],
-      +row[11]
+      [new Offense(+row[4], row[5], row[6], row[7], row[8], row[9], row[10])],
+      row[11],
+      +row[12]
     );
   }
 
@@ -102,11 +106,9 @@ export class CafeService {
   }
 
   addNewOffense(caseNumber: string, offense: Offense, episodeIndex: number) {
-    const reportIndex = this.episodes[episodeIndex].reports.findIndex(
-      report => {
-        return report.caseNbr === caseNumber;
-      }
-    );
+    const reportIndex = this.episodes[episodeIndex].reports.findIndex(report => {
+      return report.caseNbr === caseNumber;
+    });
     this.episodes[episodeIndex].reports[reportIndex].offenses.push(offense);
   }
 
@@ -121,18 +123,3 @@ export class CafeService {
     });
   }
 }
-
-// row reference table
-
-// 0  IncidentNbr
-// 1  EventNbr
-// 2  ReportDate
-// 3  ReportType
-// 4  OffenseNbr
-// 5  StatuteNbr
-// 6  ChargeDescription
-// 7  UcrCode
-// 8  UcrDescription
-// 9  FelonyMisdemeanor
-// 10 Clearance
-// 11 ReportingOfficerNbr

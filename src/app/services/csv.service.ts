@@ -9,6 +9,7 @@ export class CsvService {
     'ReportType',
     'OffenseNbr',
     'StatuteNbr',
+    'StatuteSection',
     'ChargeDescription',
     'UcrCode',
     'UcrDescription',

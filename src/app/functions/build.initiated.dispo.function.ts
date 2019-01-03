@@ -3,6 +3,8 @@ import { Episode } from '../models/episode.model';
 import { ReportMetaData } from '../models/productivity-reports/report.metadata.model';
 import { InitiatedDispo } from '../models/productivity-reports/initiated-dispo.model';
 import { isFound } from './isfound.function';
+import { isCriminalUtt } from './isCriminalUtt.function';
+import { Statute } from '../models/statute.model';
 
 export function buildInitiatedDispoReport(
   includedOfcs: Officer[],
@@ -10,7 +12,6 @@ export function buildInitiatedDispoReport(
   reportMetadata: ReportMetaData
 ): InitiatedDispo[] {
   const results: InitiatedDispo[] = [];
-
   includedOfcs.forEach(ofc => results.push(new InitiatedDispo(ofc)));
 
   episodes.forEach(episode => {
@@ -80,20 +81,23 @@ export function buildInitiatedDispoReport(
         const index = results.findIndex(result => result.officer.deptID === report.reportingOfc);
 
         if (index !== -1) {
-          let statCounter = 0;
+          //let statCounter = 0; // TODO: remove this variable?
 
           // TODO: Must use whitelist from StatuteModel to determine criminal citations
           if (report.type === 'TC') {
             report.offenses.forEach(offense => {
-              if (report.clearance === 'Cleared By Arrest' && offense.ucrCode === '7100') {
+              if (
+                isCriminalUtt(new Statute(offense.statute, offense.statuteSec)) &&
+                offense.ucrCode === '7100'
+              ) {
                 ++results[index]['Criminal UTTs'];
-                statCounter++;
+                //statCounter++;
               } else if (report.clearance !== 'Cleared By Arrest' && offense.ucrCode === '7100') {
                 ++results[index]['UTTs'];
-                statCounter++;
+                //statCounter++;
               } else if (offense.ucrCode === '7200') {
                 ++results[index]['Warnings'];
-                statCounter++;
+                //statCounter++;
               } else {
                 console.warn(`TC report ${report.caseNbr} was NEVER counted`);
               }
@@ -114,12 +118,12 @@ export function buildInitiatedDispoReport(
     // Calculate performance rating
     result['Rating'] = Number(
       (
-        0.1 * result['Felony'] +
-        0.06 * result['Misdemeanor'] +
-        0.09 * result['DUI'] +
-        0.04 * result['Warrant'] +
-        0.03 * result['Reports'] +
-        0.03 * result['Criminal UTTs'] +
+        0.2 * result['Felony'] +
+        0.15 * result['Misdemeanor'] +
+        0.19 * result['DUI'] +
+        0.07 * result['Warrant'] +
+        0.06 * result['Reports'] +
+        0.05 * result['Criminal UTTs'] +
         0.02 * result['UTTs'] +
         0.01 * result['Warnings']
       ).toFixed(1)
@@ -128,3 +132,23 @@ export function buildInitiatedDispoReport(
 
   return results;
 }
+
+// reports" : [
+// {
+//   "caseNbr" : "201810002531",
+//   "reportDate" : "2018-10-29T13:05:00.000Z",
+//   "type" : "OR",
+//   "offenses" : [
+//     {
+//       "offenseNo": 1,
+//       "statute": "322.34",
+//       "statuteSec": "10b",
+//       "statuteDesc": "MOVING TRAFFIC VIOL DRIVE WITH SUSPENDED REVOKED LICENSE",
+//       "ucrCode": "7100",
+//       "ucrDesc": "NON UCR - UTC",
+//       "ncicLevel": "M"
+//     }
+//   ],
+//   "clearance" : "Cleared By Arrest",
+//   "reportingOfc" : 658
+// }]
