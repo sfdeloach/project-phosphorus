@@ -11,7 +11,6 @@ export function buildOverallInitiatedReport(
   ofcIDs: number[]
 ): OverallInitiated[] {
   const results: OverallInitiated[] = [];
-
   includedOfcs.forEach(ofc => results.push(new OverallInitiated(ofc)));
 
   episodes.forEach(episode => {
