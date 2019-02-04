@@ -27,6 +27,7 @@ export function buildDaysWorkedReport(
         // is episode.call.created between 11:59 AM and 11:59 PM?
         (1159 <= hhmm && hhmm <= 2359)
       ) {
+        console.log(episode.call.primaryUnit + ' ' + created + ' - hhmm: ' + hhmm); // TODO: RAT
         // create new officer day counter if none exists
         if (!ofcs.find(ofc => ofc.ofcId === episode.call.primaryUnit)) {
           ofcs.push(new OfficerDaysWorkedCounter(episode.call.primaryUnit, []));

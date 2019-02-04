@@ -55,6 +55,7 @@ export class XCADService {
         const created: Date = new Date(record[1]);
         const eventType: string = record[2].trim();
         const src: string = record[3].trim();
+        // TODO: const radioID = record[5].trim();  <----------------------
         const primary: number = +record[6].trim();
         const disp: string = record[7].trim();
 
