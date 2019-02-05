@@ -28,6 +28,7 @@ export class XCADService {
 
     // Remove column headers then process the table
     tableArray.splice(0, 1);
+
     tableArray.forEach(record => {
       // trim the leading 'A0' from the table
       const deptID: number = +record[4].trim().slice(2);
@@ -55,7 +56,7 @@ export class XCADService {
         const created: Date = new Date(record[1]);
         const eventType: string = record[2].trim();
         const src: string = record[3].trim();
-        // TODO: const radioID = record[5].trim();  <----------------------
+        const radioID: string = record[5].trim();
         const primary: number = +record[6].trim();
         const disp: string = record[7].trim();
 
@@ -68,6 +69,7 @@ export class XCADService {
             created,
             eventType,
             src,
+            primary === 1 ? radioID : undefined,
             [officer.deptID], // unit array
             primary === 1 ? officer.deptID : undefined,
             [disp]
@@ -89,6 +91,7 @@ export class XCADService {
 
           if (primary === 1) {
             episode.call.primaryUnit = officer.deptID;
+            episode.call.radioID = radioID;
             updateNeeded = true;
           }
 

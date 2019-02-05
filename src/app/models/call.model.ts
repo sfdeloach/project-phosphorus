@@ -1,6 +1,3 @@
-import { Report } from './report.model';
-import { Officer } from './officer.model';
-
 export class Call {
 
   constructor(
@@ -8,6 +5,7 @@ export class Call {
     public created?: Date,
     public eventType?: string,
     public src?: string,
+    public radioID?: string,
     public units?: number[],
     public primaryUnit?: number,
     public disps?: string[]
