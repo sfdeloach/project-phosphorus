@@ -15,7 +15,7 @@ export function buildInitiatedDispoReport(
   includedOfcs.forEach(ofc => results.push(new InitiatedDispo(ofc)));
 
   episodes.forEach(episode => {
-    // First conditional only looks at episodes with call information, i.e.
+    // First conditional only looks at episodes with call information
     // UTTs will not be found in this first block of code
     if (
       episode.reports &&
@@ -81,8 +81,6 @@ export function buildInitiatedDispoReport(
         const index = results.findIndex(result => result.officer.deptID === report.reportingOfc);
 
         if (index !== -1) {
-          //let statCounter = 0; // TODO: remove this variable?
-
           // TODO: Must use whitelist from StatuteModel to determine criminal citations
           if (report.type === 'TC') {
             report.offenses.forEach(offense => {
@@ -91,13 +89,10 @@ export function buildInitiatedDispoReport(
                 offense.ucrCode === '7100'
               ) {
                 ++results[index]['Criminal UTTs'];
-                //statCounter++;
               } else if (report.clearance !== 'Cleared By Arrest' && offense.ucrCode === '7100') {
                 ++results[index]['UTTs'];
-                //statCounter++;
               } else if (offense.ucrCode === '7200') {
                 ++results[index]['Warnings'];
-                //statCounter++;
               } else {
                 console.warn(`TC report ${report.caseNbr} was NEVER counted`);
               }
@@ -132,23 +127,3 @@ export function buildInitiatedDispoReport(
 
   return results;
 }
-
-// reports" : [
-// {
-//   "caseNbr" : "201810002531",
-//   "reportDate" : "2018-10-29T13:05:00.000Z",
-//   "type" : "OR",
-//   "offenses" : [
-//     {
-//       "offenseNo": 1,
-//       "statute": "322.34",
-//       "statuteSec": "10b",
-//       "statuteDesc": "MOVING TRAFFIC VIOL DRIVE WITH SUSPENDED REVOKED LICENSE",
-//       "ucrCode": "7100",
-//       "ucrDesc": "NON UCR - UTC",
-//       "ncicLevel": "M"
-//     }
-//   ],
-//   "clearance" : "Cleared By Arrest",
-//   "reportingOfc" : 658
-// }]

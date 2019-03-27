@@ -47,14 +47,28 @@ export class CsvService {
     const lineArray: string[] = [];
     let line = '';
 
-    // Populate the lineArray
+    // Populate the lineArray, remove newlines contained in quotes
+    let inQuote = false;
     csvCharArray.forEach(character => {
-      if (character !== '\n') {
-        line += character;
-      } else {
+      if (character === '"') {
+        inQuote = !inQuote;
+      }
+
+      if (character === '\n' && !inQuote) {
         lineArray.push(line);
         line = '';
+      } else if (character !== '\n') {
+        line += character;
       }
+
+      // if (character !== '\n') {
+      //   line += character;
+      // } else if (inQuote) {
+      //   // intentionally left blank
+      // } else {
+      //   lineArray.push(line);
+      //   line = '';
+      // }
     });
 
     // The final result will be an array of array of strings
