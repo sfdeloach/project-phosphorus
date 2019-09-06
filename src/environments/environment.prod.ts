@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://104.190.189.95:3000/api/'  // TODO: replace with AWS backend?
+  apiUrl: 'http://channel-14/api/'  // set an absolute reference to the api's location 
 };
